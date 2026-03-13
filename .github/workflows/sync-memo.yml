@@ -1,0 +1,52 @@
+name: Sync memo to posts
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # 每天 UTC 00:00（北京时间 08:00）
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Cyanix-Blog（目标仓库）
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Checkout memo（源仓库）
+        uses: actions/checkout@v4
+        with:
+          repository: Cyanix-0721/memo
+          path: memo_repo
+          ref: main
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Sync memo folder to src/content/posts
+        run: |
+          rsync -avu --delete memo_repo/memo/ ./src/content/posts/
+
+      - name: Remove memo_repo directory
+        run: rm -rf memo_repo
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "Cyanix-0721"
+          git config user.email "34270450+Cyanix-0721@users.noreply.github.com"
+
+          git add .
+
+          if git diff --staged --quiet; then
+            echo "No changes detected, nothing to commit."
+            exit 0
+          fi
+
+          git commit -m "chore: sync memo from Cyanix-0721/memo $(date '+%Y-%m-%d %H:%M:%S')"
+          git push
+
+          echo "Changes have been synced and pushed successfully!"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
