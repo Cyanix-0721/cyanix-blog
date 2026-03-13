@@ -53,7 +53,8 @@ jobs:
             exit 0
           fi
 
-          git commit -m "chore: sync memo from Cyanix-0721/memo $(date '+%Y-%m-%d %H:%M:%S')"
+          MEMO_SHA=$(git -C ${{ runner.temp }}/memo_repo rev-parse --short HEAD)
+          git commit -m "chore: sync memo from Cyanix-0721/memo@${MEMO_SHA} $(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M:%S')"
           git push
 
           echo "Changes have been synced and pushed successfully!"
