@@ -1,0 +1,84 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const allPosts = await getCollection('posts', ({ data }) => !data.draft);
+
+// Build a map of tag -> post count
+const tagMap = allPosts.reduce<Record<string, number>>((acc, post) => {
+  post.data.tags.forEach((tag) => {
+    acc[tag] = (acc[tag] ?? 0) + 1;
+  });
+  return acc;
+}, {});
+
+// Sort tags by post count descending, then alphabetically
+const tags = Object.entries(tagMap).sort(([a, countA], [b, countB]) => {
+  if (countB !== countA) return countB - countA;
+  return a.localeCompare(b);
+});
+
+const totalPosts = allPosts.length;
+const totalTags = tags.length;
+---
+
+<Layout
+  title="标签"
+  description="按标签浏览所有文章"
+>
+  <!-- Page header -->
+  <header class="mb-10 border-b border-zinc-800 pb-8">
+    <h1 class="mb-2 text-3xl font-bold tracking-tight text-zinc-50">
+      标签
+    </h1>
+    <p class="text-sm text-zinc-500">
+      共 <span class="text-zinc-300 font-medium">{totalTags}</span> 个标签，
+      <span class="text-zinc-300 font-medium">{totalPosts}</span> 篇文章
+    </p>
+  </header>
+
+  {
+    tags.length === 0 ? (
+      <div class="flex flex-col items-center justify-center py-20 text-zinc-600">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="40"
+          height="40"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="mb-4 opacity-40"
+        >
+          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+          <line x1="7" y1="7" x2="7.01" y2="7" />
+        </svg>
+        <p class="text-sm">暂无标签。</p>
+      </div>
+    ) : (
+      <ul class="flex flex-wrap gap-3">
+        {tags.map(([tag, count]) => {
+          const slug = tag.toLowerCase().replace(/\s+/g, '-');
+          return (
+            <li>
+              <a
+                href={`/tags/${slug}`}
+                class="group flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900 px-4 py-2 text-sm text-zinc-300 transition hover:border-cyan-700 hover:bg-cyan-950/40 hover:text-cyan-300"
+              >
+                <span class="font-mono text-cyan-600 transition group-hover:text-cyan-400">
+                  #
+                </span>
+                {tag}
+                <span class="rounded-full bg-zinc-800 px-2 py-0.5 text-xs text-zinc-500 transition group-hover:bg-cyan-900/60 group-hover:text-cyan-500">
+                  {count}
+                </span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    )
+  }
+</Layout>

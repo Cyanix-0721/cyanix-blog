@@ -1,0 +1,145 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="关于"
+  description="关于 Cyanix 和这个博客。"
+>
+  <!-- Page header -->
+  <header class="mb-10 border-b border-zinc-800 pb-8">
+    <h1 class="text-3xl font-bold tracking-tight text-zinc-50">
+      关于
+    </h1>
+  </header>
+
+  <!-- Avatar + intro -->
+  <section class="mb-12 flex flex-col gap-8 sm:flex-row sm:items-start">
+    <!-- Avatar placeholder -->
+    <div class="shrink-0">
+      <div
+        class="flex h-24 w-24 items-center justify-center rounded-full bg-cyan-950 ring-2 ring-cyan-800/50 text-4xl select-none"
+        aria-hidden="true"
+      >
+        🌊
+      </div>
+    </div>
+
+    <div>
+      <h2 class="mb-2 text-xl font-semibold text-zinc-100">
+        Cyanix
+        <span class="ml-2 font-mono text-sm font-normal text-cyan-500">
+          @Cyanix-0721
+        </span>
+      </h2>
+      <p class="mb-4 leading-relaxed text-zinc-400">
+        喜欢折腾工具链、自动化流程和知识管理。这里是我的公开笔记本——把在 Obsidian 里写的东西整理后放到这里，供自己回顾，也希望对你有用。
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <a
+          href="https://github.com/Cyanix-0721"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-2 text-sm text-zinc-300 transition hover:border-cyan-700 hover:text-cyan-300"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z"
+            ></path>
+          </svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech stack -->
+  <section class="mb-12">
+    <h2 class="mb-5 text-lg font-semibold text-zinc-200">本站技术栈</h2>
+    <ul class="grid gap-3 sm:grid-cols-2">
+      {
+        [
+          { icon: '🚀', name: 'Astro', desc: '静态站点框架，零运行时' },
+          { icon: '✍️', name: 'Obsidian + Markdown', desc: '写作与内容管理' },
+          { icon: '🎨', name: 'Tailwind CSS v4', desc: '原子化 CSS' },
+          { icon: '🔆', name: 'Shiki', desc: '代码语法高亮' },
+          { icon: '🔗', name: 'remark-wiki-link', desc: 'Obsidian 双链支持' },
+          { icon: '▲', name: 'Vercel', desc: '自动部署与托管' },
+        ].map(({ icon, name, desc }) => (
+          <li class="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-900/50 px-4 py-3">
+            <span class="mt-0.5 text-xl" aria-hidden="true">
+              {icon}
+            </span>
+            <div>
+              <p class="text-sm font-medium text-zinc-200">{name}</p>
+              <p class="text-xs text-zinc-500">{desc}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- Workflow -->
+  <section class="mb-12">
+    <h2 class="mb-5 text-lg font-semibold text-zinc-200">工作流程</h2>
+    <ol class="relative space-y-6 border-l border-zinc-800 pl-6">
+      {
+        [
+          {
+            step: '1',
+            title: '在 Obsidian 写作',
+            desc: '用 Markdown 记录笔记，支持双链、Callout 等 Obsidian 原生语法。',
+          },
+          {
+            step: '2',
+            title: 'Git 同步',
+            desc: '通过 Git 将 Obsidian vault 中的文章同步到本仓库的 src/content/posts/ 目录。',
+          },
+          {
+            step: '3',
+            title: 'Astro 构建',
+            desc: '推送到 GitHub 后，Vercel 自动触发 Astro 构建，生成纯静态 HTML。',
+          },
+          {
+            step: '4',
+            title: 'Vercel 部署',
+            desc: '构建产物部署到 Vercel CDN，全球访问，免费额度完全够用。',
+          },
+        ].map(({ step, title, desc }) => (
+          <li class="relative">
+            <div class="absolute -left-9 flex h-6 w-6 items-center justify-center rounded-full bg-cyan-950 ring-1 ring-cyan-800/60 text-xs font-bold text-cyan-400">
+              {step}
+            </div>
+            <h3 class="mb-1 text-sm font-semibold text-zinc-200">{title}</h3>
+            <p class="text-sm leading-relaxed text-zinc-500">{desc}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <!-- Contact / links -->
+  <section>
+    <h2 class="mb-4 text-lg font-semibold text-zinc-200">联系方式</h2>
+    <p class="text-sm leading-relaxed text-zinc-400">
+      欢迎通过
+      <a
+        href="https://github.com/Cyanix-0721"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-cyan-400 underline underline-offset-2 hover:text-cyan-300 transition-colors"
+      >
+        GitHub
+      </a>
+      联系我，或在仓库 Issues 里留言。
+    </p>
+  </section>
+</Layout>
