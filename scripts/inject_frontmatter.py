@@ -1,6 +1,7 @@
 import os
 import sys
 import re
+import platform
 from datetime import datetime
 
 
@@ -29,23 +30,35 @@ def inject_frontmatter(directory):
                     body_content = content[match.end() :]
 
             has_title = False
-            has_date = False
+            has_created = False
+            has_modified = False
 
             if has_frontmatter:
-                # Simple check if title or date exists (case-insensitive and allowing spaces)
+                # Check for title
                 has_title = bool(
                     re.search(
                         r"^title\s*:", frontmatter_content, re.MULTILINE | re.IGNORECASE
                     )
                 )
-                has_date = bool(
+                # Check for Obsidian's "date created"
+                has_created = bool(
                     re.search(
-                        r"^date\s*:", frontmatter_content, re.MULTILINE | re.IGNORECASE
+                        r"^date\s+created\s*:",
+                        frontmatter_content,
+                        re.MULTILINE | re.IGNORECASE,
+                    )
+                )
+                # Check for Obsidian's "date modified"
+                has_modified = bool(
+                    re.search(
+                        r"^date\s+modified\s*:",
+                        frontmatter_content,
+                        re.MULTILINE | re.IGNORECASE,
                     )
                 )
 
-            # If both exist, do nothing
-            if has_title and has_date:
+            # If all exist, do nothing
+            if has_title and has_created and has_modified:
                 continue
 
             # What needs to be added:
@@ -73,11 +86,29 @@ def inject_frontmatter(directory):
                 title = title.replace('"', '\\"')
                 lines_to_add.append(f'title: "{title}"')
 
-            if not has_date:
-                # Get modified time (local time of the machine running the script)
+            if not has_created:
+                # Cross-platform creation time
+                if platform.system() == "Windows":
+                    ctime = os.path.getctime(file_path)
+                else:
+                    # On Linux/Arch, st_birthtime is not always available
+                    stat = os.stat(file_path)
+                    try:
+                        ctime = stat.st_birthtime
+                    except AttributeError:
+                        ctime = stat.st_mtime
+
+                date_created_str = datetime.fromtimestamp(ctime).strftime(
+                    "%Y-%m-%d %H:%M:%S"
+                )
+                lines_to_add.append(f'date created: "{date_created_str}"')
+
+            if not has_modified:
                 mtime = os.path.getmtime(file_path)
-                date_str = datetime.fromtimestamp(mtime).strftime("%Y-%m-%d %H:%M:%S")
-                lines_to_add.append(f"date: {date_str}")
+                date_modified_str = datetime.fromtimestamp(mtime).strftime(
+                    "%Y-%m-%d %H:%M:%S"
+                )
+                lines_to_add.append(f'date modified: "{date_modified_str}"')
 
             if has_frontmatter:
                 # Append missing lines to existing frontmatter
@@ -99,7 +130,7 @@ def inject_frontmatter(directory):
                 f.write(new_content)
 
             print(
-                f"Injected missing info (title={not has_title}, date={not has_date}) into: {file_path}"
+                f"Injected missing info (title={not has_title}, created={not has_created}, modified={not has_modified}) into: {file_path}"
             )
 
 
