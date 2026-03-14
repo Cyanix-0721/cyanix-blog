@@ -2,7 +2,6 @@ import os
 import sys
 import re
 from datetime import datetime
-from pathlib import Path
 
 
 def inject_frontmatter(directory):
