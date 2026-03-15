@@ -3,7 +3,7 @@ tags:
 title: 使用 Vite、Nuxt 和 Pnpm 构建包含后端 Spring Boot 的 Monorepo 项目
 date created: 2024-11-02 15:50:10
 date modified: 2026-03-14 09:35:21
-date: 2026-03-14 11:53:22
+date: 2026-03-15 02:52:39
 ---
 
 # 使用 Vite、Nuxt 和 Pnpm 构建包含后端 Spring Boot 的 Monorepo 项目

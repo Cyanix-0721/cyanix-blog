@@ -4,7 +4,7 @@ title: Quartz
 aliases: Quartz
 date created: 2024-09-29 01:13:52
 date modified: 2026-03-14 09:35:38
-date: 2026-03-14 11:53:22
+date: 2026-03-15 02:52:39
 ---
 
 # Quartz

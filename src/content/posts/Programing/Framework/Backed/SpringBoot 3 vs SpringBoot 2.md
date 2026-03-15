@@ -4,7 +4,7 @@ title: SpringBoot 3 Vs SpringBoot 2
 aliases: SpringBoot 3 Vs SpringBoot 2
 date created: 2024-09-23 14:22:13
 date modified: 2026-03-14 09:35:26
-date: 2026-03-14 11:53:22
+date: 2026-03-15 02:52:39
 ---
 
 # SpringBoot 3 Vs SpringBoot 2

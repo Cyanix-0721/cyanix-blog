@@ -4,7 +4,7 @@ title: Arch Linux 上 Btrfs 快照与 Btrbk 工具的使用
 aliases: Arch Linux 上 Btrfs 快照与 Btrbk 工具的使用
 date created: 2024-08-15 10:18:47
 date modified: 2026-03-14 09:35:35
-date: 2026-03-14 11:53:22
+date: 2026-03-15 02:52:39
 ---
 
 # Arch Linux 上 Btrfs 快照与 Btrbk 工具的使用

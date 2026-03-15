@@ -3,7 +3,7 @@ tags:
 title: Ajax
 date created: 2024-09-30 09:13:09
 date modified: 2026-03-14 09:35:26
-date: 2026-03-14 11:53:22
+date: 2026-03-15 02:52:39
 ---
 
 # Ajax

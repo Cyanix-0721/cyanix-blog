@@ -4,7 +4,7 @@ title: 1 Dubbo 和 Spring Cloud Alibaba 哪个更适合构建微服务架构？
 aliases: 1 Dubbo 和 Spring Cloud Alibaba 哪个更适合构建微服务架构？
 date created: 2024-11-04 05:03:03
 date modified: 2026-03-14 09:35:20
-date: 2026-03-14 11:53:22
+date: 2026-03-15 02:52:39
 ---
 
 # 1 Dubbo 和 Spring Cloud Alibaba 哪个更适合构建微服务架构？

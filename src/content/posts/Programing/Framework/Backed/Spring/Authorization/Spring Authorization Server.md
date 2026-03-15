@@ -3,7 +3,7 @@ tags:
 title: Spring Authorization Server
 date created: 2024-09-15 08:09:57
 date modified: 2026-03-14 09:35:37
-date: 2026-03-14 11:53:22
+date: 2026-03-15 02:52:39
 ---
 
 # Spring Authorization Server

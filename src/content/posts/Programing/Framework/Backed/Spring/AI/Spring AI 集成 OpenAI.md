@@ -4,7 +4,7 @@ title: Spring AI
 aliases: Spring AI
 date created: 2024-10-16 01:16:20
 date modified: 2026-03-14 09:35:37
-date: 2026-03-14 11:53:22
+date: 2026-03-15 02:52:39
 ---
 
 # [Spring AI](https://docs.spring.io/spring-ai/reference/getting-started.html)

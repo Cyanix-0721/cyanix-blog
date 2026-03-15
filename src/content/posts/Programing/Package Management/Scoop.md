@@ -4,7 +4,7 @@ title: Scoop - Windows 命令行安装程序指南
 aliases: Scoop - Windows 命令行安装程序指南
 date created: 2025-09-21 07:05:36
 date modified: 2026-03-14 09:35:26
-date: 2026-03-14 11:53:22
+date: 2026-03-15 02:52:39
 ---
 
 # Scoop - Windows 命令行安装程序指南

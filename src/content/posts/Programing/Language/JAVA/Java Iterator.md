@@ -3,7 +3,7 @@ tags: [Java, Language]
 title: Java Iterator
 date created: 2024-09-10 02:46:14
 date modified: 2026-03-14 09:35:34
-date: 2026-03-14 11:53:22
+date: 2026-03-15 02:52:39
 ---
 
 # Java Iterator

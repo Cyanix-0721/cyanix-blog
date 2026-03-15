@@ -4,7 +4,7 @@ title: Spring Boot/Cloud 集成 Prometheus 和 Grafana 完整监控方案
 aliases: Spring Boot/Cloud 集成 Prometheus 和 Grafana 完整监控方案
 date created: 2024-11-04 07:31:27
 date modified: 2026-03-14 09:35:38
-date: 2026-03-14 11:53:22
+date: 2026-03-15 02:52:39
 ---
 
 # Spring Boot/Cloud 集成 Prometheus 和 Grafana 完整监控方案

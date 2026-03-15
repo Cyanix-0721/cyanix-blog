@@ -3,7 +3,7 @@ tags:
 title: Spring Cloud Alibaba Sentinel
 date created: 2024-11-04 08:26:39
 date modified: 2026-03-14 09:35:38
-date: 2026-03-14 11:53:22
+date: 2026-03-15 02:52:39
 ---
 
 # [Spring Cloud Alibaba Sentinel](https://sentinelguard.io/zh-cn/docs/introduction.html)

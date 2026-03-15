@@ -3,7 +3,7 @@ tags:
 title: URL与URI的区别
 date created: 2024-09-27 07:57:13
 date modified: 2026-03-14 09:35:21
-date: 2026-03-14 11:53:22
+date: 2026-03-15 02:52:39
 ---
 
 # URL与URI的区别

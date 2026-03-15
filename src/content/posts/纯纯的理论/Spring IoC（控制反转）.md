@@ -4,7 +4,7 @@ title: "**Spring IoC（控制反转）**"
 aliases: "**Spring IoC（控制反转）**"
 date created: 2024-11-21 06:50:59
 date modified: 2026-03-14 09:35:20
-date: 2026-03-14 11:53:22
+date: 2026-03-15 02:52:39
 ---
 
 # **Spring IoC（控制反转）**

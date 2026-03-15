@@ -3,7 +3,7 @@ tags:
 title: 微服务中如何集成Feign+Sentinel来实现容错处理
 date created: 2024-11-04 09:13:00
 date modified: 2026-03-14 09:35:38
-date: 2026-03-14 11:53:22
+date: 2026-03-15 02:52:39
 ---
 
 # 微服务中如何集成Feign+Sentinel来实现容错处理

@@ -4,7 +4,7 @@ title: Spring Cloud Alibaba Sentinel Vs Spring Cloud Circuit Breaker
 aliases: Spring Cloud Alibaba Sentinel Vs Spring Cloud Circuit Breaker
 date created: 2024-09-14 15:42:19
 date modified: 2026-03-14 09:35:38
-date: 2026-03-14 11:53:22
+date: 2026-03-15 02:52:39
 ---
 
 # Spring Cloud Alibaba Sentinel Vs Spring Cloud Circuit Breaker
