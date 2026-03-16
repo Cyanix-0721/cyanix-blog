@@ -4,85 +4,85 @@
    CSS Custom Properties
    ============================================================ */
 @layer base {
-    :root {
-        --color-accent: #06b6d4; /* cyan-500  */
-        --color-accent-dim: #0e7490; /* cyan-700  */
-        --color-accent-muted: #164e63; /* cyan-900  */
-        --color-surface: #09090b; /* zinc-950  */
-        --color-surface-1: #18181b; /* zinc-900  */
-        --color-surface-2: #27272a; /* zinc-800  */
-        --color-text: #f4f4f5; /* zinc-100  */
-        --color-text-muted: #71717a; /* zinc-500  */
+  :root {
+    --color-accent: #06b6d4; /* cyan-500  */
+    --color-accent-dim: #0e7490; /* cyan-700  */
+    --color-accent-muted: #164e63; /* cyan-900  */
+    --color-surface: #09090b; /* zinc-950  */
+    --color-surface-1: #18181b; /* zinc-900  */
+    --color-surface-2: #27272a; /* zinc-800  */
+    --color-text: #f4f4f5; /* zinc-100  */
+    --color-text-muted: #71717a; /* zinc-500  */
 
-        --prose-body: #a1a1aa; /* zinc-400  */
-        --prose-headings: #f4f4f5; /* zinc-100  */
-        --prose-links: #22d3ee; /* cyan-400  */
-        --prose-code-bg: #18181b; /* zinc-900  */
-        --prose-code-text: #67e8f9; /* cyan-300  */
-        --prose-border: #27272a; /* zinc-800  */
-        --prose-quote-border: #0e7490; /* cyan-700  */
-        --prose-th-bg: #18181b;
-        --prose-td-border: #27272a;
-    }
+    --prose-body: #a1a1aa; /* zinc-400  */
+    --prose-headings: #f4f4f5; /* zinc-100  */
+    --prose-links: #22d3ee; /* cyan-400  */
+    --prose-code-bg: #18181b; /* zinc-900  */
+    --prose-code-text: #67e8f9; /* cyan-300  */
+    --prose-border: #27272a; /* zinc-800  */
+    --prose-quote-border: #0e7490; /* cyan-700  */
+    --prose-th-bg: #18181b;
+    --prose-td-border: #27272a;
+  }
 }
 
 /* ============================================================
    Base resets
    ============================================================ */
 @layer base {
-    *,
-    *::before,
-    *::after {
-        box-sizing: border-box;
-    }
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
-    html {
-        font-family:
-            ui-sans-serif,
-            system-ui,
-            -apple-system,
-            BlinkMacSystemFont,
-            "Segoe UI",
-            Roboto,
-            "Helvetica Neue",
-            Arial,
-            "Noto Sans",
-            "Noto Sans CJK SC",
-            sans-serif;
-        scroll-behavior: smooth;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        text-size-adjust: 100%;
-    }
+  html {
+    font-family:
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      "Helvetica Neue",
+      Arial,
+      "Noto Sans",
+      "Noto Sans CJK SC",
+      sans-serif;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-size-adjust: 100%;
+  }
 
-    /* Smooth focus ring */
-    :focus-visible {
-        outline: 2px solid var(--color-accent);
-        outline-offset: 3px;
-        border-radius: 4px;
-    }
+  /* Smooth focus ring */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
 
-    /* Custom scrollbar (WebKit) */
-    ::-webkit-scrollbar {
-        width: 6px;
-        height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-        background: var(--color-surface);
-    }
-    ::-webkit-scrollbar-thumb {
-        background: var(--color-surface-2);
-        border-radius: 999px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-        background: var(--color-text-muted);
-    }
+  /* Custom scrollbar (WebKit) */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-surface);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-surface-2);
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-muted);
+  }
 
-    /* Selection colour */
-    ::selection {
-        background-color: rgba(6, 182, 212, 0.25);
-        color: #cffafe;
-    }
+  /* Selection colour */
+  ::selection {
+    background-color: rgba(6, 182, 212, 0.25);
+    color: #cffafe;
+  }
 }
 
 /* ============================================================
@@ -90,301 +90,336 @@
    Applied via <div class="prose"> in PostLayout.astro
    ============================================================ */
 @layer components {
-    .prose {
-        color: var(--prose-body);
-        font-size: 1rem;
-        line-height: 1.8;
-        max-width: none;
-    }
+  .prose {
+    color: var(--prose-body);
+    font-size: 1rem;
+    line-height: 1.8;
+    max-width: none;
+  }
 
-    /* --- Headings --- */
-    .prose h1,
-    .prose h2,
-    .prose h3,
-    .prose h4,
-    .prose h5,
-    .prose h6 {
-        color: var(--prose-headings);
-        font-weight: 700;
-        line-height: 1.3;
-        letter-spacing: -0.01em;
-        scroll-margin-top: 5rem;
-    }
+  /* --- Headings --- */
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6 {
+    color: var(--prose-headings);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    scroll-margin-top: 5rem;
+  }
 
-    .prose h1 {
-        font-size: 2rem;
-        margin: 2.5rem 0 1rem;
-    }
-    .prose h2 {
-        font-size: 1.5rem;
-        margin: 2.25rem 0 0.875rem;
-        border-bottom: 1px solid var(--prose-border);
-        padding-bottom: 0.4rem;
-    }
-    .prose h3 {
-        font-size: 1.25rem;
-        margin: 2rem 0 0.75rem;
-    }
-    .prose h4 {
-        font-size: 1.1rem;
-        margin: 1.75rem 0 0.5rem;
-    }
-    .prose h5,
-    .prose h6 {
-        font-size: 1rem;
-        margin: 1.5rem 0 0.5rem;
-    }
+  .prose h1 {
+    font-size: 2rem;
+    margin: 2.5rem 0 1rem;
+  }
+  .prose h2 {
+    font-size: 1.5rem;
+    margin: 2.25rem 0 0.875rem;
+    border-bottom: 1px solid var(--prose-border);
+    padding-bottom: 0.4rem;
+  }
+  .prose h3 {
+    font-size: 1.25rem;
+    margin: 2rem 0 0.75rem;
+  }
+  .prose h4 {
+    font-size: 1.1rem;
+    margin: 1.75rem 0 0.5rem;
+  }
+  .prose h5,
+  .prose h6 {
+    font-size: 1rem;
+    margin: 1.5rem 0 0.5rem;
+  }
 
-    /* Anchor links added by rehype-autolink-headings */
-    .prose .anchor-link {
-        color: inherit;
-        text-decoration: none;
-    }
-    .prose .anchor-link:hover::after {
-        content: " #";
-        color: var(--color-accent);
-        font-weight: 400;
-        font-size: 0.85em;
-        opacity: 0.7;
-    }
+  /* Anchor links added by rehype-autolink-headings */
+  .prose .anchor-link {
+    color: inherit;
+    text-decoration: none;
+  }
+  .prose .anchor-link:hover::after {
+    content: " #";
+    color: var(--color-accent);
+    font-weight: 400;
+    font-size: 0.85em;
+    opacity: 0.7;
+  }
 
-    /* --- Paragraph --- */
-    .prose p {
-        margin: 1.25rem 0;
-    }
+  /* --- Paragraph --- */
+  .prose p {
+    margin: 1.25rem 0;
+  }
 
-    /* --- Links --- */
-    .prose a {
-        color: var(--prose-links);
-        text-decoration: underline;
-        text-underline-offset: 3px;
-        text-decoration-color: rgba(34, 211, 238, 0.4);
-        transition:
-            color 0.15s,
-            text-decoration-color 0.15s;
-    }
-    .prose a:hover {
-        color: #a5f3fc;
-        text-decoration-color: rgba(165, 243, 252, 0.6);
-    }
+  /* --- Links --- */
+  .prose a {
+    color: var(--prose-links);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(34, 211, 238, 0.4);
+    transition:
+      color 0.15s,
+      text-decoration-color 0.15s;
+  }
+  .prose a:hover {
+    color: #a5f3fc;
+    text-decoration-color: rgba(165, 243, 252, 0.6);
+  }
 
-    /* Wiki-links generated by remark-wiki-link */
-    .prose a.internal {
-        color: #818cf8; /* indigo-400 — visually distinct from external links */
-        text-decoration-color: rgba(129, 140, 248, 0.4);
-    }
-    .prose a.internal.new {
-        color: var(--color-text-muted);
-        cursor: not-allowed;
-        text-decoration-style: dashed;
-    }
+  /* Wiki-links generated by remark-wiki-link */
+  .prose a.internal {
+    color: #818cf8; /* indigo-400 — visually distinct from external links */
+    text-decoration-color: rgba(129, 140, 248, 0.4);
+  }
+  .prose a.internal.new {
+    color: var(--color-text-muted);
+    cursor: not-allowed;
+    text-decoration-style: dashed;
+  }
 
-    /* --- Strong / Em --- */
-    .prose strong {
-        color: #e4e4e7;
-        font-weight: 700;
-    }
-    .prose em {
-        font-style: italic;
-        color: #d4d4d8;
-    }
+  /* --- Strong / Em --- */
+  .prose strong {
+    color: #e4e4e7;
+    font-weight: 700;
+  }
+  .prose em {
+    font-style: italic;
+    color: #d4d4d8;
+  }
 
-    /* --- Code (inline) --- */
-    .prose :not(pre) > code {
-        background: var(--prose-code-bg);
-        color: var(--prose-code-text);
-        padding: 0.15em 0.45em;
-        border-radius: 0.3rem;
-        font-size: 0.875em;
-        font-family:
-            ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-            "Liberation Mono", "Courier New", monospace;
-        border: 1px solid var(--prose-border);
-        word-break: break-word;
-    }
+  /* --- Code (inline) --- */
+  .prose :not(pre) > code {
+    background: var(--prose-code-bg);
+    color: var(--prose-code-text);
+    padding: 0.15em 0.45em;
+    border-radius: 0.3rem;
+    font-size: 0.875em;
+    font-family:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      "Courier New", monospace;
+    border: 1px solid var(--prose-border);
+    word-break: break-word;
+  }
 
-    /* --- Code block (Shiki) --- */
+  /* --- Code block (Shiki) --- */
+  .prose pre {
+    background: #0d1117 !important; /* Matches one-dark-pro background */
+    border: 1px solid var(--prose-border);
+    border-radius: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    overflow-x: auto;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    margin: 1.75rem 0;
+    position: relative;
+  }
+  .prose pre code {
+    background: transparent !important;
+    color: inherit;
+    padding: 0;
+    border: none;
+    font-size: inherit;
+    border-radius: 0;
+  }
+
+  /* --- Copy Button --- */
+  .copy-button {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    padding: 0.4rem;
+    border-radius: 0.4rem;
+    background: var(--color-surface-1);
+    border: 1px solid var(--prose-border);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    opacity: 0;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+  }
+  .prose pre:hover .copy-button {
+    opacity: 1;
+  }
+  .copy-button:hover {
+    background: var(--color-surface-2);
+    color: var(--color-accent);
+    border-color: var(--color-accent-dim);
+  }
+  .copy-button.copied {
+    color: #10b981; /* emerald-500 */
+    border-color: rgba(16, 185, 129, 0.4);
+  }
+  .copy-button svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Shiki dual-theme: respect prefers-color-scheme */
+  @media (prefers-color-scheme: light) {
     .prose pre {
-        background: #0d1117 !important; /* Matches one-dark-pro background */
-        border: 1px solid var(--prose-border);
-        border-radius: 0.75rem;
-        padding: 1.25rem 1.5rem;
-        overflow-x: auto;
-        font-size: 0.875rem;
-        line-height: 1.7;
-        margin: 1.75rem 0;
-        position: relative;
+      background: #ffffff !important;
     }
-    .prose pre code {
-        background: transparent !important;
-        color: inherit;
-        padding: 0;
-        border: none;
-        font-size: inherit;
-        border-radius: 0;
-    }
+  }
 
-    /* Shiki dual-theme: respect prefers-color-scheme */
-    @media (prefers-color-scheme: light) {
-        .prose pre {
-            background: #ffffff !important;
-        }
-    }
+  /* --- Blockquote --- */
+  .prose blockquote {
+    border-left: 3px solid var(--prose-quote-border);
+    margin: 1.5rem 0;
+    padding: 0.5rem 0 0.5rem 1.25rem;
+    color: #a1a1aa;
+    font-style: italic;
+  }
+  .prose blockquote p {
+    margin: 0.5rem 0;
+  }
 
-    /* --- Blockquote --- */
-    .prose blockquote {
-        border-left: 3px solid var(--prose-quote-border);
-        margin: 1.5rem 0;
-        padding: 0.5rem 0 0.5rem 1.25rem;
-        color: #a1a1aa;
-        font-style: italic;
-    }
-    .prose blockquote p {
-        margin: 0.5rem 0;
-    }
+  /* --- Lists --- */
+  .prose ul,
+  .prose ol {
+    margin: 1.25rem 0;
+    padding-left: 1.75rem;
+  }
+  .prose ul {
+    list-style-type: disc;
+  }
+  .prose ol {
+    list-style-type: decimal;
+  }
+  .prose li {
+    margin: 0.4rem 0;
+  }
+  .prose li > ul,
+  .prose li > ol {
+    margin: 0.25rem 0;
+  }
 
-    /* --- Lists --- */
-    .prose ul,
-    .prose ol {
-        margin: 1.25rem 0;
-        padding-left: 1.75rem;
-    }
-    .prose ul {
-        list-style-type: disc;
-    }
-    .prose ol {
-        list-style-type: decimal;
-    }
-    .prose li {
-        margin: 0.4rem 0;
-    }
-    .prose li > ul,
-    .prose li > ol {
-        margin: 0.25rem 0;
-    }
+  /* --- Task list (GitHub-flavored Markdown) --- */
+  .prose ul.contains-task-list {
+    list-style: none;
+    padding-left: 0.25rem;
+  }
+  .prose .task-list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .prose .task-list-item input[type="checkbox"] {
+    accent-color: var(--color-accent);
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+  }
 
-    /* --- Task list (GitHub-flavored Markdown) --- */
-    .prose ul.contains-task-list {
-        list-style: none;
-        padding-left: 0.25rem;
-    }
-    .prose .task-list-item {
-        display: flex;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-    .prose .task-list-item input[type="checkbox"] {
-        accent-color: var(--color-accent);
-        margin-top: 0.25rem;
-        flex-shrink: 0;
-    }
+  /* --- Horizontal rule --- */
+  .prose hr {
+    border: none;
+    border-top: 1px solid var(--prose-border);
+    margin: 2.5rem 0;
+  }
 
-    /* --- Horizontal rule --- */
-    .prose hr {
-        border: none;
-        border-top: 1px solid var(--prose-border);
-        margin: 2.5rem 0;
-    }
+  /* --- Images --- */
+  .prose img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    border: 1px solid var(--prose-border);
+    margin: 1.5rem auto;
+    display: block;
+  }
+  .prose figure {
+    margin: 1.75rem 0;
+    text-align: center;
+  }
+  .prose figcaption {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    margin-top: 0.5rem;
+  }
 
-    /* --- Images --- */
-    .prose img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 0.5rem;
-        border: 1px solid var(--prose-border);
-        margin: 1.5rem auto;
-        display: block;
-    }
-    .prose figure {
-        margin: 1.75rem 0;
-        text-align: center;
-    }
-    .prose figcaption {
-        font-size: 0.8rem;
-        color: var(--color-text-muted);
-        margin-top: 0.5rem;
-    }
+  /* --- Tables --- */
+  .prose table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    margin: 1.75rem 0;
+    overflow-x: auto;
+    display: block;
+  }
+  .prose thead {
+    background: var(--prose-th-bg);
+  }
+  .prose th {
+    color: #d4d4d8;
+    font-weight: 600;
+    text-align: left;
+    padding: 0.6rem 0.875rem;
+    border-bottom: 2px solid var(--prose-border);
+    white-space: nowrap;
+  }
+  .prose td {
+    padding: 0.55rem 0.875rem;
+    border-bottom: 1px solid var(--prose-td-border);
+    vertical-align: top;
+  }
+  .prose tr:last-child td {
+    border-bottom: none;
+  }
+  .prose tbody tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+  }
 
-    /* --- Tables --- */
-    .prose table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 0.9rem;
-        margin: 1.75rem 0;
-        overflow-x: auto;
-        display: block;
-    }
-    .prose thead {
-        background: var(--prose-th-bg);
-    }
-    .prose th {
-        color: #d4d4d8;
-        font-weight: 600;
-        text-align: left;
-        padding: 0.6rem 0.875rem;
-        border-bottom: 2px solid var(--prose-border);
-        white-space: nowrap;
-    }
-    .prose td {
-        padding: 0.55rem 0.875rem;
-        border-bottom: 1px solid var(--prose-td-border);
-        vertical-align: top;
-    }
-    .prose tr:last-child td {
-        border-bottom: none;
-    }
-    .prose tbody tr:hover {
-        background: rgba(255, 255, 255, 0.02);
-    }
+  /* --- Details / Summary --- */
+  .prose details {
+    border: 1px solid var(--prose-border);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    margin: 1.25rem 0;
+    background: var(--color-surface-1);
+  }
+  .prose summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--prose-headings);
+    user-select: none;
+    list-style: none;
+  }
+  .prose summary::before {
+    content: "▶ ";
+    font-size: 0.75em;
+    color: var(--color-accent);
+    transition: transform 0.2s;
+  }
+  .prose details[open] > summary::before {
+    content: "▼ ";
+  }
+  .prose details[open] > summary {
+    margin-bottom: 0.75rem;
+  }
 
-    /* --- Details / Summary --- */
-    .prose details {
-        border: 1px solid var(--prose-border);
-        border-radius: 0.5rem;
-        padding: 0.75rem 1rem;
-        margin: 1.25rem 0;
-        background: var(--color-surface-1);
-    }
-    .prose summary {
-        cursor: pointer;
-        font-weight: 600;
-        color: var(--prose-headings);
-        user-select: none;
-        list-style: none;
-    }
-    .prose summary::before {
-        content: "▶ ";
-        font-size: 0.75em;
-        color: var(--color-accent);
-        transition: transform 0.2s;
-    }
-    .prose details[open] > summary::before {
-        content: "▼ ";
-    }
-    .prose details[open] > summary {
-        margin-bottom: 0.75rem;
-    }
+  /* --- KBD --- */
+  .prose kbd {
+    display: inline-block;
+    padding: 0.1em 0.45em;
+    background: var(--color-surface-1);
+    border: 1px solid var(--prose-border);
+    border-bottom-width: 2px;
+    border-radius: 0.3rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.8em;
+    color: #d4d4d8;
+  }
 
-    /* --- KBD --- */
-    .prose kbd {
-        display: inline-block;
-        padding: 0.1em 0.45em;
-        background: var(--color-surface-1);
-        border: 1px solid var(--prose-border);
-        border-bottom-width: 2px;
-        border-radius: 0.3rem;
-        font-family: ui-monospace, monospace;
-        font-size: 0.8em;
-        color: #d4d4d8;
-    }
-
-    /* --- Mark / Highlight --- */
-    .prose mark {
-        background: rgba(250, 204, 21, 0.18);
-        color: #fef08a;
-        padding: 0.05em 0.25em;
-        border-radius: 0.2rem;
-    }
+  /* --- Mark / Highlight --- */
+  .prose mark {
+    background: rgba(250, 204, 21, 0.18);
+    color: #fef08a;
+    padding: 0.05em 0.25em;
+    border-radius: 0.2rem;
+  }
 }
 
 /* ============================================================
@@ -392,227 +427,227 @@
    Generated by src/plugins/remark-callout.ts
    ============================================================ */
 @layer components {
-    .callout {
-        border-radius: 0.5rem;
-        border: 1px solid transparent;
-        margin: 1.5rem 0;
-        overflow: hidden;
-    }
+  .callout {
+    border-radius: 0.5rem;
+    border: 1px solid transparent;
+    margin: 1.5rem 0;
+    overflow: hidden;
+  }
 
-    .callout-title {
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-        padding: 0.65rem 1rem;
-        font-size: 0.875rem;
-        font-weight: 600;
-        letter-spacing: 0.01em;
-    }
+  .callout-title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.65rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
 
-    .callout-icon {
-        font-size: 1rem;
-        flex-shrink: 0;
-    }
+  .callout-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
 
-    .callout-body {
-        padding: 0.75rem 1rem 0.875rem;
-        font-size: 0.9rem;
-        line-height: 1.7;
-    }
+  .callout-body {
+    padding: 0.75rem 1rem 0.875rem;
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
 
-    .callout-body > *:first-child {
-        margin-top: 0;
-    }
-    .callout-body > *:last-child {
-        margin-bottom: 0;
-    }
+  .callout-body > *:first-child {
+    margin-top: 0;
+  }
+  .callout-body > *:last-child {
+    margin-bottom: 0;
+  }
 
-    .callout-body p {
-        margin: 0.6rem 0;
-    }
-    .callout-body ul,
-    .callout-body ol {
-        margin: 0.5rem 0;
-        padding-left: 1.5rem;
-    }
-    .callout-body li {
-        margin: 0.25rem 0;
-    }
-    .callout-body code {
-        font-size: 0.85em;
-        padding: 0.1em 0.35em;
-        border-radius: 0.25rem;
-        background: rgba(0, 0, 0, 0.25);
-    }
+  .callout-body p {
+    margin: 0.6rem 0;
+  }
+  .callout-body ul,
+  .callout-body ol {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+  }
+  .callout-body li {
+    margin: 0.25rem 0;
+  }
+  .callout-body code {
+    font-size: 0.85em;
+    padding: 0.1em 0.35em;
+    border-radius: 0.25rem;
+    background: rgba(0, 0, 0, 0.25);
+  }
 
-    /* ── Callout colour themes ───────────────────────────────── */
+  /* ── Callout colour themes ───────────────────────────────── */
 
-    /* note */
-    .callout-note {
-        background: rgba(59, 130, 246, 0.07);
-        border-color: rgba(59, 130, 246, 0.3);
-    }
-    .callout-note .callout-title {
-        background: rgba(59, 130, 246, 0.12);
-        color: #93c5fd;
-    }
+  /* note */
+  .callout-note {
+    background: rgba(59, 130, 246, 0.07);
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+  .callout-note .callout-title {
+    background: rgba(59, 130, 246, 0.12);
+    color: #93c5fd;
+  }
 
-    /* info */
-    .callout-info {
-        background: rgba(6, 182, 212, 0.07);
-        border-color: rgba(6, 182, 212, 0.3);
-    }
-    .callout-info .callout-title {
-        background: rgba(6, 182, 212, 0.12);
-        color: #67e8f9;
-    }
+  /* info */
+  .callout-info {
+    background: rgba(6, 182, 212, 0.07);
+    border-color: rgba(6, 182, 212, 0.3);
+  }
+  .callout-info .callout-title {
+    background: rgba(6, 182, 212, 0.12);
+    color: #67e8f9;
+  }
 
-    /* tip */
-    .callout-tip {
-        background: rgba(16, 185, 129, 0.07);
-        border-color: rgba(16, 185, 129, 0.3);
-    }
-    .callout-tip .callout-title {
-        background: rgba(16, 185, 129, 0.12);
-        color: #6ee7b7;
-    }
+  /* tip */
+  .callout-tip {
+    background: rgba(16, 185, 129, 0.07);
+    border-color: rgba(16, 185, 129, 0.3);
+  }
+  .callout-tip .callout-title {
+    background: rgba(16, 185, 129, 0.12);
+    color: #6ee7b7;
+  }
 
-    /* success */
-    .callout-success {
-        background: rgba(34, 197, 94, 0.07);
-        border-color: rgba(34, 197, 94, 0.3);
-    }
-    .callout-success .callout-title {
-        background: rgba(34, 197, 94, 0.12);
-        color: #86efac;
-    }
+  /* success */
+  .callout-success {
+    background: rgba(34, 197, 94, 0.07);
+    border-color: rgba(34, 197, 94, 0.3);
+  }
+  .callout-success .callout-title {
+    background: rgba(34, 197, 94, 0.12);
+    color: #86efac;
+  }
 
-    /* important */
-    .callout-important {
-        background: rgba(168, 85, 247, 0.07);
-        border-color: rgba(168, 85, 247, 0.3);
-    }
-    .callout-important .callout-title {
-        background: rgba(168, 85, 247, 0.12);
-        color: #d8b4fe;
-    }
+  /* important */
+  .callout-important {
+    background: rgba(168, 85, 247, 0.07);
+    border-color: rgba(168, 85, 247, 0.3);
+  }
+  .callout-important .callout-title {
+    background: rgba(168, 85, 247, 0.12);
+    color: #d8b4fe;
+  }
 
-    /* abstract */
-    .callout-abstract {
-        background: rgba(99, 102, 241, 0.07);
-        border-color: rgba(99, 102, 241, 0.3);
-    }
-    .callout-abstract .callout-title {
-        background: rgba(99, 102, 241, 0.12);
-        color: #a5b4fc;
-    }
+  /* abstract */
+  .callout-abstract {
+    background: rgba(99, 102, 241, 0.07);
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+  .callout-abstract .callout-title {
+    background: rgba(99, 102, 241, 0.12);
+    color: #a5b4fc;
+  }
 
-    /* question */
-    .callout-question {
-        background: rgba(234, 179, 8, 0.07);
-        border-color: rgba(234, 179, 8, 0.3);
-    }
-    .callout-question .callout-title {
-        background: rgba(234, 179, 8, 0.12);
-        color: #fde047;
-    }
+  /* question */
+  .callout-question {
+    background: rgba(234, 179, 8, 0.07);
+    border-color: rgba(234, 179, 8, 0.3);
+  }
+  .callout-question .callout-title {
+    background: rgba(234, 179, 8, 0.12);
+    color: #fde047;
+  }
 
-    /* todo */
-    .callout-todo {
-        background: rgba(99, 102, 241, 0.07);
-        border-color: rgba(99, 102, 241, 0.3);
-    }
-    .callout-todo .callout-title {
-        background: rgba(99, 102, 241, 0.12);
-        color: #a5b4fc;
-    }
+  /* todo */
+  .callout-todo {
+    background: rgba(99, 102, 241, 0.07);
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+  .callout-todo .callout-title {
+    background: rgba(99, 102, 241, 0.12);
+    color: #a5b4fc;
+  }
 
-    /* warning */
-    .callout-warning {
-        background: rgba(245, 158, 11, 0.07);
-        border-color: rgba(245, 158, 11, 0.3);
-    }
-    .callout-warning .callout-title {
-        background: rgba(245, 158, 11, 0.12);
-        color: #fcd34d;
-    }
+  /* warning */
+  .callout-warning {
+    background: rgba(245, 158, 11, 0.07);
+    border-color: rgba(245, 158, 11, 0.3);
+  }
+  .callout-warning .callout-title {
+    background: rgba(245, 158, 11, 0.12);
+    color: #fcd34d;
+  }
 
-    /* caution */
-    .callout-caution {
-        background: rgba(249, 115, 22, 0.07);
-        border-color: rgba(249, 115, 22, 0.3);
-    }
-    .callout-caution .callout-title {
-        background: rgba(249, 115, 22, 0.12);
-        color: #fdba74;
-    }
+  /* caution */
+  .callout-caution {
+    background: rgba(249, 115, 22, 0.07);
+    border-color: rgba(249, 115, 22, 0.3);
+  }
+  .callout-caution .callout-title {
+    background: rgba(249, 115, 22, 0.12);
+    color: #fdba74;
+  }
 
-    /* failure */
-    .callout-failure {
-        background: rgba(239, 68, 68, 0.07);
-        border-color: rgba(239, 68, 68, 0.3);
-    }
-    .callout-failure .callout-title {
-        background: rgba(239, 68, 68, 0.12);
-        color: #fca5a5;
-    }
+  /* failure */
+  .callout-failure {
+    background: rgba(239, 68, 68, 0.07);
+    border-color: rgba(239, 68, 68, 0.3);
+  }
+  .callout-failure .callout-title {
+    background: rgba(239, 68, 68, 0.12);
+    color: #fca5a5;
+  }
 
-    /* danger */
-    .callout-danger {
-        background: rgba(220, 38, 38, 0.07);
-        border-color: rgba(220, 38, 38, 0.3);
-    }
-    .callout-danger .callout-title {
-        background: rgba(220, 38, 38, 0.12);
-        color: #f87171;
-    }
+  /* danger */
+  .callout-danger {
+    background: rgba(220, 38, 38, 0.07);
+    border-color: rgba(220, 38, 38, 0.3);
+  }
+  .callout-danger .callout-title {
+    background: rgba(220, 38, 38, 0.12);
+    color: #f87171;
+  }
 
-    /* bug */
-    .callout-bug {
-        background: rgba(190, 18, 60, 0.07);
-        border-color: rgba(190, 18, 60, 0.3);
-    }
-    .callout-bug .callout-title {
-        background: rgba(190, 18, 60, 0.12);
-        color: #fda4af;
-    }
+  /* bug */
+  .callout-bug {
+    background: rgba(190, 18, 60, 0.07);
+    border-color: rgba(190, 18, 60, 0.3);
+  }
+  .callout-bug .callout-title {
+    background: rgba(190, 18, 60, 0.12);
+    color: #fda4af;
+  }
 
-    /* example */
-    .callout-example {
-        background: rgba(124, 58, 237, 0.07);
-        border-color: rgba(124, 58, 237, 0.3);
-    }
-    .callout-example .callout-title {
-        background: rgba(124, 58, 237, 0.12);
-        color: #c4b5fd;
-    }
+  /* example */
+  .callout-example {
+    background: rgba(124, 58, 237, 0.07);
+    border-color: rgba(124, 58, 237, 0.3);
+  }
+  .callout-example .callout-title {
+    background: rgba(124, 58, 237, 0.12);
+    color: #c4b5fd;
+  }
 
-    /* quote */
-    .callout-quote {
-        background: rgba(113, 113, 122, 0.07);
-        border-color: rgba(113, 113, 122, 0.3);
-    }
-    .callout-quote .callout-title {
-        background: rgba(113, 113, 122, 0.12);
-        color: #d4d4d8;
-    }
+  /* quote */
+  .callout-quote {
+    background: rgba(113, 113, 122, 0.07);
+    border-color: rgba(113, 113, 122, 0.3);
+  }
+  .callout-quote .callout-title {
+    background: rgba(113, 113, 122, 0.12);
+    color: #d4d4d8;
+  }
 }
 
 /* ============================================================
    Utility helpers
    ============================================================ */
 @layer utilities {
-    /* Hide scrollbar but keep functionality */
-    .scrollbar-none {
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-    }
-    .scrollbar-none::-webkit-scrollbar {
-        display: none;
-    }
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
 
-    /* Text balance for headings */
-    .text-balance {
-        text-wrap: balance;
-    }
+  /* Text balance for headings */
+  .text-balance {
+    text-wrap: balance;
+  }
 }
