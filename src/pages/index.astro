@@ -23,7 +23,7 @@ const years = Object.keys(postsByYear)
   .sort((a, b) => b - a);
 
 // Collect all unique tags
-const allTags = [...new Set(allPosts.flatMap((p) => p.data.tags))].sort();
+const allTags = [...new Set(allPosts.flatMap((p) => p.data.tags || []))].sort();
 ---
 
 <Layout

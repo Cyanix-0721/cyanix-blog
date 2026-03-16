@@ -6,7 +6,8 @@ const allPosts = await getCollection('posts', ({ data }) => !data.draft);
 
 // Build a map of tag -> post count
 const tagMap = allPosts.reduce<Record<string, number>>((acc, post) => {
-  post.data.tags.forEach((tag) => {
+  const postTags = post.data.tags || [];
+  postTags.forEach((tag) => {
     acc[tag] = (acc[tag] ?? 0) + 1;
   });
   return acc;
@@ -60,7 +61,7 @@ const totalTags = tags.length;
     ) : (
       <ul class="flex flex-wrap gap-3">
         {tags.map(([tag, count]) => {
-          const slug = tag.toLowerCase().replace(/\s+/g, '-');
+          const slug = tag.toLowerCase().replace(/[\s\/]+/g, '-');
           return (
             <li>
               <a

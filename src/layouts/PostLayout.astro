@@ -178,7 +178,7 @@ const isoModified = dateModified?.toISOString();
                     <div class="flex flex-wrap gap-2">
                         {tags.map((tag) => (
                             <a
-                                href={`/tags/${tag.toLowerCase().replace(/\s+/g, "-")}`}
+                                href={`/tags/${tag.toLowerCase().replace(/[\s\/]+/g, "-")}`}
                                 class="rounded-full bg-zinc-800 px-3 py-1 text-sm text-zinc-300 transition-colors hover:bg-cyan-950/60 hover:text-cyan-400"
                             >
                                 #{tag}

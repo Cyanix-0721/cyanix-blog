@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Analytics from '@vercel/analytics/astro';
 
 export interface Props {
   title?: string;
@@ -144,5 +145,6 @@ const fullTitle = title === 'Cyanix Blog' ? title : `${title} · Cyanix Blog`;
         >Vercel</a>
       </p>
     </footer>
+    <Analytics />
   </body>
 </html>
