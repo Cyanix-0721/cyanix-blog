@@ -6,8 +6,17 @@ import tailwindcss from "@tailwindcss/vite";
 import vercel from "@astrojs/vercel";
 import remarkWikiLink from "remark-wiki-link";
 import remarkCallout from "./src/plugins/remark-callout.ts";
+import remarkObsidianEmbed from "./src/plugins/remark-obsidian-embed.ts";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import path from "node:path";
+import { buildWikilinkMap } from "./src/utils/content-scanner.ts";
+
+/**
+ * Build a map of "Short Name" -> "Full ID" for Obsidian wikilinks.
+ */
+const postsDir = path.resolve("./src/content/posts");
+const wikilinkMap = buildWikilinkMap(postsDir);
 
 // https://astro.build/config
 export default defineConfig({
@@ -20,11 +29,11 @@ export default defineConfig({
     syntaxHighlight: "shiki",
     shikiConfig: {
       // Use a dark theme that pairs well with a cyan accent palette
-      theme: "one-dark-pro",
+      theme: "tokyo-night",
       // Also expose a light theme for users who prefer light mode
       themes: {
         light: "github-light",
-        dark: "one-dark-pro",
+        dark: "tokyo-night",
       },
       // Wrap long lines instead of horizontal scrolling
       wrap: true,
@@ -36,9 +45,15 @@ export default defineConfig({
         remarkWikiLink,
         {
           // Map [[Page Name]] → /posts/page-name
-          pageResolver: (/** @type {string} */ name) => [
-            name.toLowerCase().replace(/\s+/g, "-"),
-          ],
+          // If the page name exists in our map (shortest path), use the full ID.
+          // Otherwise, fall back to the default slugification.
+          pageResolver: (/** @type {string} */ name) => {
+            const key = name.toLowerCase();
+            if (wikilinkMap.has(key)) {
+              return [wikilinkMap.get(key)];
+            }
+            return [name.toLowerCase().replace(/\s+/g, "-")];
+          },
           hrefTemplate: (/** @type {string} */ permalink) =>
             `/posts/${permalink}`,
           aliasDivider: "|",
@@ -46,6 +61,8 @@ export default defineConfig({
       ],
       // Obsidian > [!note] callout support (custom plugin)
       remarkCallout,
+      // Customize ![[link]] to not show '!' and add a prefix
+      remarkObsidianEmbed,
     ],
 
     rehypePlugins: [
