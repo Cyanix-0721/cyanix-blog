@@ -3,27 +3,105 @@
 /* ============================================================
    CSS Custom Properties
    ============================================================ */
-@layer base {
-  :root {
-    --color-accent: var(--color-cyan-500);
-    --color-accent-dim: var(--color-cyan-700);
-    --color-accent-muted: var(--color-cyan-900);
-    --color-surface: var(--color-zinc-950);
-    --color-surface-1: var(--color-zinc-900);
-    --color-surface-2: var(--color-zinc-800);
-    --color-text: var(--color-zinc-100);
-    --color-text-muted: var(--color-zinc-500);
+@theme {
+  /* This maps the variables to Tailwind utilities */
+  --color-accent: var(--accent);
+  --color-accent-dim: var(--accent-dim);
+  --color-accent-muted: var(--accent-muted);
+  --color-surface: var(--surface);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
 
-    --prose-body: var(--color-zinc-400);
-    --prose-headings: var(--color-zinc-100);
-    --prose-links: var(--color-cyan-400);
-    --prose-code-bg: var(--color-zinc-900);
-    --prose-code-text: var(--color-cyan-300);
-    --prose-border: var(--color-zinc-800);
-    --prose-quote-border: var(--color-cyan-700);
-    --prose-th-bg: var(--color-zinc-900);
-    --prose-td-border: var(--color-zinc-800);
+  --prose-body: var(--p-body);
+  --prose-headings: var(--p-headings);
+  --prose-links: var(--p-links);
+  --prose-code-bg: var(--p-code-bg);
+  --prose-code-text: var(--p-code-text);
+  --prose-border: var(--p-border);
+  --prose-quote-border: var(--p-quote-border);
+  --prose-quote-text: var(--p-quote-text);
+  --prose-strong: var(--p-strong);
+  --prose-th-bg: var(--p-th-bg);
+  --prose-th-text: var(--p-th-text);
+  --prose-td-border: var(--p-td-border);
+}
+
+:root {
+  /* Default: Light Mode */
+  --accent: var(--color-cyan-600);
+  --accent-dim: var(--color-cyan-700);
+  --accent-muted: var(--color-cyan-100);
+  --surface: var(--color-zinc-50);
+  --surface-1: var(--color-zinc-100);
+  --surface-2: var(--color-zinc-200);
+  --text: var(--color-zinc-900);
+  --text-muted: var(--color-zinc-500);
+
+  --p-body: var(--color-zinc-700);
+  --p-headings: var(--color-zinc-950);
+  --p-links: var(--color-cyan-600);
+  --p-code-bg: var(--color-zinc-100);
+  --p-code-text: var(--color-cyan-700);
+  --p-border: var(--color-zinc-200);
+  --p-quote-border: var(--color-cyan-600);
+  --p-quote-text: var(--color-zinc-500);
+  --p-strong: var(--color-zinc-900);
+  --p-th-bg: var(--color-zinc-100);
+  --p-th-text: var(--color-zinc-900);
+  --p-td-border: var(--color-zinc-200);
+}
+
+/* Override: System Dark or Manual Dark */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --accent: var(--color-cyan-500);
+    --accent-dim: var(--color-cyan-700);
+    --accent-muted: var(--color-cyan-900);
+    --surface: var(--color-zinc-950);
+    --surface-1: var(--color-zinc-900);
+    --surface-2: var(--color-zinc-800);
+    --text: var(--color-zinc-100);
+    --text-muted: var(--color-zinc-500);
+
+    --p-body: var(--color-zinc-400);
+    --p-headings: var(--color-zinc-50);
+    --p-links: var(--color-cyan-400);
+    --p-code-bg: var(--color-zinc-900);
+    --p-code-text: var(--color-cyan-300);
+    --p-border: var(--color-zinc-800);
+    --p-quote-border: var(--color-cyan-700);
+    --p-quote-text: var(--color-zinc-400);
+    --p-strong: var(--color-zinc-200);
+    --p-th-bg: var(--color-zinc-900);
+    --p-th-text: var(--color-zinc-200);
+    --p-td-border: var(--color-zinc-800);
   }
+}
+
+:root[data-theme="dark"] {
+  --accent: var(--color-cyan-500);
+  --accent-dim: var(--color-cyan-700);
+  --accent-muted: var(--color-cyan-900);
+  --surface: var(--color-zinc-950);
+  --surface-1: var(--color-zinc-900);
+  --surface-2: var(--color-zinc-800);
+  --text: var(--color-zinc-100);
+  --text-muted: var(--color-zinc-500);
+
+  --p-body: var(--color-zinc-400);
+  --p-headings: var(--color-zinc-50);
+  --p-links: var(--color-cyan-400);
+  --p-code-bg: var(--color-zinc-900);
+  --p-code-text: var(--color-cyan-300);
+  --p-border: var(--color-zinc-800);
+  --p-quote-border: var(--color-cyan-700);
+  --p-quote-text: var(--color-zinc-400);
+  --p-strong: var(--color-zinc-200);
+  --p-th-bg: var(--color-zinc-900);
+  --p-th-text: var(--color-zinc-200);
+  --p-td-border: var(--color-zinc-800);
 }
 
 /* ============================================================
@@ -37,6 +115,9 @@
   }
 
   html {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    color-scheme: light dark;
     font-family:
       ui-sans-serif,
       system-ui,
@@ -178,7 +259,7 @@
     cursor: not-allowed;
     text-decoration-style: dashed;
   }
-  
+
   /* Elegant Obsidian Embed (Supplementary Links) */
   .prose a.internal.obsidian-embed {
     display: inline-flex;
@@ -209,7 +290,7 @@
 
   /* --- Strong / Em --- */
   .prose strong {
-    color: var(--color-zinc-200);
+    color: var(--prose-strong);
     font-weight: 700;
   }
   .prose em {
@@ -306,7 +387,7 @@
     border-left: 3px solid var(--prose-quote-border);
     margin: 1.5rem 0;
     padding: 0.5rem 0 0.5rem 1.25rem;
-    color: #a1a1aa;
+    color: var(--prose-quote-text);
     font-style: italic;
   }
   .prose blockquote p {
@@ -388,7 +469,7 @@
     background: var(--prose-th-bg);
   }
   .prose th {
-    color: #d4d4d8;
+    color: var(--prose-th-text);
     font-weight: 600;
     text-align: left;
     padding: 0.6rem 0.875rem;

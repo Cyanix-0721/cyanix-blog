@@ -86,6 +86,16 @@ const fullTitle = title === "Cyanix Blog" ? title : `${title} · Cyanix Blog`;
 
     <!-- Smooth Animations -->
     <ClientRouter />
+
+    <!-- FOUC Prevention for Theme -->
+    <script is:inline>
+      (function () {
+        const theme = localStorage.getItem("cyanix-theme") || "auto";
+        if (theme !== "auto") {
+          document.documentElement.setAttribute("data-theme", theme);
+        }
+      })();
+    </script>
   </head>
 
   <body class="bg-surface text-text min-h-screen flex flex-col antialiased">
@@ -120,7 +130,7 @@ const fullTitle = title === "Cyanix Blog" ? title : `${title} · Cyanix Blog`;
               href="https://github.com/Cyanix-0721"
               target="_blank"
               rel="noopener noreferrer"
-              class="hover:text-accent transition-colors"
+              class="hover:text-accent transition-colors block"
               aria-label="GitHub"
             >
               <svg
@@ -136,6 +146,18 @@ const fullTitle = title === "Cyanix Blog" ? title : `${title} · Cyanix Blog`;
                 ></path>
               </svg>
             </a>
+          </li>
+          <li>
+            <button
+              id="theme-toggle"
+              class="flex items-center justify-center p-1.5 rounded-lg border border-surface-2 bg-surface-1 text-text-muted hover:text-accent hover:border-accent-dim transition-all cursor-pointer"
+              aria-label="Switch theme"
+              title="Theme Toggle"
+            >
+              <span class="theme-icon-container">
+                <!-- Icon will be injected by script -->
+              </span>
+            </button>
           </li>
         </ul>
       </nav>
@@ -169,16 +191,18 @@ const fullTitle = title === "Cyanix Blog" ? title : `${title} · Cyanix Blog`;
     </footer>
 
     <script>
+      import { initThemeSwitcher } from "../scripts/theme-manager";
       import { addCopyButtonsForCodeBlocks } from "../scripts/code-block-copy";
 
       // Initialize on page load
+      initThemeSwitcher();
       addCopyButtonsForCodeBlocks();
 
-      // Support for Astro ViewTransitions (if added in the future)
-      document.addEventListener(
-        "astro:after-swap",
-        addCopyButtonsForCodeBlocks,
-      );
+      // Support for Astro ViewTransitions
+      document.addEventListener("astro:after-swap", () => {
+        initThemeSwitcher();
+        addCopyButtonsForCodeBlocks();
+      });
     </script>
 
     <Analytics />
