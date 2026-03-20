@@ -18,9 +18,9 @@ export function getSavedTheme(): Theme {
 export function applyTheme(theme: Theme) {
   const root = document.documentElement;
   if (theme === "auto") {
-    root.removeAttribute("data-theme");
+    root.style.colorScheme = "light dark";
   } else {
-    root.setAttribute("data-theme", theme);
+    root.style.colorScheme = theme;
   }
 }
 

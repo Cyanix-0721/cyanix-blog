@@ -29,79 +29,32 @@
 }
 
 :root {
-  /* Default: Light Mode */
-  --accent: var(--color-cyan-600);
-  --accent-dim: var(--color-cyan-700);
-  --accent-muted: var(--color-cyan-100);
-  --surface: var(--color-zinc-50);
-  --surface-1: var(--color-zinc-100);
-  --surface-2: var(--color-zinc-200);
-  --text: var(--color-zinc-900);
-  --text-muted: var(--color-zinc-500);
+  /* Default color-scheme for light-dark() support */
+  color-scheme: light dark;
 
-  --p-body: var(--color-zinc-700);
-  --p-headings: var(--color-zinc-950);
-  --p-links: var(--color-cyan-600);
-  --p-code-bg: var(--color-zinc-100);
-  --p-code-text: var(--color-cyan-700);
-  --p-border: var(--color-zinc-200);
-  --p-quote-border: var(--color-cyan-600);
-  --p-quote-text: var(--color-zinc-500);
-  --p-strong: var(--color-zinc-900);
-  --p-th-bg: var(--color-zinc-100);
-  --p-th-text: var(--color-zinc-900);
-  --p-td-border: var(--color-zinc-200);
-}
+  /* Theme variables using modern light-dark() */
+  --accent: light-dark(var(--color-cyan-600), var(--color-cyan-500));
+  --accent-dim: light-dark(var(--color-cyan-700), var(--color-cyan-700));
+  --accent-muted: light-dark(var(--color-cyan-100), var(--color-cyan-900));
+  --surface: light-dark(var(--color-zinc-50), var(--color-zinc-950));
+  --surface-1: light-dark(var(--color-zinc-100), var(--color-zinc-900));
+  --surface-2: light-dark(var(--color-zinc-200), var(--color-zinc-800));
+  --text: light-dark(var(--color-zinc-900), var(--color-zinc-100));
+  --text-muted: light-dark(var(--color-zinc-500), var(--color-zinc-500));
 
-/* Override: System Dark or Manual Dark */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --accent: var(--color-cyan-500);
-    --accent-dim: var(--color-cyan-700);
-    --accent-muted: var(--color-cyan-900);
-    --surface: var(--color-zinc-950);
-    --surface-1: var(--color-zinc-900);
-    --surface-2: var(--color-zinc-800);
-    --text: var(--color-zinc-100);
-    --text-muted: var(--color-zinc-500);
-
-    --p-body: var(--color-zinc-400);
-    --p-headings: var(--color-zinc-50);
-    --p-links: var(--color-cyan-400);
-    --p-code-bg: var(--color-zinc-900);
-    --p-code-text: var(--color-cyan-300);
-    --p-border: var(--color-zinc-800);
-    --p-quote-border: var(--color-cyan-700);
-    --p-quote-text: var(--color-zinc-400);
-    --p-strong: var(--color-zinc-200);
-    --p-th-bg: var(--color-zinc-900);
-    --p-th-text: var(--color-zinc-200);
-    --p-td-border: var(--color-zinc-800);
-  }
-}
-
-:root[data-theme="dark"] {
-  --accent: var(--color-cyan-500);
-  --accent-dim: var(--color-cyan-700);
-  --accent-muted: var(--color-cyan-900);
-  --surface: var(--color-zinc-950);
-  --surface-1: var(--color-zinc-900);
-  --surface-2: var(--color-zinc-800);
-  --text: var(--color-zinc-100);
-  --text-muted: var(--color-zinc-500);
-
-  --p-body: var(--color-zinc-400);
-  --p-headings: var(--color-zinc-50);
-  --p-links: var(--color-cyan-400);
-  --p-code-bg: var(--color-zinc-900);
-  --p-code-text: var(--color-cyan-300);
-  --p-border: var(--color-zinc-800);
-  --p-quote-border: var(--color-cyan-700);
-  --p-quote-text: var(--color-zinc-400);
-  --p-strong: var(--color-zinc-200);
-  --p-th-bg: var(--color-zinc-900);
-  --p-th-text: var(--color-zinc-200);
-  --p-td-border: var(--color-zinc-800);
+  /* Prose specific variables */
+  --p-body: light-dark(var(--color-zinc-700), var(--color-zinc-400));
+  --p-headings: light-dark(var(--color-zinc-950), var(--color-zinc-50));
+  --p-links: light-dark(var(--color-cyan-600), var(--color-cyan-400));
+  --p-code-bg: light-dark(var(--color-zinc-100), var(--color-zinc-900));
+  --p-code-text: light-dark(var(--color-cyan-700), var(--color-cyan-300));
+  --p-border: light-dark(var(--color-zinc-200), var(--color-zinc-800));
+  --p-quote-border: light-dark(var(--color-cyan-600), var(--color-cyan-700));
+  --p-quote-text: light-dark(var(--color-zinc-500), var(--color-zinc-400));
+  --p-strong: light-dark(var(--color-zinc-900), var(--color-zinc-200));
+  --p-th-bg: light-dark(var(--color-zinc-100), var(--color-zinc-900));
+  --p-th-text: light-dark(var(--color-zinc-900), var(--color-zinc-200));
+  --p-td-border: light-dark(var(--color-zinc-200), var(--color-zinc-800));
 }
 
 /* ============================================================
@@ -161,8 +114,8 @@
 
   /* Selection colour */
   ::selection {
-    background-color: var(--color-cyan-500) / 25%;
-    color: var(--color-cyan-50);
+    background-color: var(--color-accent);
+    color: var(--color-surface);
   }
 }
 
@@ -374,28 +327,14 @@
     height: 14px;
   }
 
-  /* Shiki adaptive themes: Consolidated manual and auto dark mode */
+  /* Shiki adaptive themes: uses light-dark() for a clean, zero-duplication switch */
   pre[class*="astro-code"],
   pre[class*="astro-code"] span {
-    /* Manual Dark Mode: [data-theme="dark"] wins */
-    :root[data-theme="dark"] & {
-      background-color: var(--shiki-dark-bg) !important;
-      color: var(--shiki-dark) !important;
-      font-style: var(--shiki-dark-font-style) !important;
-      font-weight: var(--shiki-dark-font-weight) !important;
-      text-decoration: var(--shiki-dark-text-decoration) !important;
-    }
-
-    /* Auto Dark Mode: prefers-color-scheme wins when no manual theme */
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) & {
-        background-color: var(--shiki-dark-bg) !important;
-        color: var(--shiki-dark) !important;
-        font-style: var(--shiki-dark-font-style) !important;
-        font-weight: var(--shiki-dark-font-weight) !important;
-        text-decoration: var(--shiki-dark-text-decoration) !important;
-      }
-    }
+    background-color: light-dark(var(--shiki-light-bg), var(--shiki-dark-bg)) !important;
+    color: light-dark(var(--shiki-light), var(--shiki-dark)) !important;
+    font-style: light-dark(var(--shiki-light-font-style), var(--shiki-dark-font-style)) !important;
+    font-weight: light-dark(var(--shiki-light-font-weight), var(--shiki-dark-font-weight)) !important;
+    text-decoration: light-dark(var(--shiki-light-text-decoration), var(--shiki-dark-text-decoration)) !important;
   }
 
   /* --- Blockquote --- */
