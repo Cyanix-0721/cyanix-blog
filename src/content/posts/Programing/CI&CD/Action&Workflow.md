@@ -2,7 +2,7 @@
 tags: [Github, Action, Workflow, Sync, CI/CD]
 title: Action&Workflow
 date created: 2024-08-15 04:19:28
-date modified: 2026-03-16 03:51:20
+date modified: 2026-03-16 03:52:25
 ---
 
 # Action&Workflow
