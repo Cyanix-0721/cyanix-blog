@@ -1,0 +1,73 @@
+---
+// BackToTop.astro
+---
+
+<button
+  id="back-to-top"
+  class="fixed bottom-6 right-6 z-50 flex h-10 w-10 translate-y-2 items-center justify-center rounded-full bg-accent text-surface opacity-0 shadow-lg ring-1 ring-accent-dim transition-all duration-300 hover:scale-110 focus:outline-none"
+  aria-label="返回顶部"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <polyline points="18 15 12 9 6 15"></polyline>
+  </svg>
+</button>
+
+<script>
+  function initBackToTop() {
+    const btn = document.getElementById("back-to-top");
+    if (!btn) return;
+
+    // Toggle button visibility based on scroll position
+    const toggleVisibility = () => {
+      if (window.scrollY > 300) {
+        btn.classList.remove(
+          "opacity-0",
+          "translate-y-2",
+          "pointer-events-none",
+        );
+        btn.classList.add(
+          "opacity-100",
+          "translate-y-0",
+          "pointer-events-auto",
+        );
+      } else {
+        btn.classList.add("opacity-0", "translate-y-2", "pointer-events-none");
+        btn.classList.remove(
+          "opacity-100",
+          "translate-y-0",
+          "pointer-events-auto",
+        );
+      }
+    };
+
+    // Smooth scroll to top
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    };
+
+    window.addEventListener("scroll", toggleVisibility, { passive: true });
+    btn.addEventListener("click", scrollToTop);
+
+    // Run once on load
+    toggleVisibility();
+  }
+
+  // Initialize on page load
+  initBackToTop();
+
+  // Support Astro ViewTransitions
+  document.addEventListener("astro:after-swap", initBackToTop);
+</script>

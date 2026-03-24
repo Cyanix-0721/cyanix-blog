@@ -3,6 +3,7 @@ import "../styles/global.css";
 import Analytics from "@vercel/analytics/astro";
 import SpeedInsights from "@vercel/speed-insights/astro";
 import { ClientRouter } from "astro:transitions";
+import BackToTop from "../components/BackToTop.astro";
 
 export interface Props {
   title?: string;
@@ -171,6 +172,8 @@ const fullTitle = title === "Cyanix Blog" ? title : `${title} · Cyanix Blog`;
       <slot />
     </main>
 
+    <BackToTop />
+
     <!-- ── Footer ── -->
     <footer
       class="border-t border-surface-2 py-6 text-center text-sm text-text-muted"
@@ -197,17 +200,20 @@ const fullTitle = title === "Cyanix Blog" ? title : `${title} · Cyanix Blog`;
       import { initThemeSwitcher } from "../scripts/theme-manager";
       import { addCopyButtonsForCodeBlocks } from "../scripts/code-block-copy";
       import { initTocHighlight } from "../scripts/toc-highlight";
+      import { initImageZoom } from "../scripts/image-zoom";
 
       // Initialize on page load
       initThemeSwitcher();
       addCopyButtonsForCodeBlocks();
       initTocHighlight();
+      initImageZoom();
 
       // Support for Astro ViewTransitions
       document.addEventListener("astro:after-swap", () => {
         initThemeSwitcher();
         addCopyButtonsForCodeBlocks();
         initTocHighlight();
+        initImageZoom();
       });
     </script>
 
