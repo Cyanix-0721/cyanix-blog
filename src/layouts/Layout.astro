@@ -196,15 +196,18 @@ const fullTitle = title === "Cyanix Blog" ? title : `${title} · Cyanix Blog`;
     <script>
       import { initThemeSwitcher } from "../scripts/theme-manager";
       import { addCopyButtonsForCodeBlocks } from "../scripts/code-block-copy";
+      import { initTocHighlight } from "../scripts/toc-highlight";
 
       // Initialize on page load
       initThemeSwitcher();
       addCopyButtonsForCodeBlocks();
+      initTocHighlight();
 
       // Support for Astro ViewTransitions
       document.addEventListener("astro:after-swap", () => {
         initThemeSwitcher();
         addCopyButtonsForCodeBlocks();
+        initTocHighlight();
       });
     </script>
 

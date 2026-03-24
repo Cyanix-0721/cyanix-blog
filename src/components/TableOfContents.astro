@@ -1,0 +1,37 @@
+---
+export interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+export interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+
+// Only keep h1–h3
+const filtered = headings.filter((h) => h.depth >= 1 && h.depth <= 3);
+---
+
+{
+  filtered.length > 1 && (
+    <nav id="toc" class="toc" aria-label="目录导航">
+      <p class="toc-title">目录</p>
+      <ul class="toc-list">
+        {filtered.map((h) => (
+          <li>
+            <a
+              href={`#${h.slug}`}
+              class={`toc-link toc-h${h.depth}`}
+              data-heading={h.slug}
+            >
+              {h.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}

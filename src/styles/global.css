@@ -804,3 +804,93 @@
   border-color: var(--accent-dim);
   color: var(--accent);
 }
+
+/* ============================================================
+   Floating Table of Contents (TOC)
+   Server-rendered; highlight driven by toc-highlight.ts
+   ============================================================ */
+.toc {
+  position: fixed;
+  top: 50%;
+  right: 1.5rem;
+  transform: translateY(-50%);
+  z-index: 40;
+  width: 14rem;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 1rem 0;
+  border-radius: 0.75rem;
+  border: 1px solid var(--surface-2);
+  background: var(--surface) / 75%;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  scrollbar-width: thin;
+  scrollbar-color: var(--surface-2) transparent;
+}
+
+.toc-title {
+  margin: 0 0 0.5rem;
+  padding: 0 1rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.toc-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.toc-link {
+  display: block;
+  padding: 0.3rem 1rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition:
+    color 0.15s,
+    border-color 0.15s,
+    background 0.15s;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Hierarchical indentation */
+.toc-h1 {
+  padding-left: 1rem;
+  font-weight: 600;
+}
+.toc-h2 {
+  padding-left: 1.5rem;
+}
+.toc-h3 {
+  padding-left: 2rem;
+  font-size: 0.75rem;
+}
+
+/* Hover */
+.toc-link:hover {
+  color: var(--text);
+  background: var(--surface-1) / 60%;
+}
+
+/* Active (current section) */
+.toc-link.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+  background: var(--accent) / 6%;
+}
+
+/* Responsive: hide when there isn't enough side space */
+@media (max-width: 1279px) {
+  .toc {
+    display: none;
+  }
+}
+

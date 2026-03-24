@@ -11,7 +11,7 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 
 // Rough reading-time estimate: ~500 chars per minute (mixed CN/EN)
 const minutesRead = Math.max(1, Math.ceil(post.body!.length / 500));
@@ -25,6 +25,7 @@ const minutesRead = Math.max(1, Math.ceil(post.body!.length / 500));
   tags={post.data.tags}
   cover={post.data.cover}
   minutesRead={minutesRead}
+  headings={headings}
 >
   <Content />
 </PostLayout>
