@@ -23,6 +23,7 @@ const wikilinkMap = buildWikilinkMap(postsDir);
 // https://astro.build/config
 export default defineConfig({
   site: "https://cyanix-blog.vercel.app",
+  output: "static",
 
   integrations: [mdx(), pagefind(), sitemap()],
 

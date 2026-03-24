@@ -1,11 +1,14 @@
 import rss from "@astrojs/rss";
 import { getCollection } from "astro:content";
 
+export const prerender = true;
+
 export async function GET(context) {
   const posts = await getCollection("posts", ({ data }) => !data.draft);
 
   // Ensure site ends with a slash for proper link formation
-  const site = context.site.endsWith("/") ? context.site : `${context.site}/`;
+  const site = context.site.toString();
+  const siteWithSlash = site.endsWith("/") ? site : `${site}/`;
 
   return rss({
     // Add Atom namespace for the self-link recommendation
@@ -15,7 +18,7 @@ export async function GET(context) {
     title: "Cyanix Blog",
     description:
       "Personal blog by Cyanix — notes, thoughts, and technical writings.",
-    site: site,
+    site: siteWithSlash,
     items: posts.map((post) => ({
       title: post.data.title,
       pubDate: post.data.dateCreated,
@@ -26,7 +29,7 @@ export async function GET(context) {
     // Include the atom:link rel="self" as suggested by W3C validator
     customData: `
       <language>zh-CN</language>
-      <atom:link href="${site}rss.xml" rel="self" type="application/rss+xml" />
+      <atom:link href="${siteWithSlash}rss.xml" rel="self" type="application/rss+xml" />
     `,
   });
 }
