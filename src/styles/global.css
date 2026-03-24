@@ -822,8 +822,8 @@
   border-radius: 0.75rem;
   border: 1px solid var(--surface-2);
   background: var(--surface) / 75%;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(0.75rem);
+  -webkit-backdrop-filter: blur(0.75rem);
   scrollbar-width: thin;
   scrollbar-color: var(--surface-2) transparent;
 }
@@ -851,7 +851,7 @@
   line-height: 1.45;
   color: var(--text-muted);
   text-decoration: none;
-  border-left: 2px solid transparent;
+  border-left: 0.125rem solid transparent;
   transition:
     color 0.15s,
     border-color 0.15s,
@@ -888,7 +888,7 @@
 }
 
 /* Responsive: hide when there isn't enough side space */
-@media (max-width: 1279px) {
+@media (max-width: 80rem) {
   .toc {
     display: none;
   }
