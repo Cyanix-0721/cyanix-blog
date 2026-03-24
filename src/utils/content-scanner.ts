@@ -15,15 +15,21 @@ export function buildWikilinkMap(contentDir: string) {
       if (entry.isDirectory()) {
         scanDirectory(res);
       } else if (entry.name.endsWith(".md") || entry.name.endsWith(".mdx")) {
-        // Calculate ID relative to the content directory
+        // Calculate ID relative to the content directory and slugify to match Astro 6 routing
         const relativePath = path.relative(contentDir, res);
-        const id = relativePath.replace(/\\/g, "/").replace(/\.mdx?$/, "");
+        const id = relativePath
+          .replace(/\\/g, "/")
+          .replace(/\.mdx?$/, "")
+          .toLowerCase()
+          .replace(/\s+/g, "-");
         const fileName = path.parse(entry.name).name;
 
         // Map the base filename to the full ID
         wikilinkMap.set(fileName.toLowerCase(), id);
         // Also map with spaces replaced by hyphens
         wikilinkMap.set(fileName.toLowerCase().replace(/\s+/g, "-"), id);
+        // Also map the ID itself
+        wikilinkMap.set(id, id);
       }
     }
   }

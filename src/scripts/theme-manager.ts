@@ -1,4 +1,4 @@
-type Theme = "light" | "dark" | "auto";
+type Theme = "auto" | "light" | "dark";
 
 const STORAGE_KEY = "cyanix-theme";
 

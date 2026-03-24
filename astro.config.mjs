@@ -62,7 +62,7 @@ export default defineConfig({
       // Obsidian > [!note] callout support (custom plugin)
       remarkCallout,
       // Customize ![[link]] to not show '!' and add a prefix
-      remarkObsidianEmbed,
+      [remarkObsidianEmbed, { wikilinkMap }],
     ],
 
     rehypePlugins: [
