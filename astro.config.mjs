@@ -2,6 +2,7 @@
 import { defineConfig } from "astro/config";
 
 import mdx from "@astrojs/mdx";
+import pagefind from "astro-pagefind";
 import tailwindcss from "@tailwindcss/vite";
 import vercel from "@astrojs/vercel";
 import remarkWikiLink from "remark-wiki-link";
@@ -22,7 +23,7 @@ const wikilinkMap = buildWikilinkMap(postsDir);
 export default defineConfig({
   site: "https://cyanix-blog.vercel.app",
 
-  integrations: [mdx()],
+  integrations: [mdx(), pagefind()],
 
   markdown: {
     // Shiki is Astro's built-in highlighter — no extra package needed

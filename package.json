@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "postbuild": "node -e \"const fs=require('fs');const src='dist/pagefind';const dst='.vercel/output/static/pagefind';if(fs.existsSync(src)){fs.cpSync(src,dst,{recursive:true});console.log('Copied pagefind assets to Vercel output')}\"",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -31,6 +32,8 @@
     "@tailwindcss/vite": "^4.2.1",
     "@types/mdast": "^4.0.4",
     "@types/node": "^25.5.0",
+    "astro-pagefind": "^1.8.5",
+    "pagefind": "^1.4.0",
     "rehype-autolink-headings": "^7.1.0",
     "rehype-slug": "^6.0.0",
     "remark-parse": "^11.0.0",

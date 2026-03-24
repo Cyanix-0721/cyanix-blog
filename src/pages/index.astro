@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import Search from 'astro-pagefind/components/Search';
 
 // Fetch all non-draft posts, sorted newest first by dateCreated
 const allPosts = (
@@ -57,34 +58,9 @@ const allTags = [...new Set(allPosts.flatMap((p) => p.data.tags || []))].sort();
     </div>
   </section>
 
-  <!-- ── Search box (progressive enhancement — Pagefind will hook into this) ── -->
+  <!-- ── Full-text search (Pagefind) ── -->
   <section class="mb-10" aria-label="搜索文章">
-    <div class="relative">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        class="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted/50"
-        aria-hidden="true"
-      >
-        <circle cx="11" cy="11" r="8"></circle>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-      </svg>
-      <input
-        id="post-search"
-        type="search"
-        placeholder="搜索文章标题或标签…"
-        autocomplete="off"
-        class="w-full rounded-lg border border-surface-2 bg-surface-1 py-2.5 pl-9 pr-4 text-sm text-text placeholder-text-muted/50 outline-none transition focus:border-accent-dim focus:ring-1 focus:ring-accent-dim"
-        aria-label="搜索文章"
-      />
-    </div>
+    <Search id="search" className="pagefind-ui" uiOptions={{ showImages: false, resetStyles: false }} />
   </section>
 
   <!-- ── Tag filter chips ── -->
@@ -240,26 +216,21 @@ const allTags = [...new Set(allPosts.flatMap((p) => p.data.tags || []))].sort();
 </Layout>
 
 <script>
-  // ── Client-side search + tag filter ──────────────────────────────────────
-  const searchInput = document.getElementById('post-search') as HTMLInputElement | null;
+  // ── Client-side tag filter ──────────────────────────────────────────────
   const tagChips = document.querySelectorAll<HTMLButtonElement>('.tag-chip');
   const postItems = document.querySelectorAll<HTMLLIElement>('.post-item');
   const yearGroups = document.querySelectorAll<HTMLDivElement>('.year-group');
   const noResults = document.getElementById('no-results');
 
   let activeTag = '';
-  let searchQuery = '';
 
   function applyFilters() {
     let visibleCount = 0;
     postItems.forEach((item) => {
-      const title = item.dataset.title ?? '';
       const tags = item.dataset.tags ?? '';
-      const matchesSearch = searchQuery === '' || title.includes(searchQuery) || tags.includes(searchQuery);
       const matchesTag = activeTag === '' || tags.split(' ').includes(activeTag.toLowerCase());
-      const visible = matchesSearch && matchesTag;
-      item.style.display = visible ? '' : 'none';
-      if (visible) visibleCount++;
+      item.style.display = matchesTag ? '' : 'none';
+      if (matchesTag) visibleCount++;
     });
     yearGroups.forEach((group) => {
       const hasVisible = [...group.querySelectorAll<HTMLLIElement>('.post-item')].some((el) => el.style.display !== 'none');
@@ -267,11 +238,6 @@ const allTags = [...new Set(allPosts.flatMap((p) => p.data.tags || []))].sort();
     });
     if (noResults) noResults.classList.toggle('hidden', visibleCount > 0);
   }
-
-  searchInput?.addEventListener('input', (e) => {
-    searchQuery = (e.target as HTMLInputElement).value.trim().toLowerCase();
-    applyFilters();
-  });
 
   tagChips.forEach((chip) => {
     chip.addEventListener('click', () => {
