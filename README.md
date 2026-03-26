@@ -1,216 +1,141 @@
-# cyanix-blog
+# Cyanix Blog
 
-Personal blog built with **Astro 6**, **MDX**, **Tailwind CSS v4**, and deployed on **Vercel**.  
-Written in Obsidian, synced via Git, built statically — zero runtime overhead.
+基于 Astro 6 构建的个人技术博客，内容主要在 Obsidian 中撰写，使用 Git 同步，部署在 Vercel。
 
-## ✨ Features
+## 项目简介
 
-- 📝 **Obsidian-first** — write Markdown in Obsidian, push, done
-- 🔗 **Wiki-links** — `[[双链]]` syntax via `remark-wiki-link`
-- 📦 **Callout blocks** — all 15 Obsidian callout types (`> [!note]`, `> [!warning]`, …)
-- 🎨 **Syntax highlighting** — Shiki with `one-dark-pro` (dark) / `github-light` (light)
-- 🏷️ **Tag system** — `/tags` index + per-tag filtered pages
-- 🔍 **Client-side search** — instant title/tag filtering, Pagefind-ready
-- ⚓ **Heading anchors** — `rehype-slug` + `rehype-autolink-headings`
-- 📱 **Responsive** — mobile-first Tailwind layout
-- ♿ **Accessible** — semantic HTML, ARIA labels, focus rings
-- ⚡ **Static output** — pre-rendered at build time, hosted on Vercel CDN
+- 框架：Astro 6（静态输出）
+- 内容：Markdown / MDX（Astro Content Collections）
+- 样式：Tailwind CSS v4
+- 搜索：Pagefind（`astro-pagefind` 集成）
+- 部署：Vercel（`@astrojs/vercel`）
 
-## 🛠 Tech Stack
+## 核心特性
 
-| Layer | Technology |
+- Obsidian 友好写作流
+  - 支持 `[[wikilink]]` 双链
+  - 支持 `![[embed]]` 嵌入链接
+  - 支持 Obsidian Callout（`> [!note]` 等）
+- 完整博客能力
+  - 首页时间线 + 标签筛选
+  - 标签聚合页与标签详情页
+  - RSS 输出（`/rss.xml`）
+  - Sitemap 自动生成
+- 阅读体验
+  - 代码高亮（Shiki，亮/暗主题）
+  - 代码块一键复制
+  - 图片缩放（medium-zoom）
+  - 浮动目录（TOC）与标题锚点
+  - 明暗主题切换
+
+## 技术栈
+
+| 层 | 技术 |
 |---|---|
-| Framework | [Astro 6](https://astro.build) |
-| Content | Markdown / [MDX](https://mdxjs.com) |
-| Styling | [Tailwind CSS v4](https://tailwindcss.com) |
-| Highlighting | [Shiki](https://shiki.style) (built-in) |
-| Wiki-links | [remark-wiki-link](https://github.com/landakram/remark-wiki-link) |
-| Callouts | Custom remark plugin (`src/plugins/remark-callout.ts`) |
-| Headings | rehype-slug + rehype-autolink-headings |
-| Adapter | [@astrojs/vercel](https://docs.astro.build/en/guides/integrations-guide/vercel/) |
-| Package manager | [pnpm](https://pnpm.io) |
+| 应用框架 | Astro 6 |
+| 内容系统 | astro:content + zod |
+| Markdown 扩展 | remark-wiki-link + 自定义 remark/rehype 插件 |
+| 样式系统 | Tailwind CSS v4 |
+| 搜索 | astro-pagefind |
+| 部署适配 | @astrojs/vercel |
+| 包管理 | pnpm |
 
-## 📁 Project Structure
+## 环境要求
 
-```text
-cyanix-blog/
-├── src/
-│   ├── content/
-│   │   └── posts/          ← Drop your Markdown files here
-│   │       └── hello-world.md
-│   ├── content.config.ts   ← Astro content collections schema
-│   ├── layouts/
-│   │   ├── Layout.astro    ← Base layout (nav, footer, SEO)
-│   │   └── PostLayout.astro← Blog post layout (header, prose, tags)
-│   ├── pages/
-│   │   ├── index.astro     ← Home — timeline + search + tag filter
-│   │   ├── about.astro     ← About page
-│   │   ├── posts/
-│   │   │   └── [...slug].astro ← Dynamic post renderer
-│   │   └── tags/
-│   │       ├── index.astro ← All tags overview
-│   │       └── [tag].astro ← Posts filtered by tag
-│   ├── plugins/
-│   │   └── remark-callout.ts ← Obsidian callout → HTML transformer
-│   └── styles/
-│       └── global.css      ← Tailwind + prose + callout styles
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
-```
+- Node.js：`24.x`（与 `package.json` 中 `engines.node` 保持一致）
+- pnpm：建议最新稳定版
 
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js ≥ 22.12
-- pnpm ≥ 9
-
-### Install
+## 本地开发
 
 ```bash
 pnpm install
-```
-
-### Dev server
-
-```bash
 pnpm dev
 ```
 
-Open [http://localhost:4321](http://localhost:4321).
+默认访问：`http://localhost:4321`
 
-### Build
+## 构建与预览
 
 ```bash
 pnpm build
-```
-
-### Preview production build
-
-```bash
 pnpm preview
 ```
 
-## ✍️ Writing Posts
+说明：
+- 构建后会自动执行 `postbuild`，将 `dist/pagefind` 复制到 `.vercel/output/static/pagefind`，用于兼容 Vercel 输出目录。
 
-Add a Markdown (`.md`) or MDX (`.mdx`) file to `src/content/posts/`.
+## 内容写作规范
 
-### Required frontmatter
+文章放在：`src/content/posts/`（支持子目录）
+
+### Frontmatter（当前项目有效字段）
 
 ```yaml
 ---
-title: My Post Title
-date: 2025-01-21
-description: A short summary shown on the home page and in meta tags.
-tags: [astro, obsidian]
+title: 文章标题
+date created: 2026-03-26
+date modified: 2026-03-26
+description: 可选摘要
+tags:
+  - Astro
+  - Obsidian
 draft: false
+cover: /images/cover.png
 ---
 ```
 
-| Field | Type | Required | Description |
-|---|---|---|---|
-| `title` | string | ✅ | Post title |
-| `date` | date | ✅ | Publication date (`YYYY-MM-DD`) |
-| `description` | string | — | Used in meta tags and post header |
-| `tags` | string[] | — | Defaults to `[]` |
-| `draft` | boolean | — | Defaults to `false`. Draft posts are excluded from build |
-| `cover` | string | — | Path or URL to a cover image |
+字段说明：
 
-### Obsidian syntax support
+- `title`：必填，字符串
+- `date created`：必填，发布日期（可被 `z.coerce.date()` 解析）
+- `date modified`：可选，最后修改时间
+- `description`：可选，摘要
+- `tags`：可选，数组；也支持逗号分隔字符串，会自动转换
+- `draft`：可选，默认 `false`；`true` 时不会出现在站点中
+- `cover`：可选，封面图地址
 
-#### Wiki-links
+## 路由说明
 
-```md
-[[Another Post]]          → /posts/another-post
-[[Another Post|Alias]]    → /posts/another-post (displayed as "Alias")
+- `/`：首页（时间线、标签筛选、搜索）
+- `/posts/[...slug]`：文章详情页
+- `/tags`：标签总览
+- `/tags/[tag]`：标签详情
+- `/about`：关于页
+- `/rss.xml`：RSS
+
+## 目录结构（精简）
+
+```text
+cyanix-blog/
+├─ src/
+│  ├─ content/
+│  │  └─ posts/
+│  ├─ components/
+│  ├─ layouts/
+│  ├─ pages/
+│  ├─ plugins/
+│  ├─ scripts/
+│  ├─ styles/
+│  └─ utils/
+├─ public/
+├─ astro.config.mjs
+├─ package.json
+└─ README.md
 ```
 
-#### Callout blocks
+## 部署
 
-```md
-> [!note] Optional custom title
-> Callout body content here.
-```
+推荐 Vercel：
 
-Supported types: `note` `tip` `info` `important` `warning` `caution` `success`
-`question` `failure` `danger` `bug` `example` `quote` `abstract` `todo`
+1. 将仓库推送到 GitHub
+2. 在 Vercel 导入项目
+3. 使用默认 Astro 构建配置完成部署
 
-The fold modifier (`+` / `-`) is parsed but collapsible behaviour requires additional JS.
+当前 `site` 已配置为：`https://cyanix-blog.vercel.app`
 
-#### Images
+如需自定义域名，请同步更新 `astro.config.mjs` 中的 `site` 字段。
 
-Use standard Markdown image syntax and keep images alongside posts or in `public/`:
+## License
 
-```md
-![Alt text](./images/screenshot.png)
-![Alt text](/images/screenshot.png)
-```
-
-## 🌐 Deployment (Vercel)
-
-1. Push this repository to GitHub.
-2. Go to [vercel.com](https://vercel.com) → **Add New Project** → import `cyanix-blog`.
-3. Vercel auto-detects Astro. Leave defaults and click **Deploy**.
-4. (Optional) Bind a custom domain in **Project Settings → Domains**.
-5. Update `site` in `astro.config.mjs` to match your domain:
-
-```js
-export default defineConfig({
-  site: "https://your-domain.com",
-  // ...
-});
-```
-
-Every push to `main` triggers an automatic redeploy.
-
-## 🔄 Obsidian Sync Workflow
-
-The recommended workflow uses a GitHub Action to copy posts from your Obsidian vault into this repo:
-
-```
-Obsidian vault (private repo)
-        │  GitHub Action on push
-        ▼
-src/content/posts/   ← synced Markdown
-        │  Vercel auto-deploy on push
-        ▼
-    cyanix-blog.vercel.app
-```
-
-You can also sync manually:
-
-```bash
-cp ~/obsidian-vault/Blog/*.md src/content/posts/
-git add src/content/posts/
-git commit -m "chore: sync posts"
-git push
-```
-
-## 🔍 Search (Pagefind)
-
-The search box is Pagefind-ready. To enable full-text search:
-
-```bash
-pnpm add -D pagefind
-```
-
-Add to `package.json`:
-
-```json
-"scripts": {
-  "postbuild": "pagefind --site dist"
-}
-```
-
-Then replace the native search `<input>` in `index.astro` with the Pagefind UI widget.
-
-## 📜 License
-
-The code in this repository (layouts, components, plugins, configs, etc.) is licensed under the [MIT License](./LICENSE).
-
-**Blog content** (`src/content/posts/`) is **not** covered by the MIT License — all rights reserved. Some posts are personal study notes that may reference or summarize third-party sources.
-
----
-
-Built with [Astro](https://astro.build) · Deployed on [Vercel](https://vercel.com)
+- 代码（布局、组件、配置、插件等）遵循 [MIT](./LICENSE)
+- `src/content/posts/` 下文章内容默认保留版权
