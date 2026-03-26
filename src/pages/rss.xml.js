@@ -6,11 +6,12 @@ export const prerender = true;
 function toPlainText(markdown = "") {
   return markdown
     .replace(/```[\s\S]*?```/g, " ")
-    .replace(/`[^`]*`/g, " ")
-    .replace(/!\[[^\]]*]\([^)]+\)/g, " ")
-    .replace(/\[[^\]]*]\([^)]+\)/g, " ")
-    .replace(/>\s*\[![^\]]+\]\s*/g, " ")
-    .replace(/[#>*_~\-]/g, " ")
+    .replace(/`([^`]*)`/g, "$1")
+    .replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1")
+    .replace(/\[([^\]]*)\]\([^)]+\)/g, "$1")
+    .replace(/^>\s*/gm, "")
+    .replace(/^#{1,6}\s+/gm, "")
+    .replace(/[*_~]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
@@ -49,18 +50,64 @@ function stripHeadingSelfLinks(html = "") {
   );
 }
 
-function getSummaryFromFirstHeadingFirstParagraph(html = "", fallback = "") {
-  if (!html) return fallback;
+function shortenText(text = "", maxLength = 180) {
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength).trimEnd()}...`;
+}
 
-  const firstHeadingMatch = html.match(/<h[1-6]\b[^>]*>[\s\S]*?<\/h[1-6]>/i);
-  if (!firstHeadingMatch || firstHeadingMatch.index == null) return fallback;
+function getSummaryFromFirstHeadingFirstParagraph(
+  markdown = "",
+  fallback = "",
+) {
+  if (!markdown) return fallback;
 
-  const rest = html.slice(firstHeadingMatch.index + firstHeadingMatch[0].length);
-  const firstParagraphMatch = rest.match(/<p\b[^>]*>([\s\S]*?)<\/p>/i);
-  if (!firstParagraphMatch) return fallback;
+  const withoutCodeFences = markdown.replace(/```[\s\S]*?```/g, "\n");
+  const lines = withoutCodeFences.split(/\r?\n/);
+  const headingIndexes = lines
+    .map((line, index) => ({ line: line.trim(), index }))
+    .filter(({ line }) => /^#{1,6}\s+/.test(line))
+    .map(({ line, index }) => ({ index, level: line.match(/^#+/)[0].length }));
+  if (headingIndexes.length === 0) return fallback;
 
-  const paragraphText = toPlainText(firstParagraphMatch[1]);
-  return paragraphText || fallback;
+  // Skip duplicated document H1 and use the first real section heading.
+  const targetHeadingIndex =
+    headingIndexes[0].level === 1 && headingIndexes.length > 1
+      ? headingIndexes[1].index
+      : headingIndexes[0].index;
+
+  const paragraphLines = [];
+
+  for (const rawLine of lines.slice(targetHeadingIndex + 1)) {
+    const line = rawLine.trim();
+
+    // Limit extraction to the first heading section only.
+    if (/^#{1,6}\s+/.test(line)) break;
+
+    if (!line) {
+      if (paragraphLines.length > 0) break;
+      continue;
+    }
+
+    // Stop when hitting structural blocks. If paragraph hasn't started yet,
+    // we don't scan into later blocks to avoid pulling unrelated sections.
+    if (
+      /^([-*+]|\d+\.)\s+/.test(line) ||
+      /^\|.*\|$/.test(line) ||
+      /^[|:\-\s]+$/.test(line) ||
+      /^>\s*/.test(line) ||
+      /^```/.test(line)
+    ) {
+      if (paragraphLines.length > 0) break;
+      continue;
+    }
+
+    paragraphLines.push(line);
+  }
+
+  if (paragraphLines.length === 0) return fallback;
+  const paragraphText = toPlainText(paragraphLines.join(" "));
+  if (!paragraphText) return fallback;
+  return shortenText(paragraphText, 180);
 }
 
 export async function GET(context) {
@@ -85,11 +132,19 @@ export async function GET(context) {
       )
       .map((post) => {
         const rawHtml = post.rendered?.html || "";
-        const summaryFromHtml = getSummaryFromFirstHeadingFirstParagraph(
-          rawHtml,
+        const summaryFromMarkdown = getSummaryFromFirstHeadingFirstParagraph(
+          post.body || "",
           post.data.title,
         );
-        const summary = post.data.description || summaryFromHtml || post.data.title;
+        const normalizedDescription =
+          typeof post.data.description === "string"
+            ? post.data.description.trim()
+            : "";
+        const hasExplicitDescription =
+          normalizedDescription && normalizedDescription !== post.data.title;
+        const summary = hasExplicitDescription
+          ? normalizedDescription
+          : summaryFromMarkdown || post.data.title;
         const fullHtml = stripHeadingSelfLinks(rawHtml);
 
         return {
