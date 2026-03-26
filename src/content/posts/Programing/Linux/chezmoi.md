@@ -1,9 +1,9 @@
 ---
-tags: 
+tags: []
 title: Chezmoi 跨平台 Dotfiles 管理指南
 aliases: Chezmoi 跨平台 Dotfiles 管理指南
 date created: 2025-09-28 17:07:42
-date modified: 2026-03-14 09:35:24
+date modified: 2026-03-25 09:10:32
 ---
 
 # Chezmoi 跨平台 Dotfiles 管理指南

@@ -1,19 +1,19 @@
 ---
-tags: 
+tags: []
 title: CPU 频率设置
 date created: 2025-03-30 05:03:29
-date modified: 2026-03-14 09:35:24
+date modified: 2026-03-26 02:12:28
 ---
 
 # CPU 频率设置
 
-## 1 **1. 使用 `cpufreq` 调节器（推荐）**
+## 1 使用 `cpufreq` 调节器（推荐）
 
 Arch Linux 默认使用 `cpufreq` 进行 CPU 频率管理，可以通过 `cpupower` 或手动修改 `/sys` 文件系统来限制最大频率。
 
-### 1.1 **方法 1：使用 `cpupower`**
+### 1.1 使用 `cpupower`
 
-1. **安装 `cpupower`**：
+1. 安装 `cpupower`：
 
    ```bash
    sudo pacman -S cpupower
@@ -37,7 +37,7 @@ Arch Linux 默认使用 `cpufreq` 进行 CPU 频率管理，可以通过 `cpupow
    sudo systemctl enable --now cpupower.service
    ```
 
-### 1.2 **方法 2：手动修改 `/sys` 文件**
+### 1.2 手动修改 `/sys` 文件
 
 - 直接写入 `scaling_max_freq`：
 
@@ -52,9 +52,10 @@ Arch Linux 默认使用 `cpufreq` 进行 CPU 频率管理，可以通过 `cpupow
   sudo systemd-tmpfiles --create
   ```
 
-## 2 **2. 使用 `ryzenadj`（调整 TDP/功耗墙，间接影响频率）**
+## 2 使用 `ryzenadj`（调整 TDP/功耗墙，间接影响频率）
 
 可以通过调整 **TDP（功耗墙）** 间接影响频率上限：
+
 1. **安装 `ryzenadj`**：
 
    ```bash
@@ -69,9 +70,10 @@ Arch Linux 默认使用 `cpufreq` 进行 CPU 频率管理，可以通过 `cpupow
 
    - 这不会直接限制频率，但会降低 CPU 的功耗，从而减少 Boost 频率的持续时间。
 
-## 3 **3. 使用 `amdctl`（调整 PBO 设置，需 BIOS 支持）**
+## 3 使用 `amdctl`（调整 PBO 设置，需 BIOS 支持）
 
 如果你的笔记本 BIOS **解锁了 PBO（Precision Boost Overdrive）**，可以尝试：
+
 1. **安装 `amdctl`**（AUR）：
 
    ```bash
@@ -86,9 +88,10 @@ Arch Linux 默认使用 `cpufreq` 进行 CPU 频率管理，可以通过 `cpupow
 
    - 部分笔记本 BIOS 锁定了 PBO，可能无法调整。
 
-## 4 **4. 使用 `thermald`（温度限制，间接影响频率）**
+## 4 使用 `thermald`（温度限制，间接影响频率）
 
 如果 CPU 因高温而降频，可以调整温度阈值：
+
 1. **安装 `thermald`**：
 
    ```bash
@@ -112,9 +115,10 @@ Arch Linux 默认使用 `cpufreq` 进行 CPU 频率管理，可以通过 `cpupow
    sudo systemctl enable --now thermald
    ```
 
-## 5 **5. 使用 `undervolt`（降压优化，减少降频）**
+## 5 使用 `undervolt`（降压优化，减少降频）
 
 可以尝试 **降压（Undervolt）** 以减少发热，间接提高 Boost 频率的稳定性：
+
 1. **使用 `zenstates`（AUR）**：
 
    ```bash
@@ -127,10 +131,10 @@ Arch Linux 默认使用 `cpufreq` 进行 CPU 频率管理，可以通过 `cpupow
    sudo zenstates --set CO=-10  # 尝试 -10mV 偏移
    ```
 
-## 6 **总结**
+## 6 总结
 
 | 方法 | 适用场景 | 备注 |
-|------|--------|------|
+| --- | --- | --- |
 | **`cpupower`** | 直接限制频率 | 推荐，简单有效 |
 | **`ryzenadj`** | 限制 TDP | 间接影响 Boost 频率 |
 | **`amdctl`** | 调整 PBO | 需 BIOS 支持 |
