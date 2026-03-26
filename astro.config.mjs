@@ -11,6 +11,7 @@ import remarkCallout from "./src/plugins/remark-callout.ts";
 import remarkObsidianEmbed from "./src/plugins/remark-obsidian-embed.ts";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeStripLeadingH1 from "./src/plugins/rehype-strip-leading-h1.ts";
 import path from "node:path";
 import { buildWikilinkMap } from "./src/utils/content-scanner.ts";
 
@@ -71,6 +72,8 @@ export default defineConfig({
     rehypePlugins: [
       // Add `id` attributes to every heading
       rehypeSlug,
+      // Remove leading H1 from post body at generation time (title is rendered by layout)
+      rehypeStripLeadingH1,
       // Wrap each heading in an anchor tag pointing to itself
       [
         rehypeAutolinkHeadings,

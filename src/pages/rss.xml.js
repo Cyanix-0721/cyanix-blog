@@ -49,10 +49,6 @@ function stripHeadingSelfLinks(html = "") {
   );
 }
 
-function stripLeadingH1(html = "") {
-  return html.replace(/^\s*<h1\b[^>]*>[\s\S]*?<\/h1>\s*/i, "").trim();
-}
-
 function getSummaryFromFirstHeadingFirstParagraph(html = "", fallback = "") {
   if (!html) return fallback;
 
@@ -94,7 +90,7 @@ export async function GET(context) {
           post.data.title,
         );
         const summary = post.data.description || summaryFromHtml || post.data.title;
-        const fullHtml = stripLeadingH1(stripHeadingSelfLinks(rawHtml));
+        const fullHtml = stripHeadingSelfLinks(rawHtml);
 
         return {
           title: post.data.title,
