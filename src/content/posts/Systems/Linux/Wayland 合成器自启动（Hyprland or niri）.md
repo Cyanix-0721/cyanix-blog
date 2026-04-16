@@ -3,7 +3,7 @@ tags: []
 title: Wayland 合成器自启动（Hyprland / niri）
 aliases: Wayland 合成器自启动（Hyprland / niri）
 date created: 2025-10-08 17:02:35
-date modified: 2026-03-27 07:11:04
+date modified: 2026-04-15 06:56:18
 ---
 
 # Wayland 合成器自启动（Hyprland / niri）
