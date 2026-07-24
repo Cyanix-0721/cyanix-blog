@@ -1,7 +1,7 @@
 ---
 tags: []
 date created: 2026-04-30 10:00:52
-date modified: 2026-07-18 12:57:24
+date modified: 2026-07-23 07:20:48
 title: 查询可用 IP
 ---
 
@@ -40,6 +40,12 @@ for /L %i in (1,1,254) do @start /b ping -n 1 -w 100 192.168.1.%i >nul
 ```cmd
 arp -a | findstr "192.168.1."
 ```
+
+> [!note] 删除现有 ARP 缓存
+>
+> ```cmd
+> arp -d *
+> ```
 
 ## 2 Linux 环境 (Bash)
 
