@@ -3,7 +3,7 @@ tags: []
 title: Android SDK Platform-Tools 的基础应用
 aliases: Android SDK Platform-Tools 的基础应用
 date created: 2024-08-15 04:19:28
-date modified: 2026-03-27 07:11:03
+date modified: 2026-09-08 04:47:36
 ---
 
 # Android SDK Platform-Tools 的基础应用
@@ -24,7 +24,7 @@ date modified: 2026-03-27 07:11:03
 
 ### 1.1 查看设备信息
 
-```
+```plaintext
 adb devices
 ```
 
@@ -34,7 +34,7 @@ adb devices
 
 #### 1.2.1 `adb connect` 适用于 Android 10 及以下版本
 
-```
+```plaintext
 adb connect <ipaddr:port>
 ```
 
@@ -43,7 +43,7 @@ adb connect <ipaddr:port>
 - `adb pair` 使用配对码连接，安全性较高
 - 配对成功后，可直接使用 `adb connect` 连接，无需再次输入配对码
 
-```
+```plaintext
 adb pair <ipaddr:port>
 ```
 
@@ -51,79 +51,79 @@ adb pair <ipaddr:port>
 
 #### 1.3.1 断开当前连接
 
-```
+```plaintext
 adb disconnect
 ```
 
 #### 1.3.2 断开服务器连接
 
-```
+```plaintext
 adb kill-server
 ```
 
 - 断开后再次使用需要再次打开服务
 
-```
+```plaintext
 adb start-server
 ```
 
 ### 1.4 安装应用
 
-```
+```plaintext
 adb install <apk_file>
 ```
 
 ### 1.5 卸载应用
 
-```
+```plaintext
 adb uninstall <package_name>
 ```
 
 ### 1.6 从设备拉取文件
 
-```
+```plaintext
 adb pull <remote_file> <local_file>
 ```
 
 ### 1.7 推送文件到设备
 
-```
+```plaintext
 adb push <local_file> <remote_file>
 ```
 
 ### 1.8 查看设备日志
 
-```
+```plaintext
 adb logcat [-v tag]
 ```
 
 ### 1.9 启动shell
 
-```
+```plaintext
 adb shell
 ```
 
 #### 1.9.1 查看窗口信息
 
-```
+```plaintext
 adb shell dumpsys window
 ```
 
 #### 1.9.2 模拟按键事件
 
-```
+```plaintext
 adb shell input keyevent <key_code>
 ```
 
 #### 1.9.3 启动Activity
 
-```
+```plaintext
 adb shell am start -n <activity_name>
 ```
 
 #### 1.9.4 获取root权限
 
-```
+```plaintext
 adb shell su
 ```
 
@@ -131,19 +131,19 @@ adb shell su
 
 ### 2.1 查看设备信息
 
-```
+```plaintext
 fastboot devices
 ```
 
 ### 2.2 重启设备
 
-```
+```plaintext
 fastboot reboot
 ```
 
 ### 2.3 刷写系统镜像
 
-```
+```plaintext
 fastboot flash <partition> <image>
 ```
 
@@ -159,30 +159,30 @@ fastboot flash <partition> <image>
 
 ### 2.4 刷写 Recovery 镜像
 
-```
+```plaintext
 fastboot flash recovery <recovery_image>
 ```
 
 ### 2.5 进入 Recovery 模式
 
-```
+```plaintext
 fastboot reboot recovery
 ```
 
 ### 2.6 锁定引导加载程序
 
-```
+```plaintext
 fastboot oem lock
 ```
 
 ### 2.7 解锁引导加载程序
 
-```
+```plaintext
 fastboot oem unlock
 ```
 
 Or
 
-```
+```plaintext
 fastboot flashing unlock
 ```
