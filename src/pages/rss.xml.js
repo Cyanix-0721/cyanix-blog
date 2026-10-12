@@ -1,67 +1,67 @@
-import { getRssString } from "@astrojs/rss";
-import { getCollection } from "astro:content";
+import { getRssString } from '@astrojs/rss';
+import { getCollection } from 'astro:content';
 
 export const prerender = true;
 
-function toPlainText(markdown = "") {
+function toPlainText(markdown = '') {
   return markdown
-    .replace(/```[\s\S]*?```/g, " ")
-    .replace(/`([^`]*)`/g, "$1")
-    .replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1")
-    .replace(/\[([^\]]*)\]\([^)]+\)/g, "$1")
-    .replace(/^>\s*/gm, "")
-    .replace(/^#{1,6}\s+/gm, "")
-    .replace(/[*_~]/g, " ")
-    .replace(/\s+/g, " ")
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/`([^`]*)`/g, '$1')
+    .replace(/!\[([^\]]*)\]\([^)]+\)/g, '$1')
+    .replace(/\[([^\]]*)\]\([^)]+\)/g, '$1')
+    .replace(/^>\s*/gm, '')
+    .replace(/^#{1,6}\s+/gm, '')
+    .replace(/[*_~]/g, ' ')
+    .replace(/\s+/g, ' ')
     .trim();
 }
 
-function escapeHtml(text = "") {
+function escapeHtml(text = '') {
   return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
-function decodeXmlEntities(text = "") {
+function decodeXmlEntities(text = '') {
   return text
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
-    .replace(/&amp;/g, "&");
+    .replace(/&amp;/g, '&');
 }
 
-function toCdataContent(xml = "") {
+function toCdataContent(xml = '') {
   return xml.replace(
     /<content:encoded>([\s\S]*?)<\/content:encoded>/g,
     (_, encoded) =>
-      `<content:encoded><![CDATA[${decodeXmlEntities(encoded)}]]></content:encoded>`,
+      `<content:encoded><![CDATA[${decodeXmlEntities(encoded)}]]></content:encoded>`
   );
 }
 
-function stripHeadingSelfLinks(html = "") {
+function stripHeadingSelfLinks(html = '') {
   // Remove heading self-links injected by rehype-autolink-headings (class="anchor-link")
   return html.replace(
     /<(h[1-6])([^>]*)>\s*<a[^>]*class="[^"]*\banchor-link\b[^"]*"[^>]*>([\s\S]*?)<\/a>\s*<\/\1>/gi,
-    "<$1$2>$3</$1>",
+    '<$1$2>$3</$1>'
   );
 }
 
-function shortenText(text = "", maxLength = 180) {
+function shortenText(text = '', maxLength = 180) {
   if (text.length <= maxLength) return text;
   return `${text.slice(0, maxLength).trimEnd()}...`;
 }
 
 function getSummaryFromFirstHeadingFirstParagraph(
-  markdown = "",
-  fallback = "",
+  markdown = '',
+  fallback = ''
 ) {
   if (!markdown) return fallback;
 
-  const withoutCodeFences = markdown.replace(/```[\s\S]*?```/g, "\n");
+  const withoutCodeFences = markdown.replace(/```[\s\S]*?```/g, '\n');
   const lines = withoutCodeFences.split(/\r?\n/);
   const headingIndexes = lines
     .map((line, index) => ({ line: line.trim(), index }))
@@ -105,41 +105,41 @@ function getSummaryFromFirstHeadingFirstParagraph(
   }
 
   if (paragraphLines.length === 0) return fallback;
-  const paragraphText = toPlainText(paragraphLines.join(" "));
+  const paragraphText = toPlainText(paragraphLines.join(' '));
   if (!paragraphText) return fallback;
   return shortenText(paragraphText, 180);
 }
 
 export async function GET(context) {
-  const posts = await getCollection("posts", ({ data }) => !data.draft);
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
 
   // Ensure site ends with a slash for proper link formation
   const site = context.site.toString();
-  const siteWithSlash = site.endsWith("/") ? site : `${site}/`;
+  const siteWithSlash = site.endsWith('/') ? site : `${site}/`;
 
   const rssXml = await getRssString({
     // Add Atom namespace for the self-link recommendation
     xmlns: {
-      atom: "http://www.w3.org/2005/Atom",
+      atom: 'http://www.w3.org/2005/Atom',
     },
-    title: "Cyanix Blog",
+    title: 'Cyanix Blog',
     description:
-      "Personal blog by Cyanix — notes, thoughts, and technical writings.",
+      'Personal blog by Cyanix — notes, thoughts, and technical writings.',
     site: siteWithSlash,
     items: posts
       .sort(
-        (a, b) => b.data.dateCreated.getTime() - a.data.dateCreated.getTime(),
+        (a, b) => b.data.dateCreated.getTime() - a.data.dateCreated.getTime()
       )
       .map((post) => {
-        const rawHtml = post.rendered?.html || "";
+        const rawHtml = post.rendered?.html || '';
         const summaryFromMarkdown = getSummaryFromFirstHeadingFirstParagraph(
-          post.body || "",
-          post.data.title,
+          post.body || '',
+          post.data.title
         );
         const normalizedDescription =
-          typeof post.data.description === "string"
+          typeof post.data.description === 'string'
             ? post.data.description.trim()
-            : "";
+            : '';
         const hasExplicitDescription =
           normalizedDescription && normalizedDescription !== post.data.title;
         const summary = hasExplicitDescription
@@ -164,7 +164,7 @@ export async function GET(context) {
 
   return new Response(toCdataContent(rssXml), {
     headers: {
-      "Content-Type": "application/xml; charset=utf-8",
+      'Content-Type': 'application/xml; charset=utf-8',
     },
   });
 }

@@ -1,7 +1,7 @@
 ---
-import Layout from "./Layout.astro";
-import TableOfContents from "../components/TableOfContents.astro";
-import type { Heading } from "../components/TableOfContents.astro";
+import Layout from './Layout.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import type { Heading } from '../components/TableOfContents.astro';
 
 export interface Props {
   title: string;
@@ -40,34 +40,24 @@ const isoModified = dateModified?.toISOString();
   <article>
     <!-- Post Header -->
     <header class="mb-10 border-b border-surface-2 pb-8">
-      {
-        cover && (
-          <div class="mb-8 overflow-hidden rounded-xl">
-            <img
-              src={cover}
-              alt={title}
-              class="h-64 w-full object-cover transition-transform duration-500 hover:scale-105"
-              loading="eager"
-            />
-          </div>
-        )
-      }
+      {cover && <div class="mb-8 overflow-hidden rounded-xl">
+        <img
+          src={cover}
+          alt={title}
+          class="h-64 w-full object-cover transition-transform duration-500 hover:scale-105"
+          loading="eager"
+        />
+      </div>}
 
       <!-- Tags -->
-      {
-        tags.length > 0 && (
-          <div class="mb-4 flex flex-wrap gap-2">
-            {tags.map((tag) => (
-              <a
-                href={`/tags/${tag.toLowerCase().replace(/\s+/g, "-")}`}
-                class="rounded-full bg-accent-muted/60 px-3 py-0.5 text-xs font-medium text-accent ring-1 ring-accent-muted/50 transition-colors hover:bg-accent-dim/60 hover:text-accent"
-              >
-                #{tag}
-              </a>
-            ))}
-          </div>
-        )
-      }
+      {tags.length > 0 && <div class="mb-4 flex flex-wrap gap-2">
+        {tags.map((tag) => <a
+          href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+          class="rounded-full bg-accent-muted/60 px-3 py-0.5 text-xs font-medium text-accent ring-1 ring-accent-muted/50 transition-colors hover:bg-accent-dim/60 hover:text-accent"
+        >
+          #{tag}
+        </a>)}
+      </div>}
 
       <!-- Title -->
       <h1
@@ -77,13 +67,9 @@ const isoModified = dateModified?.toISOString();
       </h1>
 
       <!-- Description -->
-      {
-        description && (
-          <p class="mb-5 text-lg leading-relaxed text-text-muted">
-            {description}
-          </p>
-        )
-      }
+      {description && <p class="mb-5 text-lg leading-relaxed text-text-muted">
+        {description}
+      </p>}
 
       <!-- Meta: date + reading time -->
       <div class="flex flex-wrap items-center gap-3 text-sm text-text-muted/60">
@@ -112,67 +98,63 @@ const isoModified = dateModified?.toISOString();
           </svg>
           <span class="date-display">{isoCreated.slice(0, 10)}</span>
         </time>
-        {
-          isoModified && (
-            <>
-              <span aria-hidden="true" class="text-surface-2">
-                ·
-              </span>
-              <time
-                id="post-date-modified"
-                datetime={isoModified}
-                data-utc={isoModified}
-                class="flex items-center gap-1.5 text-text-muted/80"
-                title="最后更新"
+        {isoModified && (
+          <>
+            <span aria-hidden="true" class="text-surface-2"> · </span>
+            <time
+              id="post-date-modified"
+              datetime={isoModified}
+              data-utc={isoModified}
+              class="flex items-center gap-1.5 text-text-muted/80"
+              title="最后更新"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                </svg>
-                <span class="date-display">{isoModified.slice(0, 10)}</span>
-              </time>
-            </>
-          )
-        }
+                <path
+                  d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                />
+                <path
+                  d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                />
+              </svg>
+              <span class="date-display">{isoModified.slice(0, 10)}</span>
+            </time>
+          </>
+        )}
 
-        {
-          minutesRead && (
-            <>
-              <span aria-hidden="true" class="text-surface-2">
-                ·
-              </span>
-              <span class="flex items-center gap-1.5">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  aria-hidden="true"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12 6 12 12 16 14" />
-                </svg>
-                {minutesRead} 分钟阅读
-              </span>
-            </>
-          )
-        }
+        {minutesRead && (
+          <>
+            <span aria-hidden="true" class="text-surface-2"> · </span>
+            <span class="flex items-center gap-1.5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+              {minutesRead} 分钟阅读
+            </span>
+          </>
+        )}
       </div>
     </header>
 
@@ -185,23 +167,17 @@ const isoModified = dateModified?.toISOString();
     <TableOfContents headings={headings} />
 
     <!-- Post Footer: tag list -->
-    {
-      tags.length > 0 && (
-        <footer class="mt-12 border-t border-surface-2 pt-8">
-          <p class="mb-3 text-sm font-medium text-text-muted">标签</p>
-          <div class="flex flex-wrap gap-2">
-            {tags.map((tag) => (
-              <a
-                href={`/tags/${tag.toLowerCase().replace(/[\s\/]+/g, "-")}`}
-                class="rounded-full bg-surface-1 px-3 py-1 text-sm text-text-muted transition-colors hover:bg-accent-muted/60 hover:text-accent"
-              >
-                #{tag}
-              </a>
-            ))}
-          </div>
-        </footer>
-      )
-    }
+    {tags.length > 0 && <footer class="mt-12 border-t border-surface-2 pt-8">
+      <p class="mb-3 text-sm font-medium text-text-muted">标签</p>
+      <div class="flex flex-wrap gap-2">
+        {tags.map((tag) => <a
+          href={`/tags/${tag.toLowerCase().replace(/[\s\/]+/g, '-')}`}
+          class="rounded-full bg-surface-1 px-3 py-1 text-sm text-text-muted transition-colors hover:bg-accent-muted/60 hover:text-accent"
+        >
+          #{tag}
+        </a>)}
+      </div>
+    </footer>}
 
     <!-- Back link -->
     <div class="mt-10">
@@ -231,20 +207,19 @@ const isoModified = dateModified?.toISOString();
 
   <script>
     // Hydrate dates to user's local timezone
-    const dateElements = document.querySelectorAll(".date-display");
+    const dateElements = document.querySelectorAll('.date-display');
     const formatter = new Intl.DateTimeFormat(navigator.language, {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     });
 
     dateElements.forEach((el) => {
-      const timeEl = el.closest("time");
-      const utc = timeEl?.getAttribute("data-utc");
+      const timeEl = el.closest('time');
+      const utc = timeEl?.getAttribute('data-utc');
       if (utc) {
         const date = new Date(utc);
         el.textContent = formatter.format(date);
       }
     });
-  </script>
-</Layout>
+  </script></Layout>

@@ -1,15 +1,15 @@
-type Theme = "auto" | "light" | "dark";
+type Theme = 'auto' | 'light' | 'dark';
 
-const STORAGE_KEY = "cyanix-theme";
+const STORAGE_KEY = 'cyanix-theme';
 
 /**
  * Gets the current saved theme from localStorage, defaulting to 'auto'.
  */
 export function getSavedTheme(): Theme {
-  if (typeof localStorage !== "undefined") {
-    return (localStorage.getItem(STORAGE_KEY) as Theme) || "auto";
+  if (typeof localStorage !== 'undefined') {
+    return (localStorage.getItem(STORAGE_KEY) as Theme) || 'auto';
   }
-  return "auto";
+  return 'auto';
 }
 
 /**
@@ -17,8 +17,8 @@ export function getSavedTheme(): Theme {
  */
 export function applyTheme(theme: Theme) {
   const root = document.documentElement;
-  if (theme === "auto") {
-    root.style.colorScheme = "light dark";
+  if (theme === 'auto') {
+    root.style.colorScheme = 'light dark';
   } else {
     root.style.colorScheme = theme;
   }
@@ -29,7 +29,7 @@ export function applyTheme(theme: Theme) {
  */
 export function cycleTheme(): Theme {
   const current = getSavedTheme();
-  const themes: Theme[] = ["auto", "light", "dark"];
+  const themes: Theme[] = ['auto', 'light', 'dark'];
   const currentIndex = themes.indexOf(current);
   const next = themes[(currentIndex + 1) % themes.length];
 
@@ -43,10 +43,10 @@ export function cycleTheme(): Theme {
  * Updates the visual state of the switcher button.
  */
 export function updateSwitcherUI(theme: Theme) {
-  const btn = document.getElementById("theme-toggle");
+  const btn = document.getElementById('theme-toggle');
   if (!btn) return;
 
-  const iconContainer = btn.querySelector(".theme-icon-container");
+  const iconContainer = btn.querySelector('.theme-icon-container');
   if (!iconContainer) return;
 
   // Icons: Sun (light), Moon (dark), Settings/Monitor (auto)
@@ -57,14 +57,14 @@ export function updateSwitcherUI(theme: Theme) {
   };
 
   iconContainer.innerHTML = icons[theme];
-  btn.setAttribute("aria-label", `Switch theme (current: ${theme})`);
+  btn.setAttribute('aria-label', `Switch theme (current: ${theme})`);
 }
 
 /**
  * Initializes the theme toggle button's click listener.
  */
 export function initThemeSwitcher() {
-  const btn = document.getElementById("theme-toggle");
+  const btn = document.getElementById('theme-toggle');
   if (btn) {
     // Avoid double-binding if called multiple times (e.g. view transitions)
     btn.onclick = () => cycleTheme();

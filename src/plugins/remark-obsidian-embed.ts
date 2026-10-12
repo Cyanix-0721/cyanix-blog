@@ -1,6 +1,6 @@
-import { visit } from "unist-util-visit";
-import type { Root } from "mdast";
-import type { Plugin } from "unified";
+import { visit } from 'unist-util-visit';
+import type { Root } from 'mdast';
+import type { Plugin } from 'unified';
 
 export interface ObsidianEmbedOptions {
   wikilinkMap: Map<string, string>;
@@ -15,9 +15,9 @@ const remarkObsidianEmbed: Plugin<[ObsidianEmbedOptions], Root> = (options) => {
   const wikilinkMap = options?.wikilinkMap;
 
   return (tree) => {
-    visit(tree, "text", (node, index, parent) => {
+    visit(tree, 'text', (node, index, parent) => {
       if (!parent || index === undefined) return;
-      if (!node.value || !node.value.includes("![[")) return;
+      if (!node.value || !node.value.includes('![[')) return;
 
       const regex = /!\[\[([^\]]+)\]\]/g;
       const matches = [...node.value.matchAll(regex)];
@@ -31,7 +31,7 @@ const remarkObsidianEmbed: Plugin<[ObsidianEmbedOptions], Root> = (options) => {
         // Text before the embed
         if (matchIndex > lastIndex) {
           newChildren.push({
-            type: "text",
+            type: 'text',
             value: node.value.slice(lastIndex, matchIndex),
           });
         }
@@ -40,38 +40,40 @@ const remarkObsidianEmbed: Plugin<[ObsidianEmbedOptions], Root> = (options) => {
         let alias = linkText;
         let target = linkText;
 
-        if (linkText.includes("|")) {
-          const parts = linkText.split("|");
+        if (linkText.includes('|')) {
+          const parts = linkText.split('|');
           target = parts[0];
           alias = parts[1];
         }
 
         // Resolve link target using wikilinkMap
         const key = target.toLowerCase();
-        let permalink = target.toLowerCase().replace(/\s+/g, "-");
+        let permalink = target.toLowerCase().replace(/\s+/g, '-');
         if (wikilinkMap?.has(key)) {
           permalink = wikilinkMap.get(key)!;
         }
 
         const isInternal = wikilinkMap?.has(key) ?? false;
-        const className = isInternal ? "internal obsidian-embed" : "internal new obsidian-embed";
+        const className = isInternal
+          ? 'internal obsidian-embed'
+          : 'internal new obsidian-embed';
 
         // Create wikiLink node
         newChildren.push({
-          type: "wikiLink",
+          type: 'wikiLink',
           value: target,
           data: {
             alias: alias,
             permalink: permalink,
             exists: isInternal,
-            hName: "a",
+            hName: 'a',
             hProperties: {
               className,
               href: `/posts/${permalink}`,
             },
             hChildren: [
               {
-                type: "text",
+                type: 'text',
                 value: alias,
               },
             ],
@@ -84,14 +86,14 @@ const remarkObsidianEmbed: Plugin<[ObsidianEmbedOptions], Root> = (options) => {
       // Text after the last embed
       if (lastIndex < node.value.length) {
         newChildren.push({
-          type: "text",
+          type: 'text',
           value: node.value.slice(lastIndex),
         });
       }
 
       // Replace the current text node with the new children
       parent.children.splice(index, 1, ...newChildren);
-      
+
       // Skip examining the newly inserted children to avoid infinite loops
       return index + newChildren.length;
     });

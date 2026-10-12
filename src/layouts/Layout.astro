@@ -1,9 +1,9 @@
 ---
-import "../styles/global.css";
-import Analytics from "@vercel/analytics/astro";
-import SpeedInsights from "@vercel/speed-insights/astro";
-import { ClientRouter } from "astro:transitions";
-import BackToTop from "../components/BackToTop.astro";
+import '../styles/global.css';
+import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
+import { ClientRouter } from 'astro:transitions';
+import BackToTop from '../components/BackToTop.astro';
 
 export interface Props {
   title?: string;
@@ -11,21 +11,21 @@ export interface Props {
   ogImage?: string;
   pubDate?: Date;
   tags?: string[];
-  type?: "website" | "article";
+  type?: 'website' | 'article';
 }
 
 const {
-  title = "Cyanix Blog",
-  description = "Personal blog by Cyanix — notes, thoughts, and technical writings.",
-  ogImage = "/og-default.png",
+  title = 'Cyanix Blog',
+  description = 'Personal blog by Cyanix — notes, thoughts, and technical writings.',
+  ogImage = '/og-default.png',
   pubDate,
   tags = [],
-  type = "website",
+  type = 'website',
 } = Astro.props;
 
-const siteUrl = Astro.site ?? new URL("https://cyanix-blog.vercel.app");
+const siteUrl = Astro.site ?? new URL('https://cyanix-blog.vercel.app');
 const canonicalURL = new URL(Astro.url.pathname, siteUrl);
-const fullTitle = title === "Cyanix Blog" ? title : `${title} · Cyanix Blog`;
+const fullTitle = title === 'Cyanix Blog' ? title : `${title} · Cyanix Blog`;
 ---
 
 <!doctype html>
@@ -48,7 +48,7 @@ const fullTitle = title === "Cyanix Blog" ? title : `${title} · Cyanix Blog`;
     <!-- Primary Meta -->
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    {tags.length > 0 && <meta name="keywords" content={tags.join(", ")} />}
+    {tags.length > 0 && <meta name="keywords" content={tags.join(', ')} />}
     <meta name="author" content="Cyanix" />
 
     <!-- Open Graph -->
@@ -59,14 +59,9 @@ const fullTitle = title === "Cyanix Blog" ? title : `${title} · Cyanix Blog`;
     <meta property="og:image" content={new URL(ogImage, siteUrl)} />
     <meta property="og:site_name" content="Cyanix Blog" />
     <meta property="og:locale" content="zh_CN" />
-    {
-      pubDate && (
-        <meta
-          property="article:published_time"
-          content={pubDate.toISOString()}
-        />
-      )
-    }
+    {pubDate && (
+      <meta property="article:published_time" content={pubDate.toISOString()} />
+    )}
 
     <!-- Twitter / X Card -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -91,12 +86,12 @@ const fullTitle = title === "Cyanix Blog" ? title : `${title} · Cyanix Blog`;
     <!-- FOUC Prevention for Theme -->
     <script is:inline>
       (function () {
-        const theme = localStorage.getItem("cyanix-theme") || "auto";
+        const theme = localStorage.getItem('cyanix-theme') || 'auto';
         const root = document.documentElement;
-        if (theme !== "auto") {
+        if (theme !== 'auto') {
           root.style.colorScheme = theme;
         } else {
-          root.style.colorScheme = "light dark";
+          root.style.colorScheme = 'light dark';
         }
       })();
     </script>
@@ -184,28 +179,31 @@ const fullTitle = title === "Cyanix Blog" ? title : `${title} · Cyanix Blog`;
           href="https://astro.build"
           target="_blank"
           rel="noopener noreferrer"
-          class="text-accent hover:text-accent/80 transition-colors">Astro</a
+          class="text-accent hover:text-accent/80 transition-colors"
+          >Astro</a
         >
         &middot; Deployed on
         <a
           href="https://vercel.com"
           target="_blank"
           rel="noopener noreferrer"
-          class="text-accent hover:text-accent/80 transition-colors">Vercel</a
+          class="text-accent hover:text-accent/80 transition-colors"
+          >Vercel</a
         >
         &middot;
         <a
           href="/rss.xml"
-          class="text-accent hover:text-accent/80 transition-colors">RSS</a
+          class="text-accent hover:text-accent/80 transition-colors"
+          >RSS</a
         >
       </p>
     </footer>
 
     <script>
-      import { initThemeSwitcher } from "../scripts/theme-manager";
-      import { addCopyButtonsForCodeBlocks } from "../scripts/code-block-copy";
-      import { initTocHighlight } from "../scripts/toc-highlight";
-      import { initImageZoom } from "../scripts/image-zoom";
+      import { initThemeSwitcher } from '../scripts/theme-manager';
+      import { addCopyButtonsForCodeBlocks } from '../scripts/code-block-copy';
+      import { initTocHighlight } from '../scripts/toc-highlight';
+      import { initImageZoom } from '../scripts/image-zoom';
 
       // Initialize on page load
       initThemeSwitcher();
@@ -214,14 +212,13 @@ const fullTitle = title === "Cyanix Blog" ? title : `${title} · Cyanix Blog`;
       initImageZoom();
 
       // Support for Astro ViewTransitions
-      document.addEventListener("astro:after-swap", () => {
+      document.addEventListener('astro:after-swap', () => {
         initThemeSwitcher();
         addCopyButtonsForCodeBlocks();
         initTocHighlight();
         initImageZoom();
       });
     </script>
-
     <Analytics />
     <SpeedInsights />
   </body>

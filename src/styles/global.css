@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* ============================================================
    CSS Custom Properties
@@ -76,12 +76,12 @@
       system-ui,
       -apple-system,
       BlinkMacSystemFont,
-      "Segoe UI",
+      'Segoe UI',
       Roboto,
-      "Helvetica Neue",
+      'Helvetica Neue',
       Arial,
-      "Noto Sans",
-      "Noto Sans CJK SC",
+      'Noto Sans',
+      'Noto Sans CJK SC',
       sans-serif;
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
@@ -175,7 +175,7 @@
     text-decoration: none;
   }
   .prose .anchor-link:hover::after {
-    content: " #";
+    content: ' #';
     color: var(--color-accent);
     font-weight: 400;
     font-size: 0.85em;
@@ -231,7 +231,7 @@
     vertical-align: middle;
   }
   .prose a.internal.obsidian-embed::before {
-    content: "📖";
+    content: '📖';
     font-size: 1.1em;
   }
   .prose a.internal.obsidian-embed:hover {
@@ -259,8 +259,8 @@
     border-radius: 0.3rem;
     font-size: 0.875em;
     font-family:
-      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-      "Courier New", monospace;
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+      'Courier New', monospace;
     border: 1px solid var(--prose-border);
     word-break: break-word;
   }
@@ -328,13 +328,25 @@
   }
 
   /* Shiki adaptive themes: uses light-dark() for a clean, zero-duplication switch */
-  pre[class*="astro-code"],
-  pre[class*="astro-code"] span {
-    background-color: light-dark(var(--shiki-light-bg), var(--shiki-dark-bg)) !important;
+  pre[class*='astro-code'],
+  pre[class*='astro-code'] span {
+    background-color: light-dark(
+      var(--shiki-light-bg),
+      var(--shiki-dark-bg)
+    ) !important;
     color: light-dark(var(--shiki-light), var(--shiki-dark)) !important;
-    font-style: light-dark(var(--shiki-light-font-style), var(--shiki-dark-font-style)) !important;
-    font-weight: light-dark(var(--shiki-light-font-weight), var(--shiki-dark-font-weight)) !important;
-    text-decoration: light-dark(var(--shiki-light-text-decoration), var(--shiki-dark-text-decoration)) !important;
+    font-style: light-dark(
+      var(--shiki-light-font-style),
+      var(--shiki-dark-font-style)
+    ) !important;
+    font-weight: light-dark(
+      var(--shiki-light-font-weight),
+      var(--shiki-dark-font-weight)
+    ) !important;
+    text-decoration: light-dark(
+      var(--shiki-light-text-decoration),
+      var(--shiki-dark-text-decoration)
+    ) !important;
   }
 
   /* --- Blockquote --- */
@@ -379,7 +391,7 @@
     align-items: flex-start;
     gap: 0.5rem;
   }
-  .prose .task-list-item input[type="checkbox"] {
+  .prose .task-list-item input[type='checkbox'] {
     accent-color: var(--color-accent);
     margin-top: 0.25rem;
     flex-shrink: 0;
@@ -459,13 +471,13 @@
     list-style: none;
   }
   .prose summary::before {
-    content: "▶ ";
+    content: '▶ ';
     font-size: 0.75em;
     color: var(--color-accent);
     transition: transform 0.2s;
   }
   .prose details[open] > summary::before {
-    content: "▼ ";
+    content: '▼ ';
   }
   .prose details[open] > summary {
     margin-bottom: 0.75rem;
@@ -749,7 +761,9 @@
   border: 1px solid var(--surface-2);
   border-radius: 0.5rem;
   font-size: 0.875rem;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 .pagefind-ui .pagefind-ui__search-input:focus {
   border-color: var(--accent-dim);
@@ -893,4 +907,3 @@
     display: none;
   }
 }
-

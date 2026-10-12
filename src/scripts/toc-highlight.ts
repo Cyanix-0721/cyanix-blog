@@ -3,10 +3,10 @@
  * to highlight the currently visible section in the floating TOC.
  */
 export function initTocHighlight(): void {
-  const toc = document.getElementById("toc");
+  const toc = document.getElementById('toc');
   if (!toc) return;
 
-  const links = toc.querySelectorAll<HTMLAnchorElement>(".toc-link");
+  const links = toc.querySelectorAll<HTMLAnchorElement>('.toc-link');
   if (links.length === 0) return;
 
   // Collect all heading elements referenced by the TOC
@@ -26,20 +26,20 @@ export function initTocHighlight(): void {
   function setActive(slug: string | null) {
     if (slug === activeSlug) return;
     activeSlug = slug;
-    
+
     let activeLink: HTMLAnchorElement | null = null;
-    
+
     for (let i = 0; i < links.length; i++) {
       const link = links[i];
       const isMatch = link.dataset.heading === slug;
-      link.classList.toggle("active", isMatch);
+      link.classList.toggle('active', isMatch);
       if (isMatch) activeLink = link;
     }
 
     // Auto-scroll the TOC so the active link is visible
     if (activeLink && toc) {
       // Offset by 20px so we aren't perfectly flush against the top/bottom edges
-      const offset = 20; 
+      const offset = 20;
       const linkTop = activeLink.offsetTop;
       const linkBottom = linkTop + activeLink.offsetHeight;
       const tocTop = toc.scrollTop;
@@ -47,12 +47,12 @@ export function initTocHighlight(): void {
 
       if (linkTop < tocTop + offset) {
         // Scroll up
-        toc.scrollTo({ top: linkTop - offset, behavior: "smooth" });
+        toc.scrollTo({ top: linkTop - offset, behavior: 'smooth' });
       } else if (linkBottom > tocBottom - offset) {
         // Scroll down
         toc.scrollTo({
           top: linkBottom - toc.clientHeight + offset,
-          behavior: "smooth",
+          behavior: 'smooth',
         });
       }
     }
@@ -71,9 +71,9 @@ export function initTocHighlight(): void {
       }
     },
     {
-      rootMargin: "-80px 0px -65% 0px",
+      rootMargin: '-80px 0px -65% 0px',
       threshold: 0,
-    },
+    }
   );
 
   headingElements.forEach((el) => observer.observe(el));

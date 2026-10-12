@@ -1,18 +1,18 @@
-import { defineCollection } from "astro:content";
-import { z } from "zod";
-import { glob } from "astro/loaders";
+import { defineCollection } from 'astro:content';
+import { z } from 'zod';
+import { glob } from 'astro/loaders';
 
 const baseSchema = z.object({
   title: z.string(),
-  "date created": z.coerce.date(),
-  "date modified": z.coerce.date().optional(),
+  'date created': z.coerce.date(),
+  'date modified': z.coerce.date().optional(),
   description: z.string().optional(),
   tags: z
     .preprocess((val) => {
       if (!val) return [];
-      if (typeof val === "string")
+      if (typeof val === 'string')
         return val
-          .split(",")
+          .split(',')
           .map((s) => s.trim())
           .filter(Boolean);
       return val;
@@ -23,11 +23,11 @@ const baseSchema = z.object({
 });
 
 const posts = defineCollection({
-  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/posts" }),
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/posts' }),
   schema: baseSchema.transform((data: z.infer<typeof baseSchema>) => ({
     ...data,
-    dateCreated: data["date created"],
-    dateModified: data["date modified"],
+    dateCreated: data['date created'],
+    dateModified: data['date modified'],
   })),
 });
 

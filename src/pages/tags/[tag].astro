@@ -1,20 +1,20 @@
 ---
-import { getCollection } from "astro:content";
-import Layout from "../../layouts/Layout.astro";
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
 
 export async function getStaticPaths() {
-  const allPosts = await getCollection("posts", ({ data }) => !data.draft);
+  const allPosts = await getCollection('posts', ({ data }) => !data.draft);
 
   const tags = [...new Set(allPosts.flatMap((post) => post.data.tags || []))];
 
   return tags.map((tag) => ({
-    params: { tag: tag.toLowerCase().replace(/[\s\/]+/g, "-") },
+    params: { tag: tag.toLowerCase().replace(/[\s\/]+/g, '-') },
     props: {
       tag,
       posts: allPosts
         .filter((post) => (post.data.tags || []).includes(tag))
         .sort(
-          (a, b) => b.data.dateCreated.valueOf() - a.data.dateCreated.valueOf(),
+          (a, b) => b.data.dateCreated.valueOf() - a.data.dateCreated.valueOf()
         ),
     },
   }));
@@ -62,91 +62,87 @@ const { tag, posts } = Astro.props;
     </p>
   </header>
 
-  {
-    posts.length === 0 ? (
-      <div class="flex flex-col items-center justify-center py-20 text-zinc-600">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="40"
-          height="40"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="mb-4 opacity-40"
-        >
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-          <polyline points="14 2 14 8 20 8" />
-          <line x1="16" y1="13" x2="8" y2="13" />
-          <line x1="16" y1="17" x2="8" y2="17" />
-          <polyline points="10 9 9 9 8 9" />
-        </svg>
-        <p class="text-sm">该标签下暂无文章。</p>
-      </div>
-    ) : (
-      <ul class="space-y-1">
-        {posts.map((post) => {
-          const isoDate = post.data.dateCreated.toISOString();
-          const otherTags = post.data.tags.filter((t) => t !== tag);
+  {posts.length === 0 ? (
+    <div class="flex flex-col items-center justify-center py-20 text-zinc-600">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="40"
+        height="40"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="mb-4 opacity-40"
+      >
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="16" y1="13" x2="8" y2="13" />
+        <line x1="16" y1="17" x2="8" y2="17" />
+        <polyline points="10 9 9 9 8 9" />
+      </svg>
+      <p class="text-sm">该标签下暂无文章。</p>
+    </div>
+  ) : (
+    <ul class="space-y-1">
+      {posts.map((post) => {
+        const isoDate = post.data.dateCreated.toISOString();
+        const otherTags = post.data.tags.filter((t) => t !== tag);
 
-          return (
-            <li class="group">
-              <a
-                href={`/posts/${post.id}`}
-                class="flex items-baseline gap-4 rounded-md px-2 py-2.5 transition hover:bg-zinc-900"
+        return <li class="group">
+          <a
+            href={`/posts/${post.id}`}
+            class="flex items-baseline gap-4 rounded-md px-2 py-2.5 transition hover:bg-zinc-900"
+          >
+            <time
+              datetime={isoDate}
+              data-utc={isoDate}
+              class="w-28 shrink-0 font-mono text-xs text-zinc-600 group-hover:text-zinc-500"
+            >
+              <span class="date-display">{isoDate.slice(0, 10)}</span>
+            </time>
+
+            <span
+              class="flex-1 text-sm text-zinc-300 group-hover:text-zinc-100"
+            >
+              {post.data.title}
+            </span>
+
+            {otherTags.length > 0 && <span
+              class="hidden shrink-0 items-center gap-1.5 sm:flex"
+            >
+              {otherTags.slice(0, 2).map((t) => <span
+                class="rounded px-1.5 py-0.5 text-xs text-zinc-600 ring-1 ring-zinc-800"
               >
-                <time
-                  datetime={isoDate}
-                  data-utc={isoDate}
-                  class="w-28 shrink-0 font-mono text-xs text-zinc-600 group-hover:text-zinc-500"
-                >
-                  <span class="date-display">{isoDate.slice(0, 10)}</span>
-                </time>
+                {t}
+              </span>)}
+              {otherTags.length > 2 && <span class="text-xs text-zinc-700">
+                +{otherTags.length - 2}
+              </span>}
+            </span>}
 
-                <span class="flex-1 text-sm text-zinc-300 group-hover:text-zinc-100">
-                  {post.data.title}
-                </span>
-
-                {otherTags.length > 0 && (
-                  <span class="hidden shrink-0 items-center gap-1.5 sm:flex">
-                    {otherTags.slice(0, 2).map((t) => (
-                      <span class="rounded px-1.5 py-0.5 text-xs text-zinc-600 ring-1 ring-zinc-800">
-                        {t}
-                      </span>
-                    ))}
-                    {otherTags.length > 2 && (
-                      <span class="text-xs text-zinc-700">
-                        +{otherTags.length - 2}
-                      </span>
-                    )}
-                  </span>
-                )}
-
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="shrink-0 text-zinc-700 transition group-hover:translate-x-0.5 group-hover:text-cyan-600"
-                  aria-hidden="true"
-                >
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
-              </a>
-            </li>
-          );
-        })}
-      </ul>
-    )
-  }
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="shrink-0 text-zinc-700 transition group-hover:translate-x-0.5 group-hover:text-cyan-600"
+              aria-hidden="true"
+            >
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </a>
+        </li>;
+      })}
+    </ul>
+  )}
 
   <div class="mt-10">
     <a
@@ -174,20 +170,19 @@ const { tag, posts } = Astro.props;
 
   <script>
     // Hydrate dates to user's local timezone
-    const dateElements = document.querySelectorAll(".date-display");
+    const dateElements = document.querySelectorAll('.date-display');
     const formatter = new Intl.DateTimeFormat(navigator.language, {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
     });
 
     dateElements.forEach((el) => {
-      const timeEl = el.closest("time");
-      const utc = timeEl?.getAttribute("data-utc");
+      const timeEl = el.closest('time');
+      const utc = timeEl?.getAttribute('data-utc');
       if (utc) {
         const date = new Date(utc);
         el.textContent = formatter.format(date);
       }
     });
-  </script>
-</Layout>
+  </script></Layout>

@@ -70,7 +70,9 @@ const remarkCallout: Plugin<[], Root> = () => {
       const [, rawType, fold, inlineTitle] = match;
       const type = rawType.toLowerCase() as CalloutType;
       const icon = CALLOUT_ICONS[type] ?? '📄';
-      const title = inlineTitle?.trim() || rawType.charAt(0).toUpperCase() + rawType.slice(1);
+      const title =
+        inlineTitle?.trim() ||
+        rawType.charAt(0).toUpperCase() + rawType.slice(1);
 
       // Remove the [!type] marker from the AST
       const remainingText = rawText.split('\n').slice(1).join('\n');

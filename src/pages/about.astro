@@ -1,5 +1,5 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="关于" description="关于 Cyanix 和这个博客。">
@@ -59,26 +59,24 @@ import Layout from "../layouts/Layout.astro";
   <section class="mb-12">
     <h2 class="mb-5 text-lg font-semibold text-text-muted/80">本站技术栈</h2>
     <ul class="grid gap-3 sm:grid-cols-2">
-      {
-        [
-          { icon: "🚀", name: "Astro", desc: "静态站点框架，零运行时" },
-          { icon: "✍️", name: "Obsidian + Markdown", desc: "写作与内容管理" },
-          { icon: "🎨", name: "Tailwind CSS v4", desc: "原子化 CSS" },
-          { icon: "🔆", name: "Shiki", desc: "代码语法高亮" },
-          { icon: "🔗", name: "remark-wiki-link", desc: "Obsidian 双链支持" },
-          { icon: "▲", name: "Vercel", desc: "自动部署与托管" },
-        ].map(({ icon, name, desc }) => (
-          <li class="flex items-start gap-3 rounded-lg border border-surface-2 bg-surface-1/50 px-4 py-3">
-            <span class="mt-0.5 text-xl" aria-hidden="true">
-              {icon}
-            </span>
-            <div>
-              <p class="text-sm font-medium text-text-muted/80">{name}</p>
-              <p class="text-xs text-text-muted/40">{desc}</p>
-            </div>
-          </li>
-        ))
-      }
+      {[
+        { icon: '🚀', name: 'Astro', desc: '静态站点框架，零运行时' },
+        { icon: '✍️', name: 'Obsidian + Markdown', desc: '写作与内容管理' },
+        { icon: '🎨', name: 'Tailwind CSS v4', desc: '原子化 CSS' },
+        { icon: '🔆', name: 'Shiki', desc: '代码语法高亮' },
+        { icon: '🔗', name: 'remark-wiki-link', desc: 'Obsidian 双链支持' },
+        { icon: '▲', name: 'Vercel', desc: '自动部署与托管' },
+      ].map(({ icon, name, desc }) => <li
+        class="flex items-start gap-3 rounded-lg border border-surface-2 bg-surface-1/50 px-4 py-3"
+      >
+        <span class="mt-0.5 text-xl" aria-hidden="true">
+          {icon}
+        </span>
+        <div>
+          <p class="text-sm font-medium text-text-muted/80">{name}</p>
+          <p class="text-xs text-text-muted/40">{desc}</p>
+        </div>
+      </li>)}
     </ul>
   </section>
 
@@ -86,40 +84,38 @@ import Layout from "../layouts/Layout.astro";
   <section class="mb-12">
     <h2 class="mb-5 text-lg font-semibold text-text-muted/80">工作流程</h2>
     <ol class="relative space-y-6 border-l border-surface-2 pl-6">
-      {
-        [
-          {
-            step: "1",
-            title: "在 Obsidian 写作",
-            desc: "用 Markdown 记录笔记，支持双链、Callout 等 Obsidian 原生语法。",
-          },
-          {
-            step: "2",
-            title: "Git 同步",
-            desc: "通过 Git 将 Obsidian vault 中的文章同步到本仓库的 src/content/posts/ 目录。",
-          },
-          {
-            step: "3",
-            title: "Astro 构建",
-            desc: "推送到 GitHub 后，Vercel 自动触发 Astro 构建，生成纯静态 HTML。",
-          },
-          {
-            step: "4",
-            title: "Vercel 部署",
-            desc: "构建产物部署到 Vercel CDN，全球访问，免费额度完全够用。",
-          },
-        ].map(({ step, title, desc }) => (
-          <li class="relative">
-            <div class="absolute -left-9 flex h-6 w-6 items-center justify-center rounded-full bg-accent-muted ring-1 ring-accent-dim/60 text-xs font-bold text-accent">
-              {step}
-            </div>
-            <h3 class="mb-1 text-sm font-semibold text-text-muted/80">
-              {title}
-            </h3>
-            <p class="text-sm leading-relaxed text-text-muted/40">{desc}</p>
-          </li>
-        ))
-      }
+      {[
+        {
+          step: '1',
+          title: '在 Obsidian 写作',
+          desc: '用 Markdown 记录笔记，支持双链、Callout 等 Obsidian 原生语法。',
+        },
+        {
+          step: '2',
+          title: 'Git 同步',
+          desc: '通过 Git 将 Obsidian vault 中的文章同步到本仓库的 src/content/posts/ 目录。',
+        },
+        {
+          step: '3',
+          title: 'Astro 构建',
+          desc: '推送到 GitHub 后，Vercel 自动触发 Astro 构建，生成纯静态 HTML。',
+        },
+        {
+          step: '4',
+          title: 'Vercel 部署',
+          desc: '构建产物部署到 Vercel CDN，全球访问，免费额度完全够用。',
+        },
+      ].map(({ step, title, desc }) => <li class="relative">
+        <div
+          class="absolute -left-9 flex h-6 w-6 items-center justify-center rounded-full bg-accent-muted ring-1 ring-accent-dim/60 text-xs font-bold text-accent"
+        >
+          {step}
+        </div>
+        <h3 class="mb-1 text-sm font-semibold text-text-muted/80">
+          {title}
+        </h3>
+        <p class="text-sm leading-relaxed text-text-muted/40">{desc}</p>
+      </li>)}
     </ol>
   </section>
 
