@@ -1,4 +1,4 @@
-import type { Root, Blockquote, Paragraph, Text } from 'mdast';
+import type { Root, Blockquote, Text } from 'mdast';
 import type { Plugin } from 'unified';
 import { visit } from 'unist-util-visit';
 

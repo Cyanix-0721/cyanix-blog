@@ -13,6 +13,19 @@ export function getSavedTheme(): Theme {
 }
 
 /**
+ * Resolves the theme that is actually in effect right now: 'auto' is
+ * resolved against the OS preference.
+ */
+export function resolveTheme(theme: Theme): 'light' | 'dark' {
+  if (theme === 'auto') {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
+  }
+  return theme;
+}
+
+/**
  * Applies the theme to the document element.
  */
 export function applyTheme(theme: Theme) {
@@ -21,6 +34,15 @@ export function applyTheme(theme: Theme) {
     root.style.colorScheme = 'light dark';
   } else {
     root.style.colorScheme = theme;
+  }
+
+  // @pagefind/component-ui only reacts to [data-pf-theme="dark"]: it has no
+  // prefers-color-scheme fallback and no light-dark(). 'auto' therefore has to
+  // be resolved here before the attribute is written.
+  if (resolveTheme(theme) === 'dark') {
+    root.setAttribute('data-pf-theme', 'dark');
+  } else {
+    root.removeAttribute('data-pf-theme');
   }
 }
 
@@ -70,4 +92,15 @@ export function initThemeSwitcher() {
     btn.onclick = () => cycleTheme();
     updateSwitcherUI(getSavedTheme());
   }
+
+  // In 'auto' mode the effective theme follows the OS, and pagefind has no
+  // media-query fallback of its own, so re-sync when the OS preference flips.
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+  media.onchange = () => {
+    if (getSavedTheme() === 'auto') applyTheme('auto');
+  };
+
+  // Re-assert on every view transition: the inline FOUC script only runs on a
+  // full page load, so a swap can leave the attribute stale.
+  applyTheme(getSavedTheme());
 }

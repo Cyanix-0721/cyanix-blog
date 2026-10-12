@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import { unified } from '@astrojs/markdown-remark';
 
 import mdx from '@astrojs/mdx';
 import pagefind from 'astro-pagefind';
@@ -26,9 +27,67 @@ export default defineConfig({
   site: 'https://cyanix-blog.vercel.app',
   output: 'static',
 
+  // Astro 7 changed the default from `true` (HTML-aware) to `'jsx'` (JSX
+  // whitespace rules), which strips the space between inline elements:
+  // `<span>195 篇文章</span> <span>134 个标签</span>` renders as
+  // "195 篇文章134 个标签". Verified by rendering all 330 pages in a browser
+  // against the Astro 6 output: `true` keeps all 330 identical (body.innerText),
+  // `'jsx'` changes all 330.
+  compressHTML: true,
+
   integrations: [mdx(), pagefind(), sitemap()],
 
   markdown: {
+    // Astro 7 defaults to the Sätteri pipeline, which does not run remark/rehype
+    // plugins. This project depends on six of them, so pin the unified() pipeline.
+    // Astro 7 also deprecated `markdown.remarkPlugins` / `markdown.rehypePlugins`:
+    // they must be passed to unified() instead.
+    processor: unified({
+      remarkPlugins: [
+        // Obsidian [[wikilink]] support
+        [
+          remarkWikiLink,
+          {
+            // Map [[Page Name]] → /posts/page-name
+            // If the page name exists in our map (shortest path), use the full ID.
+            // Otherwise, fall back to the default slugification.
+            pageResolver: (/** @type {string} */ name) => {
+              const key = name.toLowerCase();
+              if (wikilinkMap.has(key)) {
+                return [wikilinkMap.get(key)];
+              }
+              return [name.toLowerCase().replace(/\s+/g, '-')];
+            },
+            hrefTemplate: (/** @type {string} */ permalink) =>
+              `/posts/${permalink}`,
+            aliasDivider: '|',
+          },
+        ],
+        // Obsidian > [!note] callout support (custom plugin)
+        remarkCallout,
+        // Customize ![[link]] to not show '!' and add a prefix
+        [remarkObsidianEmbed, { wikilinkMap }],
+      ],
+
+      rehypePlugins: [
+        // Add `id` attributes to every heading
+        rehypeSlug,
+        // Remove leading H1 from post body at generation time (title is rendered by layout)
+        rehypeStripLeadingH1,
+        // Wrap each heading in an anchor tag pointing to itself
+        [
+          rehypeAutolinkHeadings,
+          {
+            behavior: 'wrap',
+            properties: {
+              className: ['anchor-link'],
+              ariaLabel: 'Link to section',
+            },
+          },
+        ],
+      ],
+    }),
+
     // Shiki is Astro's built-in highlighter — no extra package needed
     syntaxHighlight: 'shiki',
     shikiConfig: {
@@ -42,50 +101,6 @@ export default defineConfig({
       // Wrap long lines instead of horizontal scrolling
       wrap: true,
     },
-
-    remarkPlugins: [
-      // Obsidian [[wikilink]] support
-      [
-        remarkWikiLink,
-        {
-          // Map [[Page Name]] → /posts/page-name
-          // If the page name exists in our map (shortest path), use the full ID.
-          // Otherwise, fall back to the default slugification.
-          pageResolver: (/** @type {string} */ name) => {
-            const key = name.toLowerCase();
-            if (wikilinkMap.has(key)) {
-              return [wikilinkMap.get(key)];
-            }
-            return [name.toLowerCase().replace(/\s+/g, '-')];
-          },
-          hrefTemplate: (/** @type {string} */ permalink) =>
-            `/posts/${permalink}`,
-          aliasDivider: '|',
-        },
-      ],
-      // Obsidian > [!note] callout support (custom plugin)
-      remarkCallout,
-      // Customize ![[link]] to not show '!' and add a prefix
-      [remarkObsidianEmbed, { wikilinkMap }],
-    ],
-
-    rehypePlugins: [
-      // Add `id` attributes to every heading
-      rehypeSlug,
-      // Remove leading H1 from post body at generation time (title is rendered by layout)
-      rehypeStripLeadingH1,
-      // Wrap each heading in an anchor tag pointing to itself
-      [
-        rehypeAutolinkHeadings,
-        {
-          behavior: 'wrap',
-          properties: {
-            className: ['anchor-link'],
-            ariaLabel: 'Link to section',
-          },
-        },
-      ],
-    ],
   },
 
   vite: {

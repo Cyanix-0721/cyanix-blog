@@ -86,13 +86,16 @@ const fullTitle = title === 'Cyanix Blog' ? title : `${title} · Cyanix Blog`;
     <!-- FOUC Prevention for Theme -->
     <script is:inline>
       (function () {
-        const theme = localStorage.getItem('cyanix-theme') || 'auto';
-        const root = document.documentElement;
-        if (theme !== 'auto') {
-          root.style.colorScheme = theme;
-        } else {
-          root.style.colorScheme = 'light dark';
-        }
+        var theme = localStorage.getItem('cyanix-theme') || 'auto';
+        var root = document.documentElement;
+        var isDark =
+          theme === 'dark' ||
+          (theme === 'auto' &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches);
+        root.style.colorScheme = theme === 'auto' ? 'light dark' : theme;
+        // @pagefind/component-ui only reacts to [data-pf-theme="dark"]:
+        // it has no prefers-color-scheme fallback and no light-dark().
+        if (isDark) root.setAttribute('data-pf-theme', 'dark');
       })();
     </script>
   </head>

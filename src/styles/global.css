@@ -738,85 +738,43 @@
 /* ============================================================
    Pagefind UI Overrides
    Match Pagefind's default UI to the blog theme
+
+   astro-pagefind 2.x renders @pagefind/component-ui custom
+   elements (light DOM) instead of the old `--pagefind-ui-*`
+   widget, so the theme is remapped onto its `--pf-*` variables.
+   That stylesheet declares `--pf-*` only on `:root` and
+   `[data-pf-theme="dark"]` (both on <html>); declaring them on
+   `.pagefind-ui` — the `<pagefind-searchbox>` element itself —
+   wins for the whole subtree without a specificity fight.
+
+   `pagefind-searchbox { all: initial }` also resets
+   `color-scheme`, which would freeze `light-dark()` to its light
+   value, so it is re-inherited from <html> here.
    ============================================================ */
 .pagefind-ui {
-  /* Pagefind CSS custom properties */
-  --pagefind-ui-scale: 0.9;
-  --pagefind-ui-primary: var(--accent);
-  --pagefind-ui-text: var(--text);
-  --pagefind-ui-background: var(--surface-1);
-  --pagefind-ui-border: var(--surface-2);
-  --pagefind-ui-tag: var(--surface-2);
-  --pagefind-ui-border-width: 1px;
-  --pagefind-ui-border-radius: 0.5rem;
-  --pagefind-ui-image-border-radius: 0.375rem;
-  --pagefind-ui-image-box-ratio: 3 / 2;
-  --pagefind-ui-font: inherit;
-}
+  color-scheme: inherit;
 
-/* Search input field */
-.pagefind-ui .pagefind-ui__search-input {
-  background: var(--surface-1);
-  color: var(--text);
-  border: 1px solid var(--surface-2);
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-  transition:
-    border-color 0.15s,
-    box-shadow 0.15s;
-}
-.pagefind-ui .pagefind-ui__search-input:focus {
-  border-color: var(--accent-dim);
-  box-shadow: 0 0 0 1px var(--accent-dim);
-  outline: none;
-}
-.pagefind-ui .pagefind-ui__search-input::placeholder {
-  color: var(--text-muted);
-  opacity: 0.5;
-}
-
-/* Result items */
-.pagefind-ui .pagefind-ui__result {
-  border-top: 1px solid var(--surface-2);
-  padding: 0.75rem 0;
-}
-.pagefind-ui .pagefind-ui__result-link {
-  color: var(--accent);
-  text-decoration: none;
-  font-weight: 500;
-}
-.pagefind-ui .pagefind-ui__result-link:hover {
-  text-decoration: underline;
-}
-.pagefind-ui .pagefind-ui__result-excerpt {
-  color: var(--text-muted);
-  font-size: 0.85rem;
-}
-
-/* Highlight matches */
-.pagefind-ui mark {
-  background: var(--accent-muted);
-  color: var(--accent);
-  padding: 0.05em 0.15em;
-  border-radius: 0.15rem;
-}
-
-/* Message text (e.g. "No results") */
-.pagefind-ui .pagefind-ui__message {
-  color: var(--text-muted);
-  font-size: 0.85rem;
-}
-
-/* Button */
-.pagefind-ui .pagefind-ui__button {
-  background: var(--surface-1);
-  color: var(--text-muted);
-  border: 1px solid var(--surface-2);
-  border-radius: 0.375rem;
-}
-.pagefind-ui .pagefind-ui__button:hover {
-  border-color: var(--accent-dim);
-  color: var(--accent);
+  --pf-font: inherit;
+  --pf-text: var(--text);
+  --pf-text-secondary: var(--text-muted);
+  --pf-text-muted: var(--text-muted);
+  --pf-background: var(--surface-1);
+  --pf-border: var(--surface-2);
+  --pf-border-focus: var(--accent-dim);
+  --pf-hover: var(--surface-2);
+  --pf-mark: var(--accent);
+  --pf-skeleton: var(--surface-2);
+  --pf-skeleton-shine: var(--surface-1);
+  --pf-outline-focus: var(--accent-dim);
+  --pf-scroll-shadow: transparent;
+  --pf-shadow-sm: 0 1px 2px light-dark(rgb(0 0 0 / 6%), rgb(0 0 0 / 40%));
+  --pf-shadow-md: 0 4px 12px light-dark(rgb(0 0 0 / 8%), rgb(0 0 0 / 50%));
+  --pf-border-radius: 0.5rem;
+  --pf-input-height: 2.25rem;
+  --pf-input-font-size: 0.875rem;
+  --pf-searchbox-max-width: 100%;
+  --pf-result-title-font-size: 0.9375rem;
+  --pf-result-excerpt-font-size: 0.8125rem;
 }
 
 /* ============================================================
