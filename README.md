@@ -1,10 +1,10 @@
 # Cyanix Blog
 
-基于 Astro 6 构建的个人技术博客，内容主要在 Obsidian 中撰写，使用 Git 同步，部署在 Vercel。
+基于 Astro 7 构建的个人技术博客，内容主要在 Obsidian 中撰写，使用 Git 同步，部署在 Vercel。
 
 ## 项目简介
 
-- 框架：Astro 6（静态输出）
+- 框架：Astro 7（静态输出，Vite 8）
 - 内容：Markdown / MDX（Astro Content Collections）
 - 样式：Tailwind CSS v4
 - 搜索：Pagefind（`astro-pagefind` 集成）
@@ -30,20 +30,30 @@
 
 ## 技术栈
 
-| 层 | 技术 |
-|---|---|
-| 应用框架 | Astro 6 |
-| 内容系统 | astro:content + zod |
-| Markdown 扩展 | remark-wiki-link + 自定义 remark/rehype 插件 |
-| 样式系统 | Tailwind CSS v4 |
-| 搜索 | astro-pagefind |
-| 部署适配 | @astrojs/vercel |
-| 包管理 | pnpm |
+| 层            | 技术                                                             |
+| ------------- | ---------------------------------------------------------------- |
+| 应用框架      | Astro 7（Vite 8）                                                |
+| 内容系统      | astro:content + zod                                              |
+| Markdown 扩展 | remark-wiki-link + 自定义 remark/rehype 插件（unified 管线）     |
+| 样式系统      | Tailwind CSS v4                                                  |
+| 搜索          | astro-pagefind 2（@pagefind/component-ui 自定义元素）            |
+| 部署适配      | @astrojs/vercel                                                  |
+| 包管理        | pnpm                                                             |
+| 格式化        | prettier（+ prettier-plugin-astro、prettier-plugin-tailwindcss） |
 
 ## 环境要求
 
-- Node.js：`24.x`（与 `package.json` 中 `engines.node` 保持一致）
-- pnpm：建议最新稳定版
+| 用途         | 版本      | 声明位置                           | 谁读它                       |
+| ------------ | --------- | ---------------------------------- | ---------------------------- |
+| 本地 Node.js | `26.9.0`  | `.node-version`                    | fnm（`cd` 进仓库时自动切换） |
+| 线上 Node.js | `24.x`    | `package.json` 的 `engines.node`   | Vercel                       |
+| pnpm         | `12.10.1` | `package.json` 的 `packageManager` | pnpm / Corepack              |
+
+**为什么 Node 分两处写**：Vercel 目前只提供 `24.x` / `22.x` / `20.x`，且只认主版本；本地可以跑更新的版本。因此 `.node-version` 与 `engines.node` 允许不同，**改其中一个不要顺手改另一个**（改 `engines.node` 会直接改变线上运行时）。
+
+本机 Node 由 **fnm** 管理（不是 mise）：mise 的 pnpm 后端带 `overrides = ["node"]`，会在仓库内把 node 一并纳入 mise 管辖、与 fnm 抢 PATH。
+
+pnpm 配置写在 `pnpm-workspace.yaml`（`allowBuilds`）：pnpm v11 起**不再读取 `package.json` 的 `pnpm` 字段**，历史上用过的 `pnpm.onlyBuiltDependencies` 已失效。
 
 ## 本地开发
 
@@ -51,6 +61,8 @@
 pnpm install
 pnpm dev
 ```
+
+> 增删依赖或改动 `packageManager` / `engines.node` 后必须重跑 `pnpm install` 并提交 `pnpm-lock.yaml`。pnpm 会把解析到的 pnpm 版本写进 lockfile 前导 env 文档，而 `--frozen-lockfile`（CI / Vercel 默认）不会自动改写它——只改 `package.json` 会让安装以 `ERR_PNPM_FROZEN_LOCKFILE_WITH_OUTDATED_LOCKFILE` 失败。
 
 默认访问：`http://localhost:4321`
 
@@ -62,7 +74,36 @@ pnpm preview
 ```
 
 说明：
+
 - 构建后会自动执行 `postbuild`，将 `dist/pagefind` 复制到 `.vercel/output/static/pagefind`，用于兼容 Vercel 输出目录。
+
+## 代码格式化
+
+规则在 `.prettierrc`，忽略范围在 `.prettierignore`（prettier 有意不支持全局配置，规则必须留在仓库里）。
+
+```bash
+pnpm exec prettier --write .   # 格式化
+pnpm exec prettier --check .   # 只检查
+```
+
+约定：
+
+- 插件顺序有硬要求：`prettier-plugin-tailwindcss` **必须放数组最后一位**。
+- Tailwind 是 v4，必须用 `tailwindStylesheet` 指向 CSS 入口（不是 v3 的 `tailwindConfig`）。
+- `src/content/` 已被忽略：该目录由 workflow 同步（见下），格式化结果会被下次同步冲掉。
+- `astroCompressHTML: true` 不要删：它告诉 Astro 插件编译器会折叠哪种空白。插件默认值 `'jsx'` 是 Astro 7 起的语义；本项目虽已升 Astro 7，但 `astro.config.mjs` 显式设了 `compressHTML: true`（保持 Astro 6 的 HTML-aware 行为，避免行内元素之间的空格被吃掉），所以这里必须同为 `true`。**`compressHTML` 与 `astroCompressHTML` 必须始终一致。**
+- 行尾：`.gitattributes` 声明 `eol=lf`，prettier 的 `endOfLine` 也是 `lf`，两者配合才能保证仓库里只有 LF。本机 git 的 `core.autocrlf` 是个人配置，管不住仓库，不能替代 `.gitattributes`。
+- 首次启用 `.gitattributes` 后需要一次性重规范行尾：`git add --renormalize .`，作为**独立提交**。
+
+## 内容同步（自动）
+
+`.github/workflows/sync-memo.yml` 每天 UTC 00:00（北京时间 08:00）把 `Cyanix-0721/memo` 的 `memo/` 目录 `rsync --delete` 到 `src/content/posts/`，补写 frontmatter 后**直接推送到 `main`**。
+
+因此：
+
+- **不要手工编辑或新增 `src/content/posts/` 下的文件**（会被覆盖或删除）；改文章请去 memo 仓库。
+- 本地动手前先 `git pull`。`main` 不是纯人工分支。
+- 本仓库没有 lint / format / build 的 CI 检查；`pnpm build` 是唯一的自检手段。
 
 ## 内容写作规范
 
@@ -120,6 +161,12 @@ cyanix-blog/
 ├─ public/
 ├─ astro.config.mjs
 ├─ package.json
+├─ .node-version
+├─ .prettierrc
+├─ .prettierignore
+├─ .gitattributes
+├─ pnpm-workspace.yaml
+├─ AGENTS.md
 └─ README.md
 ```
 
