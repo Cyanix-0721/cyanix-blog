@@ -28,3 +28,6 @@ pnpm-debug.log*
 
 # vscode setting folder
 .vscode/
+
+# AI 助手工作目录 / AI assistant working directories
+.agents/

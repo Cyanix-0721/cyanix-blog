@@ -1,0 +1,22 @@
+# 行尾与文本/二进制声明 / Line endings and text/binary attributes
+# 默认:入库归一化为 LF,检出也用 LF。这条覆盖各人本机的 core.autocrlf 设置,
+# 保证「仓库里只有 LF」不依赖个人配置。
+* text=auto eol=lf
+
+# 二进制:禁止 git 做行尾转换与文本 diff
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.avif binary
+*.ico binary
+
+# SVG 是文本,参与 diff
+*.svg text eol=lf
+
+# 内容目录下的图片素材(由内容同步带来)
+src/content/posts/**/assets/** binary
+
+# 机器生成的锁文件,统一行尾
+pnpm-lock.yaml text eol=lf
