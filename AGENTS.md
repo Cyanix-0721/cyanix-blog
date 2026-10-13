@@ -56,6 +56,10 @@ workflow 每天 UTC 00:00(北京时间 08:00)在 `main` 上执行:
    - `Search` 的 props 是 `className` / `searchboxOptions` / `configOptions`(旧版的 `id`、`uiOptions` 已不存在)。
    - 主题:`component-ui` **没有** `prefers-color-scheme` 回退、也不用 `light-dark()`,只认 `[data-pf-theme="dark"]`。该属性由 `src/layouts/Layout.astro` 的防 FOUC 内联脚本与 `src/scripts/theme-manager.ts` 的 `applyTheme()` / `resolveTheme()` 共同维护(`auto` 在这里解析成实际的明/暗);配色通过 `src/styles/global.css` 里 `.pagefind-ui` 上的 `--pf-*` 变量映射。**改主题逻辑时这三处要一起看**。
 8. **不提交构建产物与本地环境目录**:`dist/`、`.astro/`、`node_modules/`、`.vercel/`、`.env*` 已在 `.gitignore`;AI 助手工作目录 `.agents/` 也已忽略。
+9. **标签的 URL 一律走 `src/utils/tags.ts`,不要在页面里手写 slug 逻辑**。该模块是标签的唯一真源,导出 `tagSlug(tag)`(小写化 + 空白与 `/` 转 `-`)与 `groupPostsByTag(posts)`(把共享 slug 的拼写合并成一组,带 `slug` / `label` / `aliases` / `posts`)。原因有两条:
+   - **大小写必须是同一页**。Obsidian 的标签是大小写不敏感的(`tags: [Linux]` 与 `[linux]` 是同一个标签),但 frontmatter 里的原始字符串不同。若按原字符串去重再各自 slug 化,`getStaticPaths()` 会为 `linux` 与 `Linux` 生成**重复 params**,后者覆盖前者,导致前者的文章在该标签页上静默消失(构建时只会打出一条 `Could not render /tags/xxx` 警告)。`groupPostsByTag` 先 slug 化再去重,避免这类丢失。
+   - **含 `/` 的标签必须转成 `-`**。例如 `CI/CD` 的链接是 `/tags/ci-cd`,不处理斜杠会生成 `/tags/ci/cd` 而 404。
+   - **新增链接到标签页的地方都用 `tagSlug(tag)` 拼 href**;`/tags` 索引页与首页筛选 chip 用 `groupPostsByTag(...)` 取 `label` 与计数,保证数字与落地页一致。
 
 ## 5. 工具链与版本声明
 
@@ -80,7 +84,7 @@ workflow 每天 UTC 00:00(北京时间 08:00)在 `main` 上执行:
 - 插件顺序有硬要求:`prettier-plugin-tailwindcss` **必须放数组最后一位**。
 - Tailwind 是 v4,必须用 `tailwindStylesheet` 指向 CSS 入口(不是 v3 的 `tailwindConfig`)。
 - 忽略范围里**必须包含 `src/content/`**:该目录是机器同步的(§3),格式化结果会被下次同步冲掉。
-- `astroCompressHTML: true` **必须保留**。该选项告诉 `prettier-plugin-astro` 编译器会折叠哪种空白,避免「格式化改变渲染结果」。插件的默认值是 `'jsx'`,那是 Astro 7.0 起的**新**默认;本仓库虽然已升到 Astro 7,但 `astro.config.mjs` 显式设了 `compressHTML: true`(保持 Astro 6 的 HTML-aware 行为:默认的 `'jsx'` 会吃掉行内元素之间的空格,例如「195 篇文章 134 个标签」会渲染成「195 篇文章134 个标签」),因此这里必须同为 `true`。**这三处(`astro.config.mjs` 的 `compressHTML`、`.prettierrc` 的 `astroCompressHTML`、本行)必须始终一致。**
+- `astroCompressHTML: true` **必须保留**。该选项告诉 `prettier-plugin-astro` 编译器会折叠哪种空白,避免「格式化改变渲染结果」。插件的默认值是 `'jsx'`,那是 Astro 7.0 起的**新**默认;本仓库虽然已升到 Astro 7,但 `astro.config.mjs` 显式设了 `compressHTML: true`(保持 Astro 6 的 HTML-aware 行为:默认的 `'jsx'` 会吃掉行内元素之间的空格,例如首页两段相邻的 `<span>` 计数会被渲染成「195 篇文章132 个标签」),因此这里必须同为 `true`。**这三处(`astro.config.mjs` 的 `compressHTML`、`.prettierrc` 的 `astroCompressHTML`、本行)必须始终一致。**
 - 行尾:`.gitattributes` 声明 `eol=lf`,prettier 的 `endOfLine` 也用 `lf`,两者配合才能保证「仓库里只有 LF」。本机 git 的 `core.autocrlf=true` 是个人配置,管不住仓库,也不能替代 `.gitattributes`。
 - 常用命令:`pnpm exec prettier --write .` / `pnpm exec prettier --check .`。
 
