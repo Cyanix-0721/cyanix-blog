@@ -2,6 +2,7 @@
 import Layout from './Layout.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import type { Heading } from '../components/TableOfContents.astro';
+import { tagSlug } from '../utils/tags';
 
 export interface Props {
   title: string;
@@ -52,7 +53,7 @@ const isoModified = dateModified?.toISOString();
       <!-- Tags -->
       {tags.length > 0 && <div class="mb-4 flex flex-wrap gap-2">
         {tags.map((tag) => <a
-          href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+          href={`/tags/${tagSlug(tag)}`}
           class="rounded-full bg-accent-muted/60 px-3 py-0.5 text-xs font-medium text-accent ring-1 ring-accent-muted/50 transition-colors hover:bg-accent-dim/60 hover:text-accent"
         >
           #{tag}
@@ -171,7 +172,7 @@ const isoModified = dateModified?.toISOString();
       <p class="mb-3 text-sm font-medium text-text-muted">标签</p>
       <div class="flex flex-wrap gap-2">
         {tags.map((tag) => <a
-          href={`/tags/${tag.toLowerCase().replace(/[\s\/]+/g, '-')}`}
+          href={`/tags/${tagSlug(tag)}`}
           class="rounded-full bg-surface-1 px-3 py-1 text-sm text-text-muted transition-colors hover:bg-accent-muted/60 hover:text-accent"
         >
           #{tag}

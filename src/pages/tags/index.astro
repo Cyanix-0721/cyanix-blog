@@ -1,23 +1,21 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import { groupPostsByTag } from '../../utils/tags';
 
 const allPosts = await getCollection('posts', ({ data }) => !data.draft);
 
-// Build a map of tag -> post count
-const tagMap = allPosts.reduce<Record<string, number>>((acc, post) => {
-  const postTags = post.data.tags || [];
-  postTags.forEach((tag) => {
-    acc[tag] = (acc[tag] ?? 0) + 1;
-  });
-  return acc;
-}, {});
+// Tags that only differ in case or spacing collapse into one entry, matching
+// how the tag pages are generated.
+const grouped = groupPostsByTag(allPosts);
 
 // Sort tags by post count descending, then alphabetically
-const tags = Object.entries(tagMap).sort(([a, countA], [b, countB]) => {
-  if (countB !== countA) return countB - countA;
-  return a.localeCompare(b);
-});
+const tags = grouped
+  .map(({ slug, label, posts }) => ({ slug, label, count: posts.length }))
+  .sort((a, b) => {
+    if (b.count !== a.count) return b.count - a.count;
+    return a.label.localeCompare(b.label);
+  });
 
 const totalPosts = allPosts.length;
 const totalTags = tags.length;
@@ -56,8 +54,7 @@ const totalTags = tags.length;
     </div>
   ) : (
     <ul class="flex flex-wrap gap-3">
-      {tags.map(([tag, count]) => {
-        const slug = tag.toLowerCase().replace(/[\s\/]+/g, '-');
+      {tags.map(({ slug, label, count }) => {
         return <li>
           <a
             href={`/tags/${slug}`}
@@ -68,7 +65,7 @@ const totalTags = tags.length;
             >
               #
             </span>
-            {tag}
+            {label}
             <span
               class="rounded-full bg-zinc-800 px-2 py-0.5 text-xs text-zinc-500 transition group-hover:bg-cyan-900/60 group-hover:text-cyan-500"
             >
