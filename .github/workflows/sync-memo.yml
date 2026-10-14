@@ -34,7 +34,7 @@ jobs:
           fetch-depth: 1
           token: ${{ secrets.PAT_TOKEN }}
 
-      - name: Sync memo folder to src/content/posts
+      - name: Sync Notes folder to src/content/posts
         run: |
           rsync -avu --delete \
             --exclude='.obsidian/' \
@@ -42,7 +42,7 @@ jobs:
             --exclude='*.canvas' \
             --exclude='*.excalidraw.md' \
             --filter='- .gitignore' \
-            memo_repo/memo/ ./src/content/posts/
+            memo_repo/Notes/ ./src/content/posts/
 
       - name: Inject frontmatter if missing
         run: |
