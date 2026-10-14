@@ -1,14 +1,14 @@
 ---
-tags: [Linux, Chinese, Font, Flatpak]
+tags: [Linux, Chinese, Font, flatpak]
 title: Chinese
 date created: 2024-08-15 04:19:28
-date modified: 2026-03-27 07:11:03
+date modified: 2026-10-13 07:07:22
 ---
 
 # Chinese
 
-> [!info]  
-> [Localization/Simplified Chinese - ArchWiki](https://wiki.archlinux.org/title/Localization/Simplified_Chinese)  
+> [!info]
+> [Localization/Simplified Chinese - ArchWiki](https://wiki.archlinux.org/title/Localization/Simplified_Chinese)
 > [Fcitx5](https://wiki.archlinuxcn.org/wiki/Fcitx5)
 
 ## 1 Basic Chinese Support
@@ -17,7 +17,7 @@ date modified: 2026-03-27 07:11:03
 
 It is recommended to use UTF-8 locale. You need to modify `/etc/locale.gen` to set the locales that can be used in the system (erase the comment symbol "`#`" before the corresponding item):
 
-```
+```plaintext
 en_US.UTF-8 UTF-8
 zh_CN.UTF-8 UTF-8
 ```
@@ -136,7 +136,7 @@ sudo pacman -S fcitx5-im fcitx5-rime fcitx5-chinese-addons
    mkdir -p ~/.config/environment.d
    ```
 
-2. **创建输入法环境变量配置文件**：  
+2. **创建输入法环境变量配置文件**：
    在 `~/.config/environment.d/fcitx.conf` 文件中添加以下内容：
 
 	```conf
@@ -159,40 +159,40 @@ sudo pacman -S fcitx5-im fcitx5-rime fcitx5-chinese-addons
 
 # 3 Fix Chinese under Flatpak
 
-> [!info] [XDG_Desktop_Portal](https://wiki.archlinux.org/title/XDG_Desktop_Portal)  
+> [!info] [XDG_Desktop_Portal](https://wiki.archlinux.org/title/XDG_Desktop_Portal)
 
-1. **安装 `xdg-desktop-portal` 和 `xdg-desktop-portal-gtk`**  
+1. **安装 `xdg-desktop-portal` 和 `xdg-desktop-portal-gtk`**
    这些组件有助于改进 Flatpak 应用的字体渲染和整体显示效果：
 
    ```sh
    sudo pacman -S xdg-desktop-portal xdg-desktop-portal-gtk
    ```
 
-2. **安装 Flatseal**  
+2. **安装 Flatseal**
    `Flatseal` 是一个管理 Flatpak 应用权限的工具，可以轻松调整应用的设置：
 
    ```sh
    flatpak install flathub com.github.tchx84.Flatseal
    ```
 
-3. **配置 Flatpak 应用的字体访问权限**  
+3. **配置 Flatpak 应用的字体访问权限**
    使用 `Flatseal` 配置应用权限以访问系统字体：
    - 打开 `Flatseal`。
    - 在 `All Applications` 中选择你想要调整的应用。
    - 进入 `Filesystem` 选项。
    - 在 `Other files` 中添加以下路径：
 
-	 ```
+	 ```plaintext
      xdg-config/fontconfig:ro
      ```
 
 - 在 `Environment` 中添加以下变量：
 
-	 ```
+	 ```plaintext
      export GDK_DPI_SCALE=1
      ```
 
-1. **设置 DPI 环境变量**  
+1. **设置 DPI 环境变量**
    在你的配置文件中添加 `GDK_DPI_SCALE` 环境变量以调整应用的 DPI 设置：
    - 编辑你的 `.profile` 或 `.bashrc` 文件，添加如下行：
 

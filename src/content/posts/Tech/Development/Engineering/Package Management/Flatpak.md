@@ -1,13 +1,13 @@
 ---
 tags: [package-management, linux, flatpak, desktop]
 title: Flatpak
-date modified: 2026-03-27 07:11:07
+date modified: 2026-10-13 07:07:10
 date created: 2025-10-08 17:02:35
 ---
 
 # Flatpak
 
-> [!abstract] 概览  
+> [!abstract] 概览
 > Flatpak 通过沙箱机制分发桌面应用，跨发行版一致，适合隔离运行与快速获取新版本应用。
 
 ## 1 安装 / 启用
@@ -39,5 +39,5 @@ flatpak override --user --filesystem=home <app_id>
 
 ## 4 注意事项
 
-> [!info] 关键点  
+> [!info] 关键点
 > Flatpak 使用应用 ID（如 `org.mozilla.firefox`），不是传统包名。
