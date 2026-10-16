@@ -2,7 +2,7 @@
 tags: [Git, Github]
 title: Git
 date created: 2024-08-15 04:19:28
-date modified: 2026-10-04 01:10:00
+date modified: 2026-10-14 23:39:00
 ---
 
 # Git
@@ -554,7 +554,7 @@ git config --global core.autocrlf true
 *.xls   binary
 ```
 
-决策背景：仓库此前**没有** `.gitattributes`，而 `core.autocrlf=true`，导致工作区出现行尾漂移 —— `memo/Tech/Systems/Virtualization/Virtual Machine/WSL.md` 与 `.gitignore` 曾以 CRLF 存在，而库中形态是 LF。归一化后二者与库中 blob **逐字节一致**（内容零改动，仅行尾变化）。
+决策背景：仓库此前**没有** `.gitattributes`，而 `core.autocrlf=true`，导致工作区出现行尾漂移 —— `Notes/Tech/Systems/Virtualization/Virtual Machine/WSL.md` 与 `.gitignore` 曾以 CRLF 存在，而库中形态是 LF。归一化后二者与库中 blob **逐字节一致**（内容零改动，仅行尾变化）。
 
 排查命令：
 
