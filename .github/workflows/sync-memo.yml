@@ -12,21 +12,20 @@ concurrency:
 permissions:
   contents: write
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   sync:
-    runs-on: ubuntu-latest
+    # 不跟随 ubuntu-latest 的迁移窗口（latest 自 2026-10 起分批切到 Ubuntu 26）
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
     steps:
       - name: Checkout Cyanix-Blog（目标仓库）
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: main
           fetch-depth: 1
 
       - name: Checkout memo（源仓库）
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: Cyanix-0721/memo
           path: memo_repo
@@ -34,26 +33,35 @@ jobs:
           fetch-depth: 1
           token: ${{ secrets.PAT_TOKEN }}
 
+      - name: Guard against empty source
+        run: |
+          if [ ! -d memo_repo/Notes ] || [ -z "$(ls -A memo_repo/Notes)" ]; then
+            echo "::error::memo_repo/Notes 不存在或为空，中止同步（--delete 会把 posts 清空）"
+            exit 1
+          fi
+          echo "源仓库文件数：$(find memo_repo/Notes -type f | wc -l)"
+
       - name: Sync Notes folder to src/content/posts
         run: |
-          rsync -avu --delete \
+          rsync -avu --delete --safe-links \
             --exclude='.obsidian/' \
             --exclude='.trash/' \
+            --exclude='.DS_Store' \
+            --exclude='Thumbs.db' \
             --exclude='*.canvas' \
             --exclude='*.excalidraw.md' \
             --filter='- .gitignore' \
             memo_repo/Notes/ ./src/content/posts/
 
       - name: Inject frontmatter if missing
-        run: |
-          python scripts/inject_frontmatter.py
+        run: python3 scripts/inject_frontmatter.py
 
       - name: Commit and push if changed
         run: |
           git config user.name "Cyanix-0721"
           git config user.email "34270450+Cyanix-0721@users.noreply.github.com"
 
-          git add src/content/posts/
+          git add -A src/content/posts/
 
           if git diff --staged --quiet; then
             echo "No changes detected, nothing to commit."
@@ -62,8 +70,14 @@ jobs:
 
           MEMO_SHA=$(git -C memo_repo rev-parse --short HEAD)
           git commit -m "chore: sync memo from Cyanix-0721/memo@${MEMO_SHA} $(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M:%S')"
-          git push
 
-          echo "Changes have been synced and pushed successfully!"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          if git push; then
+            echo "Changes have been synced and pushed successfully!"
+            exit 0
+          fi
+
+          echo "::warning::push 被拒，rebase 到最新 main 后重试一次"
+          git fetch origin main
+          git rebase origin/main
+          git push
+          echo "Changes have been synced and pushed successfully (after rebase)!"
