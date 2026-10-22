@@ -32,9 +32,13 @@
 workflow 每天 UTC 00:00(北京时间 08:00)在 `main` 上执行:
 
 1. checkout 本仓库(`main`)与 `Cyanix-0721/memo`(需要 `secrets.PAT_TOKEN`);
-2. `rsync -avu --delete` 把 `memo_repo/memo/` 同步到 `./src/content/posts/`,排除 `.obsidian/`、`.trash/`、`*.canvas`、`*.excalidraw.md`、`.gitignore`;
-3. 运行 `python scripts/inject_frontmatter.py` 补写缺失的 frontmatter;
-4. `git add src/content/posts/` → 有差异就 commit 并 **直接 push 到 main**。
+2. **安全检查**:`memo_repo/Notes/` 不存在或为空就 `exit 1`,避免 `--delete` 把 `src/content/posts/` 清空;
+3. `rsync -avu --delete --safe-links` 把 `memo_repo/Notes/` 同步到 `./src/content/posts/`,排除 `.obsidian/`、`.trash/`、`.DS_Store`、`Thumbs.db`、`*.canvas`、`*.excalidraw.md`、`.gitignore`;
+4. 运行 `python3 scripts/inject_frontmatter.py` 补写缺失的 frontmatter(Ubuntu 24.04 镜像没有 `python` 这个命令);
+5. `git add -A src/content/posts/`
+6. 有差异就 commit 并 **直接 push 到 `main`**;push 被拒时 `fetch` + `rebase origin/main` 后重试一次。
+
+runner 固定为 `ubuntu-24.04`(不用 `ubuntu-latest`,后者自 2026-10 起分批迁到 Ubuntu 26),action 用 `actions/checkout@v5`(node24 运行时,需要 runner ≥ v2.327.1)。
 
 由此推出四条硬规则:
 

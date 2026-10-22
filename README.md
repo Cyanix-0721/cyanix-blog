@@ -97,7 +97,7 @@ pnpm exec prettier --check .   # 只检查
 
 ## 内容同步（自动）
 
-`.github/workflows/sync-memo.yml` 每天 UTC 00:00（北京时间 08:00）把 `Cyanix-0721/memo` 的 `memo/` 目录 `rsync --delete` 到 `src/content/posts/`，补写 frontmatter 后**直接推送到 `main`**。
+`.github/workflows/sync-memo.yml` 每天 UTC 00:00（北京时间 08:00）把 `Cyanix-0721/memo` 的 `Notes/` 目录 `rsync --delete` 到 `src/content/posts/`，补写 frontmatter 后**直接推送到 `main`**。源目录不存在或为空时 workflow 会直接失败，不会拿空目录去 `--delete`。
 
 因此：
 
