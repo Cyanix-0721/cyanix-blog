@@ -1,9 +1,8 @@
 ---
 tags: [Android, ADB, Windows, 驱动, OnePlus]
 title: 一加 Ace 3 Pro ADB 驱动选择
-aliases: [oneplus-ace3pro-adb-driver-choice]
 date created: 2026-09-17 00:11:49
-date modified: 2026-10-14 23:39:00
+date modified: 2026-11-16 06:30:05
 ---
 
 # 一加 Ace 3 Pro ADB 驱动选择
@@ -81,7 +80,7 @@ USB\VID_22D9&PID_2765\...         -> USB Composite Device
 `Guangdong OPPO Mobile Telecommunications Corp., Ltd.` / `OPLUS Tool Driver`
 / `4.0.1.6` / 构建于 2024-07-12 —— 这批文件里唯一厂方签发且最新的。
 
-### 3.2 它注册了 adb 需要的接口 GUID（关键差异）
+### 3.2 它注册了 Adb 需要的接口 GUID（关键差异）
 
 Windows 版 `adb.exe` 按 **Android 专用设备接口 GUID** 枚举设备，该 GUID 就在
 二进制里：

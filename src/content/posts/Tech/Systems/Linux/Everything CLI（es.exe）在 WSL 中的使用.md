@@ -3,7 +3,7 @@ tags: [Everything, WSL, 文件检索, 命令行工具]
 title: Everything CLI（es.exe）在 WSL 中的使用
 aliases: [everything-cli]
 date created: 2026-10-06 00:47:16
-date modified: 2026-10-14 23:39:00
+date modified: 2026-11-16 14:16:00
 ---
 
 # Everything CLI（es.exe）在 WSL 中的使用
@@ -15,6 +15,7 @@ date modified: 2026-10-14 23:39:00
 
 - **Everything** 是 Windows 上的文件名索引器，基于 NTFS USN 日志建立常驻索引；**Everything CLI（`es.exe`）** 是它的命令行客户端，通过 IPC 查询已建好的索引，而不是实时遍历文件系统。
 - 官方文档：[Everything 命令行接口](https://www.voidtools.com/support/everything/command_line_interface/)、[es 源码仓库](https://github.com/voidtools/es)。
+- **不想装 `es.exe` 的无安装替代**：Everything 自带 [HTTP 服务端](https://www.voidtools.com/support/everything/http/)，在 GUI 选项里启用后可用 HTTP 查询索引；但注意它的 Basic auth 凭据可能以明文出现。
 - **根因（为什么在 WSL 里差距是数量级）**：`/mnt/c` 是 9p / drvfs 挂载，每一次 `stat` 都要走一次 9p 往返；而 `es.exe` 走的是预建 NTFS USN 索引 + IPC。因此遍历型工具（`find` / `fdfind`）在 `/mnt/c` 上会退化到不可用。
 - **版本敏感**：以下结论基于 ES CLI `1.1.0.38` 与 Everything `1.5.0.1423b`（beta 通道）实测，更新版本行为可能变化。
 - **前置条件**：

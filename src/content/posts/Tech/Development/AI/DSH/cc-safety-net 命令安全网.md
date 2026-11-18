@@ -3,7 +3,7 @@ tags: [DSH, cc-safety-net, 安全, 命令拦截, 插件]
 title: cc-safety-net 命令安全网
 aliases: [cc-safety-net]
 date created: 2026-10-11 19:41:12
-date modified: 2026-10-14 23:39:00
+date modified: 2026-11-16 13:32:00
 ---
 
 # cc-safety-net 命令安全网
@@ -46,7 +46,7 @@ date modified: 2026-10-14 23:39:00
 5. `.env` 等通用凭据**内置覆盖、无需配置**；`deny_paths` 只用来补工具「不认识」的路径。
 6. `dsh plugin add` 与官方 `npx cc-safety-net install --deepseek-harness` **结果等价**，
    唯一差异是 dep spec（`^x.y.z` vs 精确 `x.y.z`）。
-7. 装完**宿主侧立即生效**（安装前启动的进程，装完 guard 立刻拦命令，无需重启）。
+7. 装完**宿主侧立即生效**（安装前启动的进程，装完 guard 立刻拦命令，无需重启）。但这只对**新增**插件成立；**升级**已有插件必须重启 dsh。
 
 ## 3 安装
 
@@ -67,7 +67,7 @@ A 走 pnpm 默认 `save-prefix` 写 `"^2.6.8"`。
 
 ### 3.1 为什么不需要 allowBuilds
 
-git 托管包（如 CodeArts 认证插件）要在安装时跑 `prepare`，会被 pnpm 拦下、
+git 托管包（带 `prepare` 构建脚本的）要在安装时跑 `prepare`，会被 pnpm 拦下、
 须手写带 `#<commit>` 的 `allowBuilds` 键。
 **cc-safety-net 不需要**：它是 npm 预构建包，`prepare` / `postinstall` / `install`
 **三个生命周期脚本全无**，`dist/` 在发布时就打好了（`files: ["dist"]`）。
@@ -88,10 +88,18 @@ git 托管包（如 CodeArts 认证插件）要在安装时跑 `prepare`，会�
 ### 3.3 「进程内立即生效」的口径
 
 安装完成于某时刻，而所在 `dsh web` 进程启动于更早 —— 但装完 guard **立刻**拦下了
-`git push --force`（审计日志时间戳早于 `policy.json` 创建时间）。
-⇒ **宿主侧无需重启**（与 CodeArts 认证插件同机制：`"patchReload": "live"`）。
-⚠️ 但**客户端 UI 需刷新浏览器**；且**已加载模块的代码更新**能否热替换未确证
-（见 [[DSH CodeArts 认证插件安装]] 的升级章节）。
+`git push --force`（审计日志时间戳早于 `policy.json` 创建时间）。实测现象成立，
+但**机制**已于 2026-10-15 修正：原先归因于 `"patchReload": "live"`，**那是错的**。
+
+真正生效的是 `@deepseek-ai/dsh-hmr`：它监听 profile 的 `package.json`，
+**新增 bundle 行**触发 `refresh(true)` → `reconcileProfile()` 装载插件，宿主侧因此无需重启。
+`patchReload` 在 `dsh 0.2.1-alpha.3` 全树**无任何读取点**，是**无效键**，不能当成正确机制。
+
+⚠️ 这条**只在 bundle 清单变化时成立**：**升级一个已装插件**（清单不变、只是模块文件内容变了）
+**不会**热替换，**必须重启 dsh**。
+
+客户端则相反：`dsh-client-hmr` 每 500ms stat 轮询 bundle，变化经 `/plugins/events` SSE 自动推送，
+**无需刷新浏览器**。
 
 ## 4 为什么市场搜不到
 
@@ -364,7 +372,6 @@ rm -rf ~/.cc-safety-net        # 由用户执行
 - 已知边界：https://ccsafetynet.com/docs/guides/known-limitations.md
 - 集成架构（四种模型 / DSH 归属）：https://ccsafetynet.com/docs/guides/integration-architecture.md
 - guard API：`@deepseek-ai/dsh-tools/lib/types/index.d.ts:515-525`、`:646-652`
-- 姊妹篇：[[DSH CodeArts 认证插件安装]]（同一 profile 的另一个插件，含 allowBuilds / 热加载机制）
 
 ## 14 本机实测环境与数值
 
@@ -386,7 +393,6 @@ rm -rf ~/.cc-safety-net        # 由用户执行
 
 ## 15 相关
 
-- [[DSH CodeArts 认证插件安装]]
 - [[DSH 第三方插件安全审计]]
 - [[DSH Agent Teams 与 AGENTS.md 纪律]]
 - [[信息安全]]

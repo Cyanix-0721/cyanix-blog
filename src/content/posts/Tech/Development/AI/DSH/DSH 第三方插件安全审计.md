@@ -509,9 +509,7 @@ skills/superpower-systematic-debugging/find-polluter.sh   # 二分定位测试�
 ## 14 相关
 
 - [[DSH Web 插件聚合包]]
-- [[DSH 是否内置 Playwright]]
 - [[cc-safety-net 命令安全网]]
-- [[DSH CodeArts 认证插件安装]]
 - [[DSH Agent Teams 与 AGENTS.md 纪律]]
 - [[信息安全]]
 - [[Betterleaks 与 chezmoi 跨平台部署]]

@@ -1,17 +1,18 @@
 ---
 tags: [SpringBoot, Interceptor]
-title: Spring MVC Intercepter
+title: Spring MVC Interceptor
+aliases: Spring MVC Intercepter
 date created: 2024-09-29 02:14:19
-date modified: 2026-03-27 07:11:16
+date modified: 2026-11-16 14:30:00
 ---
 
-# Spring MVC Intercepter
+# Spring MVC Interceptor
 
 ## 1 拦截器概述
 
 拦截器（Interceptor）是 Spring 中用于处理请求的机制之一。它可以在请求到达控制器（Controller）之前或在响应返回给客户端之前执行一些预处理或后处理操作。拦截器在 Web 应用中常用于日志记录、身份验证、权限检查、性能监控等场景。
 
-## 2 [[Spring MVC Intecepter & Servlet Filter|拦截器与过滤器的区别]]
+## 2 [[Spring MVC Interceptor & Servlet Filter|拦截器与过滤器的区别]]
 
 - **拦截器** 是 Spring MVC 特有的，主要用于对控制器方法的请求进行处理。它可以访问 Spring 的上下文，并能够与 Spring MVC 的生命周期紧密结合。
   

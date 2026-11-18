@@ -1,11 +1,12 @@
 ---
 tags: []
-title: Spring MVC Intecepter & Servlet Filter
+title: Spring MVC Interceptor & Servlet Filter
+aliases: Spring MVC Intecepter & Servlet Filter
 date created: 2024-09-29 03:08:11
-date modified: 2026-03-27 07:11:16
+date modified: 2026-11-16 14:30:00
 ---
 
-# Spring MVC Intecepter & Servlet Filter
+# Spring MVC Interceptor & Servlet Filter
 
 ## 1 概述
 

@@ -1,12 +1,12 @@
 ---
 tags: [betterleaks, chezmoi, mise, 密钥扫描, 跨平台]
-title: Betterleaks 与 chezmoi 跨平台部署
-aliases: [betterleaks-chezmoi-provision]
+title: Betterleaks 与 Chezmoi 跨平台部署
+aliases: Betterleaks 与 Chezmoi 跨平台部署
 date created: 2026-10-01 02:25:19
-date modified: 2026-10-14 23:39:00
+date modified: 2026-11-16 06:31:15
 ---
 
-# Betterleaks 与 chezmoi 跨平台部署
+# Betterleaks 与 Chezmoi 跨平台部署
 
 > [!abstract] 适用场景
 > 这篇记录用 chezmoi + mise 把 Betterleaks 2.0 同时供给到 Linux/WSL 与 Windows 两端的完整做法：为什么只能走 mise、配置接缝怎么接、prefilter 怎么排掉 `.git` 与构建缓存、跨平台 `[env]` 模板怎么写。适合已经用 chezmoi 管理 dotfiles、需要在双平台统一安装同一套 CLI 工具并共享一份配置的人；读完能照着落地，也能看懂每一步的取舍与代价。
@@ -27,7 +27,7 @@ date modified: 2026-10-14 23:39:00
   - `filesystem` 模式**不读 `.gitignore`**（§6.3.1）；
   - 本文的字节数、耗时均为**单机单次**实测（§9），只用于说明相对量级。
 
-## 2 为什么只能走 mise
+## 2 为什么只能走 Mise
 
 各分发渠道在目标版本上的实测结论：
 
@@ -93,7 +93,7 @@ BETTERLEAKS_CONFIG = "{{env.HOME | default(value=env.USERPROFILE)}}/.config/bett
 
 ## 5 两个必须记住的机制事实
 
-### 5.1 mise `[env]` 的跨平台写法
+### 5.1 Mise `[env]` 的跨平台写法
 
 `{{env.HOME}}` 在 Windows 上**未定义**，会硬报错：
 
@@ -132,7 +132,7 @@ mise ERROR error: Field `HOME` is not defined. Available fields: =::, ALLUSERSPR
 
 ⇒ 脚本 / cron / git hook 走 shim 时同样拿得到变量，**无需**在脚本里显式 `-c`。
 
-## 6 betterleaks 配置语义
+## 6 Betterleaks 配置语义
 
 ### 6.1 `[extend]` 是必须的
 
@@ -368,6 +368,9 @@ betterleaks **默认把命中值明文打进输出**（实测会完整打印形�
 ```
 
 **刻意不写**的内容及理由：不写安装 / 配置教程（属 `README` 与本文档，全局约束文件是行为约束，有注入上限）；**不在仓库 `AGENTS.md` 写「提交前扫密钥」**——因为目前**没有** git hook 或 CI 接线，写了即是文档与实况不符。要做门禁是独立任务，需先有 hook。
+
+> [!note] 顺手修正的源路径笔误与体量
+> 改动清单里「顺手修正 §6 源路径笔误」的具体内容：原文把约束文件的 chezmoi 源写成 `dot_dsh/AGENTS.md`，实际应为 **`private_dot_dsh/private_AGENTS.md`**（依据 `chezmoi source-path ~/.dsh/AGENTS.md` 确认；部署目标权限实测为 `600`，与 `private_` 前缀语义一致）。全局 `AGENTS.md` 现全文 **9669 B**、注入上限 **65536 B**，仍在安全区。
 
 ## 8 回滚
 

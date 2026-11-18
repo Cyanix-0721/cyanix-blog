@@ -215,7 +215,6 @@ dsh-find-plugin, dshmarket, @wenaixi/dsh-superpower, dsh-whale-widget,
 
 ## 10 相关
 
-- [[DSH 是否内置 Playwright]]
 - [[DSH TUI 的引入与移除]]
 - [[DSH 第三方插件安全审计]]
 - [[DSH 浏览器能力与 PDF 处理]]

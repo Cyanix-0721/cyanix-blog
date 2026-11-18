@@ -1,12 +1,12 @@
 ---
 tags: []
-title: 使用 Maven/Grandle 打包 Spring Boot 项目
-aliases: 使用 Maven/Grandle 打包 Spring Boot 项目
+title: 使用 Maven/Gradle 打包 Spring Boot 项目
+aliases: 使用 Maven/Gradle 打包 Spring Boot 项目
 date created: 2024-08-15 04:19:28
-date modified: 2026-03-27 07:11:06
+date modified: 2026-11-16 14:30:00
 ---
 
-# 使用 Maven/Grandle 打包 Spring Boot 项目
+# 使用 Maven/Gradle 打包 Spring Boot 项目
 
 根据你的项目使用的构建工具，你可以选择使用 Maven 或 Gradle 来打包你的 Spring Boot 项目。
 
