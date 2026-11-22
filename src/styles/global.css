@@ -84,6 +84,10 @@
       'Noto Sans CJK SC',
       sans-serif;
     scroll-behavior: smooth;
+    /* Standard scrollbar styling (Firefox; Chromium/Safari 121+). The
+       ::-webkit-scrollbar block below is a legacy fallback for older WebKit. */
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-text-muted) var(--color-surface);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-size-adjust: 100%;
@@ -96,20 +100,30 @@
     border-radius: 4px;
   }
 
-  /* Custom scrollbar (WebKit) */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+  /* Custom scrollbar — WebKit fallback for browsers without scrollbar-color.
+     Wrapped in @supports so it never fights the standard properties on `html`. */
+  @supports not (scrollbar-color: auto) {
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--color-surface);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--color-text-muted);
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--color-text);
+    }
   }
-  ::-webkit-scrollbar-track {
-    background: var(--color-surface);
-  }
-  ::-webkit-scrollbar-thumb {
-    background: var(--color-surface-2);
-    border-radius: 999px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-text-muted);
+
+  /* Respect reduced-motion: smooth scrolling is a spatial effect. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 
   /* Selection colour */

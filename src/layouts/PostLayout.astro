@@ -45,8 +45,9 @@ const isoModified = dateModified?.toISOString();
         <img
           src={cover}
           alt={title}
-          class="h-64 w-full object-cover transition-transform duration-500 hover:scale-105"
+          class="h-64 w-full object-cover transition-transform duration-500 hover:scale-105 motion-reduce:hover:scale-100"
           loading="eager"
+          fetchpriority="high"
         />
       </div>}
 

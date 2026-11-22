@@ -29,10 +29,11 @@ const fullTitle = title === 'Cyanix Blog' ? title : `${title} · Cyanix Blog`;
 ---
 
 <!doctype html>
-<html lang="zh-CN" class="scroll-smooth">
+<html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Favicon -->
@@ -77,8 +78,17 @@ const fullTitle = title === 'Cyanix Blog' ? title : `${title} · Cyanix Blog`;
       href="/rss.xml"
     />
 
-    <!-- Theme colour (matches --color-accent in CSS) -->
-    <meta name="theme-color" content="#06b6d4" />
+    <!-- Theme colour follows --color-accent: cyan-600 (light) / cyan-500 (dark) -->
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: light)"
+      content="#0891b2"
+    />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: dark)"
+      content="#06b6d4"
+    />
 
     <!-- Smooth Animations -->
     <ClientRouter />

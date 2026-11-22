@@ -4,7 +4,7 @@
 
 <button
   id="back-to-top"
-  class="fixed bottom-6 right-6 z-50 flex h-10 w-10 translate-y-2 items-center justify-center rounded-full bg-accent text-surface opacity-0 shadow-lg ring-1 ring-accent-dim transition-all duration-300 hover:scale-110 focus:outline-none"
+  class="fixed bottom-6 right-6 z-50 flex h-10 w-10 translate-y-2 items-center justify-center rounded-full bg-accent text-surface opacity-0 shadow-lg ring-1 ring-accent-dim transition-all duration-300 hover:scale-110 motion-reduce:hover:scale-100 focus:outline-none"
   aria-label="返回顶部"
 >
   <svg
@@ -52,9 +52,12 @@
 
     // Smooth scroll to top
     const scrollToTop = () => {
+      const reduce = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches;
       window.scrollTo({
         top: 0,
-        behavior: 'smooth',
+        behavior: reduce ? 'auto' : 'smooth',
       });
     };
 
