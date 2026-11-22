@@ -38,7 +38,7 @@ workflow 每天 UTC 00:00(北京时间 08:00)在 `main` 上执行:
 5. `git add -A src/content/posts/`
 6. 有差异就 commit 并 **直接 push 到 `main`**;push 被拒时 `fetch` + `rebase origin/main` 后重试一次。
 
-runner 固定为 `ubuntu-24.04`(不用 `ubuntu-latest`,后者自 2026-10 起分批迁到 Ubuntu 26),action 用 `actions/checkout@v5`(node24 运行时,需要 runner ≥ v2.327.1)。
+runner 用 `ubuntu-latest`;action 统一用最新大版本(`actions/checkout@v7`、`pnpm/action-setup@v6`、`actions/setup-node@v7`、`treosh/lighthouse-ci-action@v12`)。
 
 由此推出四条硬规则:
 

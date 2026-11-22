@@ -14,18 +14,17 @@ permissions:
 
 jobs:
   sync:
-    # 不跟随 ubuntu-latest 的迁移窗口（latest 自 2026-10 起分批切到 Ubuntu 26）
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - name: Checkout Cyanix-Blog（目标仓库）
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           ref: main
           fetch-depth: 1
 
       - name: Checkout memo（源仓库）
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           repository: Cyanix-0721/memo
           path: memo_repo
