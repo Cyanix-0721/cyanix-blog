@@ -8,7 +8,7 @@
 - Astro 7 **静态**博客(`output: "static"`,Vite 8),部署在 Vercel(`@astrojs/vercel`);站点地址见 `astro.config.mjs` 的 `site`。
 - **文章不在本仓库撰写**:内容在 Obsidian 中写、推到 `Cyanix-0721/memo`,再由 GitHub Actions 每日同步进 `src/content/posts/`(见 §3)。
 - 包管理 pnpm;本地 Node 由 fnm 管理;格式化用 prettier。
-- 本仓库**没有测试,也没有 lint / format 的 CI 检查**;唯一的 workflow 是内容同步(§3)。`pnpm build` 是唯一自检手段。
+- 本仓库**没有测试**;CI(`.github/workflows/ci.yml`)在 push / PR 上跑 `prettier --check .`、`astro check` 与 `pnpm build`;另有每日内容同步 workflow(§3)。
 
 ## 2. 文档层级(谁在哪记录什么)
 
