@@ -14,6 +14,7 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeStripLeadingH1 from './src/plugins/rehype-strip-leading-h1.ts';
 import rehypeDecorativeImgAlt from './src/plugins/rehype-decorative-img-alt.ts';
+import rehypeFirstImageEager from './src/plugins/rehype-first-image-eager.ts';
 import path from 'node:path';
 import {
   buildWikilinkMap,
@@ -101,6 +102,8 @@ export default defineConfig({
           },
         ],
         rehypeDecorativeImgAlt,
+        // First body image is the likely LCP: eager + high priority.
+        rehypeFirstImageEager,
       ],
     }),
 
