@@ -23,16 +23,18 @@ const totalTags = tags.length;
 
 <Layout title="标签" description="按标签浏览所有文章">
   <!-- Page header -->
-  <header class="mb-10 border-b border-zinc-800 pb-8">
-    <h1 class="mb-2 text-3xl font-bold tracking-tight text-zinc-50">标签</h1>
-    <p class="text-sm text-zinc-500">
-      共 <span class="text-zinc-300 font-medium">{totalTags}</span> 个标签，
-      <span class="text-zinc-300 font-medium">{totalPosts}</span> 篇文章
+  <header class="mb-10 border-b border-surface-2 pb-8">
+    <h1 class="mb-2 text-3xl font-bold tracking-tight text-text">标签</h1>
+    <p class="text-sm text-text-muted">
+      共 <span class="text-text font-medium">{totalTags}</span> 个标签，
+      <span class="text-text font-medium">{totalPosts}</span> 篇文章
     </p>
   </header>
 
   {tags.length === 0 ? (
-    <div class="flex flex-col items-center justify-center py-20 text-zinc-600">
+    <div
+      class="flex flex-col items-center justify-center py-20 text-text-muted/60"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="40"
@@ -58,16 +60,16 @@ const totalTags = tags.length;
         return <li>
           <a
             href={`/tags/${slug}`}
-            class="group flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900 px-4 py-2 text-sm text-zinc-300 transition hover:border-cyan-700 hover:bg-cyan-950/40 hover:text-cyan-300"
+            class="group flex items-center gap-2 rounded-full border border-surface-2 bg-surface-1 px-4 py-2 text-sm text-text-muted transition hover:border-accent-dim hover:bg-accent-muted/60 hover:text-accent"
           >
             <span
-              class="font-mono text-cyan-600 transition group-hover:text-cyan-400"
+              class="font-mono text-accent transition group-hover:text-accent/80"
             >
               #
             </span>
             {label}
             <span
-              class="rounded-full bg-zinc-800 px-2 py-0.5 text-xs text-zinc-500 transition group-hover:bg-cyan-900/60 group-hover:text-cyan-500"
+              class="rounded-full bg-surface-2 px-2 py-0.5 text-xs text-text-muted transition group-hover:bg-accent-muted/60 group-hover:text-accent"
             >
               {count}
             </span>

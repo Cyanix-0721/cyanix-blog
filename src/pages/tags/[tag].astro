@@ -19,11 +19,11 @@ const { tag, aliases, posts } = Astro.props;
   title={`#${tag}`}
   description={`标签「${tag}」下的所有文章，共 ${posts.length} 篇。`}
 >
-  <header class="mb-10 border-b border-zinc-800 pb-8">
+  <header class="mb-10 border-b border-surface-2 pb-8">
     <div class="mb-2 flex items-center gap-3">
       <a
         href="/tags"
-        class="text-sm text-zinc-500 transition hover:text-cyan-400"
+        class="text-sm text-text-muted transition hover:text-accent"
         aria-label="返回标签列表"
       >
         标签
@@ -38,24 +38,26 @@ const { tag, aliases, posts } = Astro.props;
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
-        class="text-zinc-700"
+        class="text-text-muted/40"
         aria-hidden="true"
       >
         <polyline points="9 18 15 12 9 6"></polyline>
       </svg>
-      <span class="text-sm text-zinc-400">{tag}</span>
+      <span class="text-sm text-text-muted">{tag}</span>
     </div>
 
-    <h1 class="mb-2 text-3xl font-bold tracking-tight text-zinc-50">
-      <span class="font-mono text-cyan-500">#</span>{tag}
+    <h1 class="mb-2 text-3xl font-bold tracking-tight text-text">
+      <span class="font-mono text-accent">#</span>{tag}
     </h1>
-    <p class="text-sm text-zinc-500">
-      共 <span class="font-medium text-zinc-300">{posts.length}</span> 篇文章
+    <p class="text-sm text-text-muted">
+      共 <span class="font-medium text-text">{posts.length}</span> 篇文章
     </p>
   </header>
 
   {posts.length === 0 ? (
-    <div class="flex flex-col items-center justify-center py-20 text-zinc-600">
+    <div
+      class="flex flex-col items-center justify-center py-20 text-text-muted/60"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="40"
@@ -85,19 +87,17 @@ const { tag, aliases, posts } = Astro.props;
         return <li class="group">
           <a
             href={`/posts/${post.id}`}
-            class="flex items-baseline gap-4 rounded-md px-2 py-2.5 transition hover:bg-zinc-900"
+            class="flex items-baseline gap-4 rounded-md px-2 py-2.5 transition hover:bg-surface-1"
           >
             <time
               datetime={isoDate}
               data-utc={isoDate}
-              class="w-28 shrink-0 font-mono text-xs text-zinc-600 group-hover:text-zinc-500"
+              class="w-28 shrink-0 font-mono text-xs text-text-muted/60 group-hover:text-text-muted"
             >
               <span class="date-display">{isoDate.slice(0, 10)}</span>
             </time>
 
-            <span
-              class="flex-1 text-sm text-zinc-300 group-hover:text-zinc-100"
-            >
+            <span class="flex-1 text-sm text-text group-hover:text-accent">
               {post.data.title}
             </span>
 
@@ -105,11 +105,11 @@ const { tag, aliases, posts } = Astro.props;
               class="hidden shrink-0 items-center gap-1.5 sm:flex"
             >
               {otherTags.slice(0, 2).map((t) => <span
-                class="rounded px-1.5 py-0.5 text-xs text-zinc-600 ring-1 ring-zinc-800"
+                class="rounded px-1.5 py-0.5 text-xs text-text-muted/60 ring-1 ring-surface-2"
               >
                 {t}
               </span>)}
-              {otherTags.length > 2 && <span class="text-xs text-zinc-700">
+              {otherTags.length > 2 && <span class="text-xs text-text-muted/40">
                 +{otherTags.length - 2}
               </span>}
             </span>}
@@ -124,7 +124,7 @@ const { tag, aliases, posts } = Astro.props;
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="shrink-0 text-zinc-700 transition group-hover:translate-x-0.5 group-hover:text-cyan-600"
+              class="shrink-0 text-text-muted/40 transition group-hover:translate-x-0.5 group-hover:text-accent"
               aria-hidden="true"
             >
               <line x1="5" y1="12" x2="19" y2="12" />
@@ -139,7 +139,7 @@ const { tag, aliases, posts } = Astro.props;
   <div class="mt-10">
     <a
       href="/tags"
-      class="inline-flex items-center gap-2 text-sm text-zinc-500 transition hover:text-cyan-400"
+      class="inline-flex items-center gap-2 text-sm text-text-muted transition hover:text-accent"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

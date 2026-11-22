@@ -139,13 +139,13 @@ const allTags = groupPostsByTag(allPosts).map((group) => group.label);
             const postTags = post.data.tags;
 
             return <li
-              class="post-item group"
+              class="post-item group [content-visibility:auto] [contain-intrinsic-size:auto_3rem]"
               data-title={post.data.title.toLowerCase()}
               data-tags={postTags.join(' ').toLowerCase()}
             >
               <a
                 href={`/posts/${post.id}`}
-                class="flex items-baseline gap-4 rounded-md px-2 py-2.5 transition hover:bg-zinc-900"
+                class="flex items-baseline gap-4 rounded-md px-2 py-2.5 transition hover:bg-surface-1"
               >
                 <!-- Date -->
                 <time
@@ -159,9 +159,7 @@ const allTags = groupPostsByTag(allPosts).map((group) => group.label);
                 </time>
 
                 <!-- Title -->
-                <span
-                  class="flex-1 text-sm text-zinc-300 group-hover:text-zinc-100"
-                >
+                <span class="flex-1 text-sm text-text group-hover:text-accent">
                   {post.data.title}
                 </span>
 
