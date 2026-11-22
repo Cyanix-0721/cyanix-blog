@@ -26,7 +26,12 @@ const years = Object.keys(postsByYear)
 
 // Collect all unique tags, collapsing spellings that share a slug so the
 // filter chips and count match the tag pages.
-const allTags = groupPostsByTag(allPosts).map((group) => group.label);
+const tagGroups = groupPostsByTag(allPosts).sort(
+  (a, b) => b.posts.length - a.posts.length
+);
+const allTags = tagGroups.map((group) => group.label);
+// Cap how many tag chips render up front; the rest stay behind a toggle.
+const MAX_TAG_CHIPS = 15;
 
 const siteUrl = Astro.site ?? new URL('https://cyanix-blog.vercel.app');
 const websiteJsonLd = {
@@ -100,14 +105,26 @@ const websiteJsonLd = {
       >
         全部
       </button>
-      {allTags.map((tag) => <button
-        data-tag={tag}
-        class="tag-chip rounded-full border border-surface-2 bg-surface-1 px-3 py-1 text-xs text-text-muted transition hover:border-accent hover:text-accent aria-pressed:border-accent-dim aria-pressed:bg-accent-muted/60 aria-pressed:text-accent"
+      {tagGroups.map((group, index) => <button
+        data-tag={group.label}
+        data-overflow={index >= MAX_TAG_CHIPS ? '1' : undefined}
+        class:list={[
+          'tag-chip rounded-full border border-surface-2 bg-surface-1 px-3 py-1 text-xs text-text-muted transition hover:border-accent hover:text-accent aria-pressed:border-accent-dim aria-pressed:bg-accent-muted/60 aria-pressed:text-accent',
+          index >= MAX_TAG_CHIPS && 'hidden',
+        ]}
         aria-pressed="false"
       >
-        #{tag}
+        #{group.label}
       </button>)}
     </div>
+    {tagGroups.length > MAX_TAG_CHIPS && <button
+      id="tag-toggle"
+      type="button"
+      class="mt-3 rounded-full px-3 py-1 text-xs text-accent transition-colors hover:text-accent/80"
+      aria-expanded="false"
+    >
+      展开全部 {tagGroups.length} 个标签
+    </button>}
   </section>}
 
   <!-- ── Post list (timeline grouped by year) ── -->
@@ -267,6 +284,26 @@ const websiteJsonLd = {
       applyFilters();
     });
   });
+
+  // ── Show more / fewer tag chips ─────────────────────────────────────────
+  const tagToggle = document.getElementById('tag-toggle');
+  if (tagToggle) {
+    const overflowChips = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(
+        '.tag-chip[data-overflow="1"]'
+      )
+    );
+    const collapsedLabel = tagToggle.textContent ?? '展开全部';
+    let expanded = false;
+    tagToggle.addEventListener('click', () => {
+      expanded = !expanded;
+      overflowChips.forEach((chip) => {
+        chip.classList.toggle('hidden', !expanded);
+      });
+      tagToggle.textContent = expanded ? '收起' : collapsedLabel;
+      tagToggle.setAttribute('aria-expanded', String(expanded));
+    });
+  }
 
   // ── Date hydration ───────────────────────────────────────────────────────
   const narrowFormatter = new Intl.DateTimeFormat(navigator.language, {
