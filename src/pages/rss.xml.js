@@ -152,7 +152,7 @@ export async function GET(context) {
           pubDate: post.data.dateCreated,
           description: summary,
           content: fullHtml || `<p>${escapeHtml(summary)}</p>`,
-          link: `/posts/${post.id}/`,
+          link: `/posts/${post.id}`,
         };
       }),
     // Include the atom:link rel="self" as suggested by W3C validator

@@ -28,6 +28,27 @@ const {
 
 const isoCreated = dateCreated.toISOString();
 const isoModified = dateModified?.toISOString();
+
+const siteUrl = Astro.site ?? new URL('https://cyanix-blog.vercel.app');
+const canonical = new URL(Astro.url.pathname, siteUrl).toString();
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  datePublished: isoCreated,
+  dateModified: isoModified ?? isoCreated,
+  author: {
+    '@type': 'Person',
+    name: 'Cyanix',
+    url: 'https://github.com/Cyanix-0721',
+  },
+  publisher: { '@type': 'Organization', name: 'Cyanix Blog' },
+  mainEntityOfPage: canonical,
+  url: canonical,
+  ...(description ? { description } : {}),
+  ...(cover ? { image: new URL(cover, siteUrl).toString() } : {}),
+  ...(tags.length > 0 ? { keywords: tags.join(', ') } : {}),
+};
 ---
 
 <Layout
@@ -37,6 +58,7 @@ const isoModified = dateModified?.toISOString();
   pubDate={dateCreated}
   tags={tags}
   type="article"
+  jsonLd={jsonLd}
 >
   <article>
     <!-- Post Header -->

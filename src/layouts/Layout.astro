@@ -12,6 +12,7 @@ export interface Props {
   pubDate?: Date;
   tags?: string[];
   type?: 'website' | 'article';
+  jsonLd?: Record<string, unknown> | null;
 }
 
 const {
@@ -21,6 +22,7 @@ const {
   pubDate,
   tags = [],
   type = 'website',
+  jsonLd = null,
 } = Astro.props;
 
 const siteUrl = Astro.site ?? new URL('https://cyanix-blog.vercel.app');
@@ -69,6 +71,15 @@ const fullTitle = title === 'Cyanix Blog' ? title : `${title} · Cyanix Blog`;
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(ogImage, siteUrl)} />
+
+    <!-- Structured data (BlogPosting) -->
+    {jsonLd && (
+      <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(jsonLd)}
+      />
+    )}
 
     <!-- RSS -->
     <link

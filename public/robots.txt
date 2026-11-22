@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cyanix-blog.vercel.app/sitemap-index.xml
