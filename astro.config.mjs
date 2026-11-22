@@ -42,6 +42,15 @@ const sitemapSerialize = (item) => {
 export default defineConfig({
   site: 'https://cyanix-blog.vercel.app',
   output: 'static',
+  // Serve every page at its trailing-slash URL so canonical / sitemap / internal
+  // links all agree with what the host actually serves (Vercel trailingSlash: true).
+  trailingSlash: 'always',
+
+  // Generate responsive srcset/sizes for every markdown body image. Tailwind's
+  // prose styles already cap width, so we do not enable responsiveStyles here.
+  image: {
+    layout: 'constrained',
+  },
 
   // Astro 7 changed the default from `true` (HTML-aware) to `'jsx'` (JSX
   // whitespace rules), which strips the space between inline elements:
