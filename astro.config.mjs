@@ -14,13 +14,17 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeStripLeadingH1 from './src/plugins/rehype-strip-leading-h1.ts';
 import path from 'node:path';
-import { buildWikilinkMap } from './src/utils/content-scanner.ts';
+import {
+  buildWikilinkMap,
+  buildAssetMap,
+} from './src/utils/content-scanner.ts';
 
 /**
  * Build a map of "Short Name" -> "Full ID" for Obsidian wikilinks.
  */
 const postsDir = path.resolve('./src/content/posts');
 const wikilinkMap = buildWikilinkMap(postsDir);
+const assetMap = buildAssetMap(postsDir);
 
 // https://astro.build/config
 export default defineConfig({
@@ -66,7 +70,7 @@ export default defineConfig({
         // Obsidian > [!note] callout support (custom plugin)
         remarkCallout,
         // Customize ![[link]] to not show '!' and add a prefix
-        [remarkObsidianEmbed, { wikilinkMap }],
+        [remarkObsidianEmbed, { wikilinkMap, assetMap }],
       ],
 
       rehypePlugins: [

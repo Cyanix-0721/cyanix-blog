@@ -37,3 +37,32 @@ export function buildWikilinkMap(contentDir: string) {
   scanDirectory(contentDir);
   return wikilinkMap;
 }
+
+const IMAGE_EXT = /\.(png|jpe?g|gif|webp|avif|svg)$/i;
+
+/**
+ * Builds a map of "lowercase image basename" -> "absolute path on disk" for
+ * every image file under the content directory. Used to turn Obsidian image
+ * embeds (`![[photo.png]]`) back into resolvable <img> sources.
+ */
+export function buildAssetMap(contentDir: string) {
+  const assetMap = new Map<string, string>();
+
+  function scanDirectory(dir: string) {
+    if (!fs.existsSync(dir)) return;
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const res = path.resolve(dir, entry.name);
+      if (entry.isDirectory()) {
+        scanDirectory(res);
+      } else if (IMAGE_EXT.test(entry.name)) {
+        const base = entry.name.toLowerCase();
+        // First hit wins; posts normally use unique image names.
+        if (!assetMap.has(base)) assetMap.set(base, res);
+      }
+    }
+  }
+
+  scanDirectory(contentDir);
+  return assetMap;
+}

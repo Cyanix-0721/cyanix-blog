@@ -1,20 +1,30 @@
+import path from 'node:path';
 import { visit } from 'unist-util-visit';
 import type { Root } from 'mdast';
 import type { Plugin } from 'unified';
 
 export interface ObsidianEmbedOptions {
   wikilinkMap: Map<string, string>;
+  /** Map of lowercase image basename -> absolute path on disk. */
+  assetMap?: Map<string, string>;
 }
 
+const IMAGE_EXT = /\.(png|jpe?g|gif|webp|avif|svg)$/i;
+
 /**
- * Remark plugin to handle Obsidian-style embeds (![[...]]) by:
- * 1. Finding text nodes containing ![[...]] and parsing them.
- * 2. Creating a proper wikiLink node with the "obsidian-embed" class.
+ * Remark plugin to handle Obsidian-style embeds (![[...]]):
+ * - Image embeds (`![[photo.png]]`) become real <img> nodes so the asset is
+ *   emitted by Astro and shows up in the build output.
+ * - Everything else (note embeds) keeps the previous behaviour of becoming a
+ *   cross-post link.
  */
 const remarkObsidianEmbed: Plugin<[ObsidianEmbedOptions], Root> = (options) => {
   const wikilinkMap = options?.wikilinkMap;
+  const assetMap = options?.assetMap;
 
-  return (tree) => {
+  return (tree, file) => {
+    const mdDir = file?.path ? path.dirname(file.path) : null;
+
     visit(tree, 'text', (node, index, parent) => {
       if (!parent || index === undefined) return;
       if (!node.value || !node.value.includes('![[')) return;
@@ -46,6 +56,30 @@ const remarkObsidianEmbed: Plugin<[ObsidianEmbedOptions], Root> = (options) => {
           alias = parts[1];
         }
 
+        // --- Image embed: emit a real <img> with a relative URL ---
+        if (IMAGE_EXT.test(target.trim()) && assetMap && mdDir) {
+          const abs = assetMap.get(path.basename(target.trim()).toLowerCase());
+          if (abs) {
+            const rel = path.relative(mdDir, abs).split(path.sep).join('/');
+            const url = rel.startsWith('.') ? rel : `./${rel}`;
+            newChildren.push({
+              type: 'image',
+              url,
+              alt: alias,
+              title: null,
+              data: {
+                hProperties: {
+                  loading: 'lazy',
+                  decoding: 'async',
+                },
+              },
+            });
+            lastIndex = matchIndex + match[0].length;
+            continue;
+          }
+        }
+
+        // --- Note / non-image embed: keep the cross-post link behaviour ---
         // Resolve link target using wikilinkMap
         const key = target.toLowerCase();
         let permalink = target.toLowerCase().replace(/\s+/g, '-');
@@ -58,7 +92,6 @@ const remarkObsidianEmbed: Plugin<[ObsidianEmbedOptions], Root> = (options) => {
           ? 'internal obsidian-embed'
           : 'internal new obsidian-embed';
 
-        // Create wikiLink node
         newChildren.push({
           type: 'wikiLink',
           value: target,
