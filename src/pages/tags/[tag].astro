@@ -22,7 +22,7 @@ const { tag, aliases, posts } = Astro.props;
   <header class="mb-10 border-b border-surface-2 pb-8">
     <div class="mb-2 flex items-center gap-3">
       <a
-        href="/tags"
+        href="/tags/"
         class="text-sm text-text-muted transition hover:text-accent"
         aria-label="返回标签列表"
       >
@@ -86,7 +86,7 @@ const { tag, aliases, posts } = Astro.props;
 
         return <li class="group">
           <a
-            href={`/posts/${post.id}`}
+            href={`/posts/${post.id}/`}
             class="flex items-baseline gap-4 rounded-md px-2 py-2.5 transition hover:bg-surface-1"
           >
             <time
@@ -138,7 +138,7 @@ const { tag, aliases, posts } = Astro.props;
 
   <div class="mt-10">
     <a
-      href="/tags"
+      href="/tags/"
       class="inline-flex items-center gap-2 text-sm text-text-muted transition hover:text-accent"
     >
       <svg

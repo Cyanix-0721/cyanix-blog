@@ -122,11 +122,17 @@ const fullTitle = title === 'Cyanix Blog' ? title : `${title} · Cyanix Blog`;
   </head>
 
   <body class="bg-surface text-text min-h-screen flex flex-col antialiased">
+    <a
+      href="#content"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-surface-1 focus:px-4 focus:py-2 focus:text-text focus:ring-2 focus:ring-accent"
+      >跳到正文</a
+    >
     <!-- ── Navigation ── -->
     <header
       class="sticky top-0 z-50 border-b border-surface-2 bg-surface/80 backdrop-blur-md"
     >
       <nav
+        aria-label="主导航"
         class="mx-auto flex max-w-3xl items-center justify-between px-4 py-3"
       >
         <a
@@ -141,10 +147,12 @@ const fullTitle = title === 'Cyanix Blog' ? title : `${title} · Cyanix Blog`;
             <a href="/" class="hover:text-accent transition-colors">Posts</a>
           </li>
           <li>
-            <a href="/tags" class="hover:text-accent transition-colors">Tags</a>
+            <a href="/tags/" class="hover:text-accent transition-colors"
+              >Tags</a
+            >
           </li>
           <li>
-            <a href="/about" class="hover:text-accent transition-colors"
+            <a href="/about/" class="hover:text-accent transition-colors"
               >About</a
             >
           </li>
@@ -187,7 +195,11 @@ const fullTitle = title === 'Cyanix Blog' ? title : `${title} · Cyanix Blog`;
     </header>
 
     <!-- ── Main Content ── -->
-    <main class="mx-auto w-full max-w-3xl flex-1 px-4 py-10">
+    <main
+      id="content"
+      tabindex="-1"
+      class="mx-auto w-full max-w-3xl flex-1 px-4 py-10"
+    >
       <slot />
     </main>
 
