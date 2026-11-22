@@ -27,12 +27,28 @@ const years = Object.keys(postsByYear)
 // Collect all unique tags, collapsing spellings that share a slug so the
 // filter chips and count match the tag pages.
 const allTags = groupPostsByTag(allPosts).map((group) => group.label);
+
+const siteUrl = Astro.site ?? new URL('https://cyanix-blog.vercel.app');
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Cyanix Blog',
+  url: siteUrl.href,
+  description:
+    'Personal blog by Cyanix — notes, thoughts, and technical writings.',
+  inLanguage: 'zh-CN',
+};
 ---
 
 <Layout
   title="Cyanix Blog"
   description="Personal blog by Cyanix — notes, thoughts, and technical writings."
 >
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(websiteJsonLd)}
+  ></script>
+
   <!-- ── Hero ── -->
   <section class="mb-14 pt-4">
     <p class="mb-1 font-mono text-sm text-accent">hi, I'm</p>
@@ -144,7 +160,7 @@ const allTags = groupPostsByTag(allPosts).map((group) => group.label);
               data-tags={postTags.join(' ').toLowerCase()}
             >
               <a
-                href={`/posts/${post.id}`}
+                href={`/posts/${post.id}/`}
                 class="flex items-baseline gap-4 rounded-md px-2 py-2.5 transition hover:bg-surface-1"
               >
                 <!-- Date -->

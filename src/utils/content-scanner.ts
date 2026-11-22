@@ -66,3 +66,44 @@ export function buildAssetMap(contentDir: string) {
   scanDirectory(contentDir);
   return assetMap;
 }
+
+/**
+ * Builds a map of "/posts/<id>" (decoded, no trailing slash) -> ISO lastmod,
+ * preferring `date modified` and falling back to `date created`. Consumed by
+ * the sitemap integration to emit <lastmod> so crawlers know what changed.
+ */
+export function buildLastmodMap(contentDir: string) {
+  const lastmodMap = new Map<string, string>();
+
+  function scanDirectory(dir: string) {
+    if (!fs.existsSync(dir)) return;
+    const entries = fs.readdirSync(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const res = path.resolve(dir, entry.name);
+      if (entry.isDirectory()) {
+        scanDirectory(res);
+      } else if (/\.mdx?$/.test(entry.name)) {
+        const raw = fs.readFileSync(res, 'utf8');
+        const rel = path
+          .relative(contentDir, res)
+          .replace(/\\/g, '/')
+          .replace(/\.mdx?$/, '')
+          .toLowerCase()
+          .replace(/\s+/g, '-');
+        const match =
+          raw.match(/^date modified:\s*(.+)$/im) ||
+          raw.match(/^date created:\s*(.+)$/im);
+        if (match) {
+          const value = match[1].trim().replace(/^['"]|['"]$/g, '');
+          const date = new Date(value);
+          if (!Number.isNaN(date.valueOf())) {
+            lastmodMap.set(`/posts/${rel}`, date.toISOString());
+          }
+        }
+      }
+    }
+  }
+
+  scanDirectory(contentDir);
+  return lastmodMap;
+}

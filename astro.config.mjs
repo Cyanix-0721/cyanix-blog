@@ -18,6 +18,7 @@ import path from 'node:path';
 import {
   buildWikilinkMap,
   buildAssetMap,
+  buildLastmodMap,
 } from './src/utils/content-scanner.ts';
 
 /**
@@ -26,6 +27,15 @@ import {
 const postsDir = path.resolve('./src/content/posts');
 const wikilinkMap = buildWikilinkMap(postsDir);
 const assetMap = buildAssetMap(postsDir);
+const lastmodMap = buildLastmodMap(postsDir);
+
+// Attach <lastmod> to sitemap entries from each post's frontmatter dates.
+/** @param {{ url: string }} item */
+const sitemapSerialize = (item) => {
+  const key = decodeURI(new URL(item.url).pathname).replace(/\/$/, '');
+  const lastmod = lastmodMap.get(key);
+  return lastmod ? { ...item, lastmod } : item;
+};
 
 // https://astro.build/config
 export default defineConfig({
@@ -40,7 +50,7 @@ export default defineConfig({
   // `'jsx'` changes all 330.
   compressHTML: true,
 
-  integrations: [mdx(), pagefind(), sitemap()],
+  integrations: [mdx(), pagefind(), sitemap({ serialize: sitemapSerialize })],
 
   markdown: {
     // Astro 7 defaults to the Sätteri pipeline, which does not run remark/rehype
