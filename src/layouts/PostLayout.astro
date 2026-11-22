@@ -42,7 +42,14 @@ const jsonLd = {
     name: 'Cyanix',
     url: 'https://github.com/Cyanix-0721',
   },
-  publisher: { '@type': 'Organization', name: 'Cyanix Blog' },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Cyanix Blog',
+    logo: {
+      '@type': 'ImageObject',
+      url: new URL('/og-default.png', siteUrl).toString(),
+    },
+  },
   mainEntityOfPage: canonical,
   url: canonical,
   ...(description ? { description } : {}),

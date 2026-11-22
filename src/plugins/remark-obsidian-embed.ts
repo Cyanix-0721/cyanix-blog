@@ -62,10 +62,15 @@ const remarkObsidianEmbed: Plugin<[ObsidianEmbedOptions], Root> = (options) => {
           if (abs) {
             const rel = path.relative(mdDir, abs).split(path.sep).join('/');
             const url = rel.startsWith('.') ? rel : `./${rel}`;
+            // Only use the embed label as alt text when it is a real caption
+            // (i.e. not just the filename). Bare body images are decorative,
+            // so empty alt is the correct accessibility choice.
+            const altText =
+              alias && alias !== path.basename(target.trim()) ? alias : '';
             newChildren.push({
               type: 'image',
               url,
-              alt: alias,
+              alt: altText,
               title: null,
               data: {
                 hProperties: {

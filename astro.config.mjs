@@ -13,6 +13,7 @@ import remarkObsidianEmbed from './src/plugins/remark-obsidian-embed.ts';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeStripLeadingH1 from './src/plugins/rehype-strip-leading-h1.ts';
+import rehypeDecorativeImgAlt from './src/plugins/rehype-decorative-img-alt.ts';
 import path from 'node:path';
 import {
   buildWikilinkMap,
@@ -89,6 +90,7 @@ export default defineConfig({
             },
           },
         ],
+        rehypeDecorativeImgAlt,
       ],
     }),
 
